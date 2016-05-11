@@ -1,4 +1,6 @@
 // ******************************************************************************
+// Filename:    VogueControls.cpp
+// Project:     Vogue
 // Author:      Steven Ball
 //
 // Revision History:

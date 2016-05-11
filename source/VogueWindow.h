@@ -1,4 +1,7 @@
 // ******************************************************************************
+// Filename:    VogueWindow.h
+// Project:     Vogue
+// Author:      Steven Ball
 //
 // Purpose:
 //   The Vox window class is an interface and wrapper around the glfw windows
@@ -7,7 +10,9 @@
 //   part of the game, stuff like window resizing, fullscreen, cursors, etc.
 // 
 // Revision History:
+//   Initial Revision - 11/04/16
 //
+// Copyright (c) 2005-2016, Steven Ball
 // ******************************************************************************
 
 #pragma once
