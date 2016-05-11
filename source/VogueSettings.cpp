@@ -40,6 +40,17 @@ void VogueSettings::LoadSettings()
 		cout << "Can't load '" << settingsIniFile << "'\n";
 		return;
 	}
+
+	// Graphics
+	m_windowWidth = reader.GetInteger("Graphics", "WindowWidth", 800);
+	m_windowHeight = reader.GetInteger("Graphics", "WindowHeight", 800);
+	m_vsync = reader.GetBoolean("Graphics", "VSync", false);
+	m_fullscreen = reader.GetBoolean("Graphics", "FullScreen", false);
+
+	// Debug
+	m_debugRendering = reader.GetBoolean("Debug", "DebugRendering", false);
+	m_gameMode = reader.Get("Debug", "GameMode", "Debug");
+	m_version = reader.Get("Debug", "Version", "1.0");
 }
 
 // Save settings
