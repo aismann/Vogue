@@ -61,6 +61,9 @@
     <Filter Include="source\selene\selene">
       <UniqueIdentifier>{516be625-cee2-4403-b995-78b8c164acb6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\gui">
+      <UniqueIdentifier>{b004c320-3529-497a-8ba6-f2ffdf28f9a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\main.cpp">
@@ -275,6 +278,129 @@
     </ClCompile>
     <ClCompile Include="..\..\source\simplex\simplextextures.cpp">
       <Filter>source\simplex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\component.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\container.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\dimensions.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\directdrawrectangle.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\draggablerenderrectangle.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\event.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\eventlistener.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\focusevent.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\focuslistener.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\focusmanager.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\formattedlabel.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\guiwindow.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\guiwindowclosebutton.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\guiwindowminimizebutton.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\icon.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\keyevent.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\keylistener.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\label.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\menu.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\menubar.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\menuitem.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\mouseevent.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\mouselistener.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\multilinetextbox.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\multitextureicon.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\openglgui.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\optionbox.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\optioncontroller.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\point.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\progressbar.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\pulldownmenu.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\renderrectangle.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\scrollbar.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\selectionmanager.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\slider.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\textbox.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\titlebar.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\TreeView.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\abstractbutton.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\button.cpp">
+      <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gui\checkbox.cpp">
+      <Filter>source\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -955,6 +1081,129 @@
     </ClInclude>
     <ClInclude Include="..\..\source\selene\selene\util.h">
       <Filter>source\selene\selene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\checkbox.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\component.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\container.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\dimensions.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\directdrawrectangle.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\draggablerenderrectangle.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\event.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\eventlistener.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\focusevent.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\focuslistener.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\focusmanager.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\formattedlabel.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\guiwindow.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\guiwindowclosebutton.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\guiwindowminimizebutton.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\icon.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\keyevent.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\keylistener.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\label.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\menu.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\menubar.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\menuitem.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\mouseevent.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\mouselistener.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\multilinetextbox.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\multitextureicon.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\openglgui.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\optionbox.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\optioncontroller.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\point.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\progressbar.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\pulldownmenu.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\renderrectangle.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\scrollbar.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\selectionmanager.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\slider.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\textbox.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\titlebar.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\treeview.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\abstractbutton.h">
+      <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gui\button.h">
+      <Filter>source\gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

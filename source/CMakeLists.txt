@@ -19,6 +19,7 @@ add_subdirectory(glew)
 add_subdirectory(Maths)
 add_subdirectory(Renderer)
 add_subdirectory(glm)
+add_subdirectory(gui)
 add_subdirectory(lua)
 add_subdirectory(selene)
 add_subdirectory(ini)
@@ -33,6 +34,7 @@ source_group("source\\glew\\src" FILES ${GLEW_SRCS})
 source_group("source\\glew\\include\\GL" FILES ${GLEW_HEADERS})
 source_group("source\\maths" FILES ${MATHS_SRCS})
 source_group("source\\renderer" FILES ${RENDERER_SRCS})
+source_group("source\\gui" FILES ${GUI_SRCS})
 source_group("source\\glm" FILES ${GLM_SRCS})
 source_group("source\\glm\\detail" FILES ${GLM_DETAIL_SRCS})
 source_group("source\\glm\\gtc" FILES ${GLM_GTC_SRCS})
@@ -53,6 +55,7 @@ add_executable(Vogue
                ${GLEW_HEADERS}
                ${MATHS_SRCS}
                ${RENDERER_SRCS}
+			   ${GUI_SRCS}
                ${GLM_SRCS}
                ${GLM_DETAIL_SRCS}
                ${GLM_GTC_SRCS}
