@@ -9,10 +9,10 @@
 // Copyright (c) 2005-2015, Steven Ball
 // ******************************************************************************
 
-#include "VoxGame.h"
+#include "VogueGame.h"
 
 // Camera controls
-void VoxGame::UpdateCamera(float dt)
+void VogueGame::UpdateCamera(float dt)
 {
 	if (m_pPlayer->IsDead() == false)
 	{
@@ -47,7 +47,7 @@ void VoxGame::UpdateCamera(float dt)
 	}
 }
 
-void VoxGame::UpdateCameraModeSwitching()
+void VogueGame::UpdateCameraModeSwitching()
 {
 	if (m_cameraDistance < 1.5f)
 	{
@@ -83,10 +83,10 @@ void VoxGame::UpdateCameraModeSwitching()
 	}
 }
 
-void VoxGame::InitializeCameraRotation()
+void VogueGame::InitializeCameraRotation()
 {
-	m_currentX = m_pVoxWindow->GetCursorX();
-	m_currentY = m_pVoxWindow->GetCursorY();
+	m_currentX = m_pVogueWindow->GetCursorX();
+	m_currentY = m_pVogueWindow->GetCursorY();
 
 	vec3 ratios = normalize(vec3(2.5f, 1.0f, 0.0f));
 
@@ -98,7 +98,7 @@ void VoxGame::InitializeCameraRotation()
 	m_pGameCamera->SetFakePosition(m_cameraBehindPlayerPosition);
 }
 
-void VoxGame::UpdateCameraAutoCamera(float dt, bool updateCameraPosition)
+void VogueGame::UpdateCameraAutoCamera(float dt, bool updateCameraPosition)
 {
 	if (updateCameraPosition)
 	{
@@ -179,13 +179,13 @@ void VoxGame::UpdateCameraAutoCamera(float dt, bool updateCameraPosition)
 	m_pGameCamera->SetUp(cameraUp);
 }
 
-void VoxGame::UpdateCameraFirstPerson(float dt)
+void VogueGame::UpdateCameraFirstPerson(float dt)
 {
 	m_pGameCamera->SetFakePosition(m_pPlayer->GetCenter() + Player::PLAYER_CENTER_OFFSET);
 	m_pPlayer->SetForwardVector(m_pGameCamera->GetFacing());
 }
 
-void VoxGame::UpdateCameraNPCDialog(float dt)
+void VogueGame::UpdateCameraNPCDialog(float dt)
 {
 	// Position
 	vec3 diff = m_targetCameraPosition_NPCDialog - m_pGameCamera->GetPosition();
@@ -206,7 +206,7 @@ void VoxGame::UpdateCameraNPCDialog(float dt)
 	m_pGameCamera->SetUp(cameraUp);
 }
 
-void VoxGame::UpdateCameraEnemyTarget(float dt)
+void VogueGame::UpdateCameraEnemyTarget(float dt)
 {
 	// Target camera position
 	vec3 TargetCameraPosition = m_pPlayer->GetCenter();
@@ -299,7 +299,7 @@ void VoxGame::UpdateCameraEnemyTarget(float dt)
 	m_pGameCamera->SetUp(cameraUp);
 }
 
-void VoxGame::UpdateCameraClipping(float dt)
+void VogueGame::UpdateCameraClipping(float dt)
 {
 	vec3 cameraPosition = m_targetCameraPositionBeforeClipping;
 
@@ -371,7 +371,7 @@ void VoxGame::UpdateCameraClipping(float dt)
 	m_pGameCamera->SetPosition(m_cameraPositionAfterClipping);
 }
 
-void VoxGame::UpdateCameraZoom(float dt)
+void VogueGame::UpdateCameraZoom(float dt)
 {
 	// Make sure we gradually move inwards/outwards
 	if (m_cameraMode != CameraMode_FirstPerson)
@@ -392,17 +392,17 @@ void VoxGame::UpdateCameraZoom(float dt)
 	}
 }
 
-bool VoxGame::ShouldRestorePreviousCameraMode()
+bool VogueGame::ShouldRestorePreviousCameraMode()
 {
 	return m_shouldRestorePreviousCameraMode;
 }
 
-void VoxGame::SavePreviousCameraMode()
+void VogueGame::SavePreviousCameraMode()
 {
 	m_previousCameraMode = m_cameraMode;
 }
 
-void VoxGame::RestorePreviousCameraMode()
+void VogueGame::RestorePreviousCameraMode()
 {
 	SetCameraMode(m_previousCameraMode);
 	m_shouldRestorePreviousCameraMode = false;

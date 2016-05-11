@@ -9,7 +9,7 @@
 // Copyright (c) 2005-2016, Steven Ball
 // ******************************************************************************
 
-#include "VoxSettings.h"
+#include "VogueSettings.h"
 
 #include <iostream>
 #include "ini/INIReader.h"
@@ -21,16 +21,16 @@
 using namespace std;
 
 
-VoxSettings::VoxSettings()
+VogueSettings::VogueSettings()
 {
 }
 
-VoxSettings::~VoxSettings()
+VogueSettings::~VogueSettings()
 {
 }
 
 // Load settings
-void VoxSettings::LoadSettings()
+void VogueSettings::LoadSettings()
 {
 	string settingsIniFile = "media/config/settings.ini";
 	INIReader reader(settingsIniFile);
@@ -77,12 +77,12 @@ void VoxSettings::LoadSettings()
 }
 
 // Save settings
-void VoxSettings::SaveSettings()
+void VogueSettings::SaveSettings()
 {
 }
 
 // Load options
-void VoxSettings::LoadOptions()
+void VogueSettings::LoadOptions()
 {
 	string optionsIniFile = "media/config/options.ini";
 	INIReader reader(optionsIniFile);
@@ -119,7 +119,7 @@ void VoxSettings::LoadOptions()
 }
 
 // Save options
-void VoxSettings::SaveOptions()
+void VogueSettings::SaveOptions()
 {
 	ofstream file;
 

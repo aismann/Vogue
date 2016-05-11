@@ -1,6 +1,6 @@
 // ******************************************************************************
 // Filename:  Texture.cpp
-// Project:   Vox
+// Project:   Vogue
 // Author:    Steven Ball
 //
 // Revision History:

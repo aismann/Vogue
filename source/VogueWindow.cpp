@@ -1,6 +1,6 @@
 // ******************************************************************************
 // Filename:    VogueWindow.cpp
-// Project:     Vox
+// Project:     Vogue
 // Author:      Steven Ball
 // 
 // Revision History:
@@ -28,9 +28,9 @@
 #pragma comment (lib, "opengl32")
 #pragma comment (lib, "glu32")
 
-#include "VoxWindow.h"
-#include "VoxGame.h"
-#include "VoxSettings.h"
+#include "VogueWindow.h"
+#include "VogueGame.h"
+#include "VogueSettings.h"
 
 // Callback functionality
 void WindowResizeCallback(GLFWwindow* window, int width, int height);
@@ -41,10 +41,10 @@ void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 void MouseScrollCallback(GLFWwindow* window, double x, double y);
 
 
-VoxWindow::VoxWindow(VoxGame* pVoxGame, VoxSettings* pVoxSettings)
+VogueWindow::VogueWindow(VogueGame* pVogueGame, VogueSettings* pVogueSettings)
 {
-	m_pVoxGame = pVoxGame;
-	m_pVoxSettings = pVoxSettings;
+	m_pVogueGame = pVogueGame;
+	m_pVogueSettings = pVogueSettings;
 
 	/* Minimized flag */
 	m_minimized = false;
@@ -60,17 +60,17 @@ VoxWindow::VoxWindow(VoxGame* pVoxGame, VoxSettings* pVoxSettings)
 	m_joystickAnalogDeadZone = 0.20f;
 
 	/* Default windows dimensions */
-	m_windowWidth = m_pVoxSettings->m_windowWidth;
-	m_windowHeight = m_pVoxSettings->m_windowHeight;
+	m_windowWidth = m_pVogueSettings->m_windowWidth;
+	m_windowHeight = m_pVogueSettings->m_windowHeight;
 	m_oldWindowWidth = m_windowWidth;
 	m_oldWindowHeight = m_windowHeight;
 }
 
-VoxWindow::~VoxWindow()
+VogueWindow::~VogueWindow()
 {
 }
 
-void VoxWindow::Create()
+void VogueWindow::Create()
 {
 	/* Initialize the window library */
 	if (!glfwInit())
@@ -88,7 +88,7 @@ void VoxWindow::Create()
 	memset(m_joysticks, 0, sizeof(m_joysticks));
 
 	/* Create a windowed mode window and it's OpenGL context */
-	m_pWindow = glfwCreateWindow(m_windowWidth, m_windowHeight, "Vox", NULL, NULL);
+	m_pWindow = glfwCreateWindow(m_windowWidth, m_windowHeight, "Vogue", NULL, NULL);
 	if (!m_pWindow)
 	{
 		glfwTerminate();
@@ -98,18 +98,18 @@ void VoxWindow::Create()
 	/* Initialize this window object */
 	InitializeWindowContext(m_pWindow);
 
-	if (m_pVoxSettings->m_fullscreen)
+	if (m_pVogueSettings->m_fullscreen)
 	{
 		ToggleFullScreen(true);
 	}
 }
 
-void VoxWindow::Destroy()
+void VogueWindow::Destroy()
 {
 	glfwTerminate();
 }
 
-void VoxWindow::Update(float dt)
+void VogueWindow::Update(float dt)
 {
 	// Updae the cursor positions
 	double x;
@@ -120,13 +120,13 @@ void VoxWindow::Update(float dt)
 	m_cursorY = (int)floor(y);
 }
 
-void VoxWindow::Render()
+void VogueWindow::Render()
 {
 	/* Swap front and back buffers */
 	glfwSwapBuffers(m_pWindow);
 }
 
-void VoxWindow::InitializeWindowContext(GLFWwindow* window)
+void VogueWindow::InitializeWindowContext(GLFWwindow* window)
 {
 	/* Window resize callback */
 	glfwSetWindowSizeCallback(window, WindowResizeCallback);
@@ -147,7 +147,7 @@ void VoxWindow::InitializeWindowContext(GLFWwindow* window)
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
-	glfwSwapInterval(m_pVoxSettings->m_vsync);
+	glfwSwapInterval(m_pVogueSettings->m_vsync);
 
 	/* Force resize */
 	WindowResizeCallback(window, m_windowWidth, m_windowHeight);
@@ -157,17 +157,17 @@ void VoxWindow::InitializeWindowContext(GLFWwindow* window)
 }
 
 // Windows dimensions
-int VoxWindow::GetWindowWidth()
+int VogueWindow::GetWindowWidth()
 {
 	return m_windowWidth;
 }
 
-int VoxWindow::GetWindowHeight()
+int VogueWindow::GetWindowHeight()
 {
 	return m_windowHeight;
 }
 
-void VoxWindow::ResizeWindow(int width, int height)
+void VogueWindow::ResizeWindow(int width, int height)
 {
 	m_minimized = (width == 0 || height == 0);
 
@@ -175,32 +175,32 @@ void VoxWindow::ResizeWindow(int width, int height)
 	m_windowHeight = height;
 }
 
-bool VoxWindow::GetMinimized()
+bool VogueWindow::GetMinimized()
 {
 	return m_minimized;
 }
 
 // Cursor position
-int VoxWindow::GetCursorX()
+int VogueWindow::GetCursorX()
 {
 	return m_cursorX;
 }
 
-int VoxWindow::GetCursorY()
+int VogueWindow::GetCursorY()
 {
 	return m_cursorY;
 }
 
-void VoxWindow::SetCursorPosition(int x, int y)
+void VogueWindow::SetCursorPosition(int x, int y)
 {
 	glfwSetCursorPos(m_pWindow, x, y);
 }
 
-void VoxWindow::TurnCursorOff(bool forceOff)
+void VogueWindow::TurnCursorOff(bool forceOff)
 {
 	if (IsCursorOn() == true)
 	{
-		if (m_pVoxSettings->m_customCursors == false || forceOff)
+		if (m_pVogueSettings->m_customCursors == false || forceOff)
 		{
 			glfwSetInputMode(m_pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		}
@@ -210,14 +210,14 @@ void VoxWindow::TurnCursorOff(bool forceOff)
 	m_cursorOldY = m_cursorY;
 
 	// Signal to the GUI that we have turned off the cursor, reset buttons states, cursor pos, etc
-	m_pVoxGame->GUITurnOffCursor();
+	m_pVogueGame->GUITurnOffCursor();
 }
 
-void VoxWindow::TurnCursorOn(bool resetCursorPosition, bool forceOn)
+void VogueWindow::TurnCursorOn(bool resetCursorPosition, bool forceOn)
 {
 	if (IsCursorOn() == false)
 	{
-		if (m_pVoxSettings->m_customCursors == false || forceOn)
+		if (m_pVogueSettings->m_customCursors == false || forceOn)
 		{
 			glfwSetInputMode(m_pWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		}
@@ -229,13 +229,13 @@ void VoxWindow::TurnCursorOn(bool resetCursorPosition, bool forceOn)
 	}
 }
 
-bool VoxWindow::IsCursorOn()
+bool VogueWindow::IsCursorOn()
 {
 	return glfwGetInputMode(m_pWindow, GLFW_CURSOR) == GLFW_CURSOR_NORMAL;
 }
 
 // Joysticks
-void VoxWindow::UpdateJoySticks()
+void VogueWindow::UpdateJoySticks()
 {
 	for (int i = 0; i < sizeof(m_joysticks) / sizeof(Joystick); i++)
 	{
@@ -295,14 +295,14 @@ void VoxWindow::UpdateJoySticks()
 	}
 }
 
-bool VoxWindow::IsJoyStickConnected(int joyStickNum)
+bool VogueWindow::IsJoyStickConnected(int joyStickNum)
 {
 	Joystick* j = m_joysticks + joyStickNum;
 
 	return j->m_present;
 }
 
-float VoxWindow::GetJoystickAxisValue(int joyStickNum, int axisIndex)
+float VogueWindow::GetJoystickAxisValue(int joyStickNum, int axisIndex)
 {
 	Joystick* j = m_joysticks + joyStickNum;
 
@@ -316,7 +316,7 @@ float VoxWindow::GetJoystickAxisValue(int joyStickNum, int axisIndex)
 	}
 }
 
-bool VoxWindow::GetJoystickButton(int joyStickNum, int axisIndex)
+bool VogueWindow::GetJoystickButton(int joyStickNum, int axisIndex)
 {
 	Joystick* j = m_joysticks + joyStickNum;
 
@@ -330,13 +330,13 @@ bool VoxWindow::GetJoystickButton(int joyStickNum, int axisIndex)
 	}
 }
 
-float VoxWindow::GetJoystickAnalogDeadZone()
+float VogueWindow::GetJoystickAnalogDeadZone()
 {
 	return m_joystickAnalogDeadZone;
 }
 
 // Fullscreen
-void VoxWindow::ToggleFullScreen(bool fullscreen)
+void VogueWindow::ToggleFullScreen(bool fullscreen)
 {
 	if (fullscreen)
 	{
@@ -355,7 +355,7 @@ void VoxWindow::ToggleFullScreen(bool fullscreen)
 	}
 
 	// Create new window
-	GLFWwindow* newWindow = glfwCreateWindow(m_windowWidth, m_windowHeight, "Vox", fullscreen ? glfwGetPrimaryMonitor() : NULL, m_pWindow);
+	GLFWwindow* newWindow = glfwCreateWindow(m_windowWidth, m_windowHeight, "Vogue", fullscreen ? glfwGetPrimaryMonitor() : NULL, m_pWindow);
 
 	/* Initialize this new window object */
 	InitializeWindowContext(newWindow);
@@ -366,7 +366,7 @@ void VoxWindow::ToggleFullScreen(bool fullscreen)
 }
 
 // Events
-void VoxWindow::PollEvents()
+void VogueWindow::PollEvents()
 {
 	/* Poll for and process events */
 	glfwPollEvents();
@@ -375,10 +375,10 @@ void VoxWindow::PollEvents()
 // Callbacks
 void WindowResizeCallback(GLFWwindow* window, int width, int height)
 {
-	VoxGame::GetInstance()->ResizeWindow(width, height);
+	VogueGame::GetInstance()->ResizeWindow(width, height);
 }
 
 void WindowCloseCallback(GLFWwindow* window)
 {
-	VoxGame::GetInstance()->CloseWindow();
+	VogueGame::GetInstance()->CloseWindow();
 }

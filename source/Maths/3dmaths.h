@@ -1,6 +1,6 @@
 // ******************************************************************************
 // Filename:    3dmaths.cpp
-// Project:     Vox
+// Project:     Vogue
 // Author:      Steven Ball
 //
 // Purpose:

@@ -4,8 +4,8 @@
 // Author:      Steven Ball
 //
 // Purpose:
-//   Vox settings, initalized at the application creation and contains all of
-//   the run time settings and configuration that is loaded for Vox.
+//   Vogue settings, initalized at the application creation and contains all of
+//   the run time settings and configuration that is loaded for Vogue.
 // 
 // Revision History:
 //   Initial Revision - 11/04/16
@@ -18,15 +18,15 @@
 #include <string>
 using namespace std;
 
-class VoxGame;
+class VogueGame;
 
 
-class VoxSettings
+class VogueSettings
 {
 public:
 	/* Public methods */
-	VoxSettings();
-	~VoxSettings();
+	VogueSettings();
+	~VogueSettings();
 
 	// Load settings
 	void LoadSettings();

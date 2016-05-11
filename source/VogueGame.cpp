@@ -11,7 +11,7 @@
 
 #include "glew/include/GL/glew.h"
 
-#include "VoxGame.h"
+#include "VogueGame.h"
 #include "utils/Interpolator.h"
 #include <glm/detail/func_geometric.hpp>
 
@@ -21,18 +21,18 @@
 
 
 // Initialize the singleton instance
-VoxGame *VoxGame::c_instance = 0;
+VogueGame *VogueGame::c_instance = 0;
 
-VoxGame* VoxGame::GetInstance()
+VogueGame* VogueGame::GetInstance()
 {
 	if (c_instance == 0)
-		c_instance = new VoxGame;
+		c_instance = new VogueGame;
 
 	return c_instance;
 }
 
 // Creation
-void VoxGame::Create(VoxSettings* pVoxSettings)
+void VogueGame::Create(VogueSettings* pVogueSettings)
 {
 	m_pRenderer = NULL;
 	m_pGameCamera = NULL;
@@ -51,11 +51,11 @@ void VoxGame::Create(VoxSettings* pVoxSettings)
 
 	m_GUICreated = false;
 
-	m_pVoxSettings = pVoxSettings;
-	m_pVoxWindow = new VoxWindow(this, m_pVoxSettings);
+	m_pVogueSettings = pVogueSettings;
+	m_pVogueWindow = new VogueWindow(this, m_pVogueSettings);
 
 	// Create the window
-	m_pVoxWindow->Create();
+	m_pVogueWindow->Create();
 
 	/* Setup the FPS and deltatime counters */
 #ifdef _WIN32
@@ -97,8 +97,8 @@ void VoxGame::Create(VoxSettings* pVoxSettings)
 	m_initialStartWait = true;
 
 	/* Create the renderer */
-	m_windowWidth = m_pVoxWindow->GetWindowWidth();
-	m_windowHeight = m_pVoxWindow->GetWindowHeight();
+	m_windowWidth = m_pVogueWindow->GetWindowWidth();
+	m_windowHeight = m_pVogueWindow->GetWindowHeight();
 	m_pRenderer = new Renderer(m_windowWidth, m_windowHeight, 32, 8);
 
 	/* Pause and quit */
@@ -201,8 +201,8 @@ void VoxGame::Create(VoxSettings* pVoxSettings)
 	m_pQubicleBinaryManager = new QubicleBinaryManager(m_pRenderer);
 
 	/* Create the chunk manager*/
-	m_pChunkManager = new ChunkManager(m_pRenderer, m_pVoxSettings, m_pQubicleBinaryManager);
-	m_pChunkManager->SetStepLockEnabled(m_pVoxSettings->m_stepUpdating);
+	m_pChunkManager = new ChunkManager(m_pRenderer, m_pVogueSettings, m_pQubicleBinaryManager);
+	m_pChunkManager->SetStepLockEnabled(m_pVogueSettings->m_stepUpdating);
 
 	/* Create the biome manager */
 	m_pBiomeManager = new BiomeManager(m_pRenderer);
@@ -411,7 +411,7 @@ void VoxGame::Create(VoxSettings* pVoxSettings)
 	m_shadows = true;
 	m_dynamicLighting = true;
 	m_animationUpdate = true;
-	m_fullscreen = m_pVoxSettings->m_fullscreen;
+	m_fullscreen = m_pVogueSettings->m_fullscreen;
 	m_debugRender = false;
 	m_instanceRender = true;
 	m_fogRender = true;
@@ -429,7 +429,7 @@ void VoxGame::Create(VoxSettings* pVoxSettings)
 	SetGameMode(m_gameMode);
 
 	// Turn the cursor initially off if we have custom cursors enabled
-	if (m_pVoxSettings->m_customCursors)
+	if (m_pVogueSettings->m_customCursors)
 	{
 		TurnCursorOff(true);
 	}
@@ -441,7 +441,7 @@ void VoxGame::Create(VoxSettings* pVoxSettings)
 }
 
 // Destruction
-void VoxGame::Destroy()
+void VogueGame::Destroy()
 {
 	if (c_instance)
 	{
@@ -477,16 +477,16 @@ void VoxGame::Destroy()
 
 		AudioManager::GetInstance()->Shutdown();
 
-		m_pVoxWindow->Destroy();
+		m_pVogueWindow->Destroy();
 
-		delete m_pVoxWindow;
+		delete m_pVogueWindow;
 
 		delete c_instance;
 	}
 }
 
 // Quitting
-void VoxGame::CancelQuitPopup()
+void VogueGame::CancelQuitPopup()
 {
 	m_pFrontendManager->SetFrontendScreen(FrontendScreen_None);
 
@@ -497,7 +497,7 @@ void VoxGame::CancelQuitPopup()
 	TurnCursorOff(false);
 }
 
-void VoxGame::ShowQuitPopup()
+void VogueGame::ShowQuitPopup()
 {
 	if (m_pFrontendManager->GetFrontendScreen() != FrontendScreen_QuitPopup)
 	{
@@ -513,23 +513,23 @@ void VoxGame::ShowQuitPopup()
 	}
 }
 
-void VoxGame::SetGameQuit(bool quit)
+void VogueGame::SetGameQuit(bool quit)
 {
 	m_bGameQuit = quit;
 }
 
 // Pause
-bool VoxGame::IsPaused()
+bool VogueGame::IsPaused()
 {
 	return m_bPaused;
 }
 
-void VoxGame::SetPaused(bool pause)
+void VogueGame::SetPaused(bool pause)
 {
 	m_bPaused = pause;
 }
 
-void VoxGame::SetPauseMenu()
+void VogueGame::SetPauseMenu()
 {
 	m_pFrontendManager->SetFrontendScreen(FrontendScreen_PauseMenu);
 
@@ -540,7 +540,7 @@ void VoxGame::SetPauseMenu()
 	TurnCursorOn(true, false);
 }
 
-void VoxGame::UnsetPauseMenu()
+void VogueGame::UnsetPauseMenu()
 {
 	m_pFrontendManager->SetFrontendScreen(FrontendScreen_None);
 
@@ -552,104 +552,104 @@ void VoxGame::UnsetPauseMenu()
 }
 
 // Blur
-void VoxGame::SetGlobalBlurAmount(float blurAmount)
+void VogueGame::SetGlobalBlurAmount(float blurAmount)
 {
 	m_globalBlurAmount = blurAmount;
 	m_pBlurCheckBox->SetToggled(m_globalBlurAmount > 0.0f);
 }
 
 // Cinematic letterbox
-void VoxGame::OpenLetterBox()
+void VogueGame::OpenLetterBox()
 {
 	Interpolator::GetInstance()->AddFloatInterpolation(&m_letterBoxRatio, m_letterBoxRatio, 1.0f, 0.25f, -100.0f);
 }
 
-void VoxGame::CloseLetterBox()
+void VogueGame::CloseLetterBox()
 {
 	Interpolator::GetInstance()->AddFloatInterpolation(&m_letterBoxRatio, m_letterBoxRatio, 0.0f, 0.25f, 100.0f);
 }
 
 // Paperdoll rendering
-void VoxGame::SetPaperdollRotation(float rotation)
+void VogueGame::SetPaperdollRotation(float rotation)
 {
 	m_paperdollRenderRotation = rotation;
 }
 
-void VoxGame::RotatePaperdollModel(float rot)
+void VogueGame::RotatePaperdollModel(float rot)
 {
 	m_paperdollRenderRotation += rot;// * m_deltaTime;
 }
 
-unsigned int VoxGame::GetDynamicPaperdollTexture()
+unsigned int VogueGame::GetDynamicPaperdollTexture()
 {
 	return m_pRenderer->GetDiffuseTextureFromFrameBuffer(m_paperdollSSAOTextureBuffer);
 }
 
 // Portrait
-unsigned int VoxGame::GetDynamicPortraitTexture()
+unsigned int VogueGame::GetDynamicPortraitTexture()
 {
 	return m_pRenderer->GetDiffuseTextureFromFrameBuffer(m_portraitSSAOTextureBuffer);
 }
 
 // Events
-void VoxGame::PollEvents()
+void VogueGame::PollEvents()
 {
-	m_pVoxWindow->PollEvents();
+	m_pVogueWindow->PollEvents();
 }
 
-bool VoxGame::ShouldClose()
+bool VogueGame::ShouldClose()
 {
 	return m_bGameQuit;
 }
 
 // Window functionality
-int VoxGame::GetWindowCursorX()
+int VogueGame::GetWindowCursorX()
 {
-	return m_pVoxWindow->GetCursorX();
+	return m_pVogueWindow->GetCursorX();
 }
 
-int VoxGame::GetWindowCursorY()
+int VogueGame::GetWindowCursorY()
 {
-	return m_pVoxWindow->GetCursorY();
+	return m_pVogueWindow->GetCursorY();
 }
 
 
-void VoxGame::TurnCursorOn(bool resetCursorPosition, bool forceOn)
+void VogueGame::TurnCursorOn(bool resetCursorPosition, bool forceOn)
 {
-	m_pVoxWindow->TurnCursorOn(resetCursorPosition, forceOn);
+	m_pVogueWindow->TurnCursorOn(resetCursorPosition, forceOn);
 
 	m_bCustomCursorOn = true;
 }
 
-void VoxGame::TurnCursorOff(bool forceOff)
+void VogueGame::TurnCursorOff(bool forceOff)
 {
-	m_pVoxWindow->TurnCursorOff(forceOff);
+	m_pVogueWindow->TurnCursorOff(forceOff);
 
 	m_bCustomCursorOn = false;
 
 	// Make sure to set the current X and Y when we turn the cursor off, so that camera controls don't glitch.
-	m_currentX = m_pVoxWindow->GetCursorX();
-	m_currentY = m_pVoxWindow->GetCursorY();
+	m_currentX = m_pVogueWindow->GetCursorX();
+	m_currentY = m_pVogueWindow->GetCursorY();
 }
 
-bool VoxGame::IsCursorOn()
+bool VogueGame::IsCursorOn()
 {
-	if (m_pVoxSettings->m_customCursors)
+	if (m_pVogueSettings->m_customCursors)
 	{
 		return m_bCustomCursorOn;
 	}
 	else
 	{
-		return m_pVoxWindow->IsCursorOn();
+		return m_pVogueWindow->IsCursorOn();
 	}
 }
 
-void VoxGame::ResizeWindow(int width, int height)
+void VogueGame::ResizeWindow(int width, int height)
 {
 	m_windowWidth = width;
 	m_windowHeight = height;
 
-	m_pVoxWindow->ResizeWindow(m_windowWidth, m_windowHeight);
+	m_pVogueWindow->ResizeWindow(m_windowWidth, m_windowHeight);
 
 	if(m_pRenderer)
 	{
@@ -716,7 +716,7 @@ void VoxGame::ResizeWindow(int width, int height)
 	}
 }
 
-void VoxGame::CloseWindow()
+void VogueGame::CloseWindow()
 {
 	if (m_gameMode == GameMode_Game)
 	{
@@ -728,13 +728,13 @@ void VoxGame::CloseWindow()
 	}
 }
 
-void VoxGame::UpdateJoySticks()
+void VogueGame::UpdateJoySticks()
 {
-	m_pVoxWindow->UpdateJoySticks();
+	m_pVogueWindow->UpdateJoySticks();
 }
 
 // Game functions
-void VoxGame::QuitToFrontEnd()
+void VogueGame::QuitToFrontEnd()
 {
 	TurnCursorOn(true, false);
 	SetGameMode(GameMode_FrontEnd);
@@ -745,7 +745,7 @@ void VoxGame::QuitToFrontEnd()
 	m_pAutoCameraOptionBox->SetDisabled(true);
 	m_pFrontendCameraOptionBox->SetDisabled(false);
 	m_pDebugCameraOptionBox->SetDisabled(false);
-	m_pVoxWindow->Update(m_deltaTime);
+	m_pVogueWindow->Update(m_deltaTime);
 	GameModeChanged();
 	CameraModeChanged();
 
@@ -756,7 +756,7 @@ void VoxGame::QuitToFrontEnd()
 	m_pFrontendManager->SetFrontendScreen(FrontendScreen_MainMenu);
 }
 
-void VoxGame::SetupDataForGame()
+void VogueGame::SetupDataForGame()
 {
 	// Items
 	Item* pFurnace = m_pItemManager->CreateItem(vec3(25.0f, 10.0f, -5.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), "media/gamedata/items/Furnace/Furnace.item", eItem_Furnace, "Furnace", true, false, 0.16f);
@@ -767,7 +767,7 @@ void VoxGame::SetupDataForGame()
 	// Chest with random loot item
 	Item* pChest = m_pItemManager->CreateItem(vec3(24.0f, 12.0f, 13.5f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 180.0f, 0.0f), "media/gamedata/items/Chest/Chest.item", eItem_Chest, "Chest", true, false, 0.08f);
 	eEquipment equipment = eEquipment_None;
-	InventoryItem* pRandomLoot = VoxGame::GetInstance()->GetRandomLootManager()->GetRandomLootItem(&equipment);
+	InventoryItem* pRandomLoot = VogueGame::GetInstance()->GetRandomLootManager()->GetRandomLootItem(&equipment);
 	if (pRandomLoot != NULL && equipment != eEquipment_None)
 	{
 		InventoryItem* pRandomLootItem = pChest->AddLootItem(pRandomLoot, 0, 2);
@@ -886,11 +886,11 @@ void VoxGame::SetupDataForGame()
 	m_pQuestJournal->AddQuestJournalEntry(pFindQuest);
 }
 
-void VoxGame::SetupDataForFrontEnd()
+void VogueGame::SetupDataForFrontEnd()
 {
 }
 
-void VoxGame::StartGameFromFrontEnd()
+void VogueGame::StartGameFromFrontEnd()
 {
 	m_pFrontendManager->SetFrontendScreen(FrontendScreen_None);
 
@@ -905,13 +905,13 @@ void VoxGame::StartGameFromFrontEnd()
 	m_pPlayer->StartGame();
 }
 
-void VoxGame::PlayerRespawned()
+void VogueGame::PlayerRespawned()
 {
 	// Stop any movement drag when we respawn
 	m_movementSpeed = 0.0f;
 }
 
-void VoxGame::SetGameMode(GameMode mode)
+void VogueGame::SetGameMode(GameMode mode)
 {
 	GameMode previousgameMode = m_gameMode;
 	m_gameMode = mode;
@@ -962,7 +962,7 @@ void VoxGame::SetGameMode(GameMode mode)
 			// Unload actionbar
 			if (m_pActionBar->IsLoaded())
 			{
-				if (m_pVoxSettings->m_renderGUI)
+				if (m_pVogueSettings->m_renderGUI)
 				{
 					m_pActionBar->Unload();
 				}
@@ -971,7 +971,7 @@ void VoxGame::SetGameMode(GameMode mode)
 			// Unload the HUD
 			if (m_pHUD->IsLoaded())
 			{
-				if (m_pVoxSettings->m_renderGUI)
+				if (m_pVogueSettings->m_renderGUI)
 				{
 					m_pHUD->Unload();
 				}
@@ -1024,7 +1024,7 @@ void VoxGame::SetGameMode(GameMode mode)
 			// Load action bar
 			if (m_pActionBar->IsLoaded() == false)
 			{
-				if (m_pVoxSettings->m_renderGUI)
+				if (m_pVogueSettings->m_renderGUI)
 				{
 					m_pActionBar->Load();
 				}
@@ -1033,7 +1033,7 @@ void VoxGame::SetGameMode(GameMode mode)
 			// Load the HUD
 			if (m_pHUD->IsLoaded() == false)
 			{
-				if (m_pVoxSettings->m_renderGUI)
+				if (m_pVogueSettings->m_renderGUI)
 				{
 					m_pHUD->Load();
 				}
@@ -1048,23 +1048,23 @@ void VoxGame::SetGameMode(GameMode mode)
 	}
 }
 
-GameMode VoxGame::GetGameMode()
+GameMode VogueGame::GetGameMode()
 {
 	return m_gameMode;
 }
 
-void VoxGame::SetCameraMode(CameraMode mode)
+void VogueGame::SetCameraMode(CameraMode mode)
 {
 	m_cameraMode = mode;
 }
 
-CameraMode VoxGame::GetCameraMode()
+CameraMode VogueGame::GetCameraMode()
 {
 	return m_cameraMode;
 }
 
 // Interactions
-bool VoxGame::CheckInteractions()
+bool VogueGame::CheckInteractions()
 {
 	bool interaction = false;
 
@@ -1216,13 +1216,13 @@ bool VoxGame::CheckInteractions()
 	return interaction;
 }
 
-Item* VoxGame::GetInteractItem()
+Item* VogueGame::GetInteractItem()
 {
 	return m_pInteractItem;
 }
 
 // Enemy Targeting
-void VoxGame::SetEnemyTarget()
+void VogueGame::SetEnemyTarget()
 {
 	if (m_pPlayer->IsDead() == false && m_pPlayer->GetTargetEnemy() == NULL)
 	{
@@ -1253,7 +1253,7 @@ void VoxGame::SetEnemyTarget()
 	}
 }
 
-void VoxGame::ReleaseEnemyTarget()
+void VogueGame::ReleaseEnemyTarget()
 {
 	if (m_pPlayer->GetTargetEnemy() != NULL)
 	{
@@ -1276,7 +1276,7 @@ void VoxGame::ReleaseEnemyTarget()
 }
 
 // GUI Helper functions
-bool VoxGame::IsGUIWindowStillDisplayed()
+bool VogueGame::IsGUIWindowStillDisplayed()
 {
 	if (m_pInventoryGUI->IsLoaded())
 	{
@@ -1306,7 +1306,7 @@ bool VoxGame::IsGUIWindowStillDisplayed()
 	return false;
 }
 
-void VoxGame::CloseAllGUIWindows()
+void VogueGame::CloseAllGUIWindows()
 {
 	if (m_pInventoryGUI->IsLoaded() && m_pInventoryGUI->IsLoadDelayed() == false)
 	{
@@ -1337,7 +1337,7 @@ void VoxGame::CloseAllGUIWindows()
 	m_pGUI->ResetFocus();
 }
 
-void VoxGame::CloseInteractionGUI()
+void VogueGame::CloseInteractionGUI()
 {
 	if (m_pCraftingGUI->IsLoaded())
 	{
@@ -1359,87 +1359,87 @@ void VoxGame::CloseInteractionGUI()
 }
 
 // Accessors
-unsigned int VoxGame::GetDefaultViewport()
+unsigned int VogueGame::GetDefaultViewport()
 {
 	return m_defaultViewport;
 }
 
-Camera* VoxGame::GetGameCamera()
+Camera* VogueGame::GetGameCamera()
 {
 	return m_pGameCamera;
 }
 
-Player* VoxGame::GetPlayer()
+Player* VogueGame::GetPlayer()
 {
 	return m_pPlayer;
 }
 
-ChunkManager* VoxGame::GetChunkManager()
+ChunkManager* VogueGame::GetChunkManager()
 {
 	return m_pChunkManager;
 }
 
-BiomeManager* VoxGame::GetBiomeManager()
+BiomeManager* VogueGame::GetBiomeManager()
 {
 	return m_pBiomeManager;
 }
 
-FrontendManager* VoxGame::GetFrontendManager()
+FrontendManager* VogueGame::GetFrontendManager()
 {
 	return m_pFrontendManager;
 }
 
-BlockParticleManager* VoxGame::GetBlockParticleManager()
+BlockParticleManager* VogueGame::GetBlockParticleManager()
 {
 	return m_pBlockParticleManager;
 }
 
-NPCManager* VoxGame::GetNPCManager()
+NPCManager* VogueGame::GetNPCManager()
 {
 	return m_pNPCManager;
 }
 
-ItemManager* VoxGame::GetItemManager()
+ItemManager* VogueGame::GetItemManager()
 {
 	return m_pItemManager;
 }
 
-InventoryManager* VoxGame::GetInventoryManager()
+InventoryManager* VogueGame::GetInventoryManager()
 {
 	return m_pInventoryManager;
 }
 
-RandomLootManager* VoxGame::GetRandomLootManager()
+RandomLootManager* VogueGame::GetRandomLootManager()
 {
 	return m_pRandomLootManager;
 }
 
-ModsManager* VoxGame::GetModsManager()
+ModsManager* VogueGame::GetModsManager()
 {
 	return m_pModsManager;
 }
 
-CharacterGUI* VoxGame::GetCharacterGUI()
+CharacterGUI* VogueGame::GetCharacterGUI()
 {
 	return m_pCharacterGUI;
 }
 
-QuestGUI* VoxGame::GetQuestGUI()
+QuestGUI* VogueGame::GetQuestGUI()
 {
 	return m_pQuestGUI;
 }
 
-HUD* VoxGame::GetHUD()
+HUD* VogueGame::GetHUD()
 {
 	return m_pHUD;
 }
 
-ActionBar* VoxGame::GetActionBar()
+ActionBar* VogueGame::GetActionBar()
 {
 	return m_pActionBar;
 }
 
-VoxSettings* VoxGame::GetVoxSettings()
+VogueSettings* VogueGame::GetVogueSettings()
 {
-	return m_pVoxSettings;
+	return m_pVogueSettings;
 }

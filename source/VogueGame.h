@@ -4,7 +4,7 @@
 // Author:      Steven Ball
 //
 // Purpose:
-//   The Vox game class houses all the game functionality and logic that directly
+//   The Vogue game class houses all the game functionality and logic that directly
 //   interfaces with the game subsystems. Also this game class is the container
 //   for all the renderer objects that are required to draw the scene, such as
 //   shaders, viewports, frame buffers, etc. Finally this class also owns all
@@ -41,8 +41,8 @@
 #include "TextEffects/TextEffectsManager.h"
 #include "Mods/ModsManager.h"
 #include "AudioManager/AudioManager.h"
-#include "VoxWindow.h"
-#include "VoxSettings.h"
+#include "VogueWindow.h"
+#include "VogueSettings.h"
 #include "GameGUI/ActionBar.h"
 #include "GameGUI/CharacterGUI.h"
 #include "GameGUI/CraftingGUI.h"
@@ -80,14 +80,14 @@ enum CameraMode
 	CameraMode_EnemyTarget,
 };
 
-class VoxGame
+class VogueGame
 {
 public:
 	/* Public methods */
-	static VoxGame* GetInstance();
+	static VogueGame* GetInstance();
 
 	// Creation
-	void Create(VoxSettings* pVoxSettings);
+	void Create(VogueSettings* pVogueSettings);
 
 	// Destruction
 	void Destroy();
@@ -267,13 +267,13 @@ public:
 	QuestGUI* GetQuestGUI();
 	HUD* GetHUD();
 	ActionBar* GetActionBar();
-	VoxSettings* GetVoxSettings();
+	VogueSettings* GetVogueSettings();
 
 protected:
 	/* Protected methods */
-	VoxGame() {};
-	VoxGame(const VoxGame&) {};
-	VoxGame &operator=(const VoxGame&) {};
+	VogueGame() {};
+	VogueGame(const VogueGame&) {};
+	VogueGame &operator=(const VogueGame&) {};
 
 	// GUI callbacks
 	static void _PlayAnimationPressed(void *apData);
@@ -314,8 +314,8 @@ protected:
 
 private:
 	/* Private members */
-	VoxWindow* m_pVoxWindow;
-	VoxSettings* m_pVoxSettings;
+	VogueWindow* m_pVogueWindow;
+	VogueSettings* m_pVogueSettings;
 
 	// Renderer
 	Renderer* m_pRenderer;
@@ -641,5 +641,5 @@ private:
 	bool m_waterRender;
 
 	// Singleton instance
-	static VoxGame *c_instance;
+	static VogueGame *c_instance;
 };

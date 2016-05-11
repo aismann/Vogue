@@ -4,8 +4,8 @@
 // Author:      Steven Ball
 //
 // Purpose:
-//   The Vox window class is an interface and wrapper around the glfw windows
-//   library and adds common functionality to bind this to the Vox application.
+//   The Vogue window class is an interface and wrapper around the glfw windows
+//   library and adds common functionality to bind this to the Vogue application.
 //   The window class handles most 'window' functionality that isnt directly
 //   part of the game, stuff like window resizing, fullscreen, cursors, etc.
 // 
@@ -24,8 +24,8 @@ using namespace std;
 
 #include <GLFW/glfw3.h>
 
-class VoxGame;
-class VoxSettings;
+class VogueGame;
+class VogueSettings;
 
 
 typedef struct Joystick
@@ -38,12 +38,12 @@ typedef struct Joystick
 	int m_buttonCount;
 } Joystick;
 
-class VoxWindow
+class VogueWindow
 {
 public:
 	/* Public methods */
-	VoxWindow(VoxGame* pVoxGame, VoxSettings* pVoxSettings);
-	~VoxWindow();
+	VogueWindow(VogueGame* pVogueGame, VogueSettings* pVogueSettings);
+	~VogueWindow();
 
 	void Create();
 	void Destroy();
@@ -95,8 +95,8 @@ protected:
 
 private:
 	/* Private members */
-	VoxGame* m_pVoxGame;
-	VoxSettings* m_pVoxSettings;
+	VogueGame* m_pVogueGame;
+	VogueSettings* m_pVogueSettings;
 
 	// The window object pointer
 	GLFWwindow* m_pWindow;

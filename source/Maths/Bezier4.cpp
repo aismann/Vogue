@@ -1,6 +1,6 @@
 // ******************************************************************************
 // Filename:    Bezier4.cpp
-// Project:     Vox
+// Project:     Vogue
 // Author:      Steven Ball
 //
 // Purpose:

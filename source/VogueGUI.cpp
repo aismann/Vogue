@@ -9,10 +9,10 @@
 // Copyright (c) 2005-2016, Steven Ball
 // ******************************************************************************
 
-#include "VoxGame.h"
+#include "VogueGame.h"
 #include "utils/FileUtils.h"
 
-void VoxGame::CreateGUI()
+void VogueGame::CreateGUI()
 {
 	m_pMainWindow = new GUIWindow(m_pRenderer, m_defaultFont, "Main");
 	m_pMainWindow->AllowMoving(true);
@@ -215,24 +215,24 @@ void VoxGame::CreateGUI()
 	m_GUICreated = true;
 }
 
-void VoxGame::SetupGUI()
+void VogueGame::SetupGUI()
 {
-	m_pDeferredCheckBox->SetToggled(m_pVoxSettings->m_deferredRendering);
-	m_pShadowsCheckBox->SetToggled(m_pVoxSettings->m_shadows);
-	m_pSSAOCheckBox->SetToggled(m_pVoxSettings->m_ssao);
-	m_pBlurCheckBox->SetToggled(m_pVoxSettings->m_blur);
-	m_pDynamicLightingCheckBox->SetToggled(m_pVoxSettings->m_dynamicLighting);
-	m_pMSAACheckBox->SetToggled(m_pVoxSettings->m_msaa);
-	m_pInstanceRenderCheckBox->SetToggled(m_pVoxSettings->m_instancedParticles);
-	m_pFogRenderCheckBox->SetToggled(m_pVoxSettings->m_fogRendering);
-	m_pWaterRenderCheckBox->SetToggled(m_pVoxSettings->m_waterRendering);
-	m_pWireframeCheckBox->SetToggled(m_pVoxSettings->m_wireframeRendering);
-	m_pDebugRenderCheckBox->SetToggled(m_pVoxSettings->m_debugRendering);
-	m_pFaceMergingCheckbox->SetToggled(m_pVoxSettings->m_faceMerging);
-	m_pStepUpdateCheckbox->SetToggled(m_pVoxSettings->m_stepUpdating);
+	m_pDeferredCheckBox->SetToggled(m_pVogueSettings->m_deferredRendering);
+	m_pShadowsCheckBox->SetToggled(m_pVogueSettings->m_shadows);
+	m_pSSAOCheckBox->SetToggled(m_pVogueSettings->m_ssao);
+	m_pBlurCheckBox->SetToggled(m_pVogueSettings->m_blur);
+	m_pDynamicLightingCheckBox->SetToggled(m_pVogueSettings->m_dynamicLighting);
+	m_pMSAACheckBox->SetToggled(m_pVogueSettings->m_msaa);
+	m_pInstanceRenderCheckBox->SetToggled(m_pVogueSettings->m_instancedParticles);
+	m_pFogRenderCheckBox->SetToggled(m_pVogueSettings->m_fogRendering);
+	m_pWaterRenderCheckBox->SetToggled(m_pVogueSettings->m_waterRendering);
+	m_pWireframeCheckBox->SetToggled(m_pVogueSettings->m_wireframeRendering);
+	m_pDebugRenderCheckBox->SetToggled(m_pVogueSettings->m_debugRendering);
+	m_pFaceMergingCheckbox->SetToggled(m_pVogueSettings->m_faceMerging);
+	m_pStepUpdateCheckbox->SetToggled(m_pVogueSettings->m_stepUpdating);
 
 	// Debug GUI
-	if(m_pVoxSettings->m_showDebugGUI)
+	if(m_pVogueSettings->m_showDebugGUI)
 	{
 		ShowGUI();
 	}
@@ -242,11 +242,11 @@ void VoxGame::SetupGUI()
 	}
 
 	// Game mode
-	if (strcmp(m_pVoxSettings->m_gameMode.c_str(), "Debug") == 0)
+	if (strcmp(m_pVogueSettings->m_gameMode.c_str(), "Debug") == 0)
 	{
 		m_pDebugOptionBox->SetToggled(true);
 	}
-	else if (strcmp(m_pVoxSettings->m_gameMode.c_str(), "Game") == 0)
+	else if (strcmp(m_pVogueSettings->m_gameMode.c_str(), "Game") == 0)
 	{
 		m_previousCameraMode = CameraMode_MouseRotate;
 		m_pGameOptionBox->SetToggled(true);
@@ -259,17 +259,17 @@ void VoxGame::SetupGUI()
 		// Load default inventory since we are loading directly into the game
 		m_pInventoryManager->LoadInventory("", PlayerClass_Debug, false);
 	}
-	else if (strcmp(m_pVoxSettings->m_gameMode.c_str(), "FrontEnd") == 0)
+	else if (strcmp(m_pVogueSettings->m_gameMode.c_str(), "FrontEnd") == 0)
 	{
 		m_pFrontEndOptionBox->SetToggled(true);
 		m_pFrontendCameraOptionBox->SetToggled(true);
 	}
-	m_pVoxWindow->Update(m_deltaTime);
+	m_pVogueWindow->Update(m_deltaTime);
 	GameModeChanged();
 	CameraModeChanged();
 }
 
-void VoxGame::SkinGUI()
+void VogueGame::SkinGUI()
 {
 	m_pFrontendManager->SetCheckboxIcons(m_pShadowsCheckBox);
 	m_pFrontendManager->SetCheckboxIcons(m_pMSAACheckBox);
@@ -316,7 +316,7 @@ void VoxGame::SkinGUI()
 	m_pHUD->SkinGUI();
 }
 
-void VoxGame::UnSkinGUI()
+void VogueGame::UnSkinGUI()
 {
 	m_pShadowsCheckBox->SetDefaultIcons(m_pRenderer);
 	m_pMSAACheckBox->SetDefaultIcons(m_pRenderer);
@@ -363,7 +363,7 @@ void VoxGame::UnSkinGUI()
 	m_pHUD->UnSkinGUI();
 }
 
-void VoxGame::DestroyGUI()
+void VogueGame::DestroyGUI()
 {
 	delete m_pMainWindow;
 	delete m_pShadowsCheckBox;
@@ -400,7 +400,7 @@ void VoxGame::DestroyGUI()
 	delete m_pConsoleScrollbar;
 }
 
-void VoxGame::UpdateGUI(float dt)
+void VogueGame::UpdateGUI(float dt)
 {
 	// Depending on if deferred rendering is enabled, allow or disallow certain other graphic features
 	if (m_deferredRendering)
@@ -480,12 +480,12 @@ void VoxGame::UpdateGUI(float dt)
 	UpdateConsoleLabels();
 }
 
-void VoxGame::GUITurnOffCursor()
+void VogueGame::GUITurnOffCursor()
 {
 	m_pGUI->ResetSelectionManager();
 }
 
-void VoxGame::ShowGUI()
+void VogueGame::ShowGUI()
 {
 	if (m_pMainWindow->IsVisible() == false)
 	{
@@ -501,7 +501,7 @@ void VoxGame::ShowGUI()
 	}
 }
 
-void VoxGame::HideGUI()
+void VogueGame::HideGUI()
 {
 	if (m_pMainWindow->IsVisible() == true)
 	{
@@ -517,7 +517,7 @@ void VoxGame::HideGUI()
 	}
 }
 
-void VoxGame::UpdateCharactersPulldown()
+void VogueGame::UpdateCharactersPulldown()
 {
 	m_pCharacterPulldown->RemoveAllPullDownMenuItems();
 	m_pCharacterPulldown->ResetPullDownMenu();
@@ -551,26 +551,26 @@ void VoxGame::UpdateCharactersPulldown()
 	m_pCharacterPulldown->AddEventListeners();
 }
 
-void VoxGame::UpdateWeaponsPulldown()
+void VogueGame::UpdateWeaponsPulldown()
 {
 }
 
-void VoxGame::UpdateAnimationsPulldown()
+void VogueGame::UpdateAnimationsPulldown()
 {
 	m_pAnimationsPulldown->RemoveAllPullDownMenuItems();
 	m_pAnimationsPulldown->ResetPullDownMenu();
 	m_pMainWindow->RemoveComponent(m_pAnimationsPulldown);
 
-	for (int i = 0; i < m_pPlayer->GetVoxelCharacter()->GetNumAnimations(); i++)
+	for (int i = 0; i < m_pPlayer->GetVogueelCharacter()->GetNumAnimations(); i++)
 	{
-		m_pAnimationsPulldown->AddPulldownItem(m_pPlayer->GetVoxelCharacter()->GetAnimationName(i));
+		m_pAnimationsPulldown->AddPulldownItem(m_pPlayer->GetVogueelCharacter()->GetAnimationName(i));
 	}
 
 	m_pMainWindow->AddComponent(m_pAnimationsPulldown);
 	m_pAnimationsPulldown->AddEventListeners();
 }
 
-void VoxGame::AddConsoleLabel(string message)
+void VogueGame::AddConsoleLabel(string message)
 {
 	if (m_GUICreated == false)
 	{
@@ -643,7 +643,7 @@ void VoxGame::AddConsoleLabel(string message)
 	}
 }
 
-void VoxGame::ClearConsoleLabels()
+void VogueGame::ClearConsoleLabels()
 {
 	m_pConsoleScrollbar->ClearScrollAreaItems();
 
@@ -655,7 +655,7 @@ void VoxGame::ClearConsoleLabels()
 	m_vpConsoleLabels.clear();
 }
 
-void VoxGame::UpdateConsoleLabels()
+void VogueGame::UpdateConsoleLabels()
 {
 	if (m_GUICreated == false)
 	{
@@ -706,53 +706,53 @@ void VoxGame::UpdateConsoleLabels()
 	}
 }
 
-void VoxGame::ToggleFullScreenPressed()
+void VogueGame::ToggleFullScreenPressed()
 {
 	m_fullscreen = !m_fullscreen;
 
-	m_pVoxWindow->ToggleFullScreen(m_fullscreen);
+	m_pVogueWindow->ToggleFullScreen(m_fullscreen);
 	m_pBlockParticleManager->SetupGLBuffers();
 }
 
-bool VoxGame::GetWaterRender()
+bool VogueGame::GetWaterRender()
 {
 	return m_waterRender;
 }
 
 // GUI callbacks
-void VoxGame::_PlayAnimationPressed(void *apData)
+void VogueGame::_PlayAnimationPressed(void *apData)
 {
-	VoxGame* lpVoxGame = (VoxGame*)apData;
-	lpVoxGame->PlayAnimationPressed();
+	VogueGame* lpVogueGame = (VogueGame*)apData;
+	lpVogueGame->PlayAnimationPressed();
 }
 
-void VoxGame::PlayAnimationPressed()
+void VogueGame::PlayAnimationPressed()
 {
 	AnimationPullDownChanged();
 }
 
-void VoxGame::_AnimationPullDownChanged(void *apData)
+void VogueGame::_AnimationPullDownChanged(void *apData)
 {
-	VoxGame* lpVoxGame = (VoxGame*)apData;
-	lpVoxGame->AnimationPullDownChanged();
+	VogueGame* lpVogueGame = (VogueGame*)apData;
+	lpVogueGame->AnimationPullDownChanged();
 }
 
-void VoxGame::AnimationPullDownChanged()
+void VogueGame::AnimationPullDownChanged()
 {
 	MenuItem* pMenuItem = m_pAnimationsPulldown->GetSelectedMenuItem();
 	if (pMenuItem != NULL)
 	{
-		m_pPlayer->GetVoxelCharacter()->PlayAnimation(AnimationSections_FullBody, false, AnimationSections_FullBody, pMenuItem->GetLabel().GetText().c_str());
+		m_pPlayer->GetVogueelCharacter()->PlayAnimation(AnimationSections_FullBody, false, AnimationSections_FullBody, pMenuItem->GetLabel().GetText().c_str());
 	}
 }
 
-void VoxGame::_CharacterPullDownChanged(void *apData)
+void VogueGame::_CharacterPullDownChanged(void *apData)
 {
-	VoxGame* lpVoxGame = (VoxGame*)apData;
-	lpVoxGame->CharacterPullDownChanged();
+	VogueGame* lpVogueGame = (VogueGame*)apData;
+	lpVogueGame->CharacterPullDownChanged();
 }
 
-void VoxGame::CharacterPullDownChanged()
+void VogueGame::CharacterPullDownChanged()
 {
 	MenuItem* pMenuItem = m_pCharacterPulldown->GetSelectedMenuItem();
 	if (pMenuItem != NULL)
@@ -766,13 +766,13 @@ void VoxGame::CharacterPullDownChanged()
 	}
 }
 
-void VoxGame::_GameModeChanged(void *apData)
+void VogueGame::_GameModeChanged(void *apData)
 {
-	VoxGame* lpVoxGame = (VoxGame*)apData;
-	lpVoxGame->GameModeChanged();
+	VogueGame* lpVogueGame = (VogueGame*)apData;
+	lpVogueGame->GameModeChanged();
 }
 
-void VoxGame::GameModeChanged()
+void VogueGame::GameModeChanged()
 {
 	GameMode gameMode = GetGameMode();
 
@@ -831,13 +831,13 @@ void VoxGame::GameModeChanged()
 	}
 }
 
-void VoxGame::_CameraModeChanged(void *apData)
+void VogueGame::_CameraModeChanged(void *apData)
 {
-	VoxGame* lpVoxGame = (VoxGame*)apData;
-	lpVoxGame->CameraModeChanged();
+	VogueGame* lpVogueGame = (VogueGame*)apData;
+	lpVogueGame->CameraModeChanged();
 }
 
-void VoxGame::CameraModeChanged()
+void VogueGame::CameraModeChanged()
 {
 	if (m_pDebugCameraOptionBox->GetToggled())
 	{
@@ -867,37 +867,37 @@ void VoxGame::CameraModeChanged()
 	}
 }
 
-void VoxGame::_FaceMergeCheckboxChanged(void *apData)
+void VogueGame::_FaceMergeCheckboxChanged(void *apData)
 {
-	VoxGame* lpVoxGame = (VoxGame*)apData;
-	lpVoxGame->FaceMergeCheckboxChanged();
+	VogueGame* lpVogueGame = (VogueGame*)apData;
+	lpVogueGame->FaceMergeCheckboxChanged();
 }
 
-void VoxGame::FaceMergeCheckboxChanged()
+void VogueGame::FaceMergeCheckboxChanged()
 {
 	bool faceMerging = m_pFaceMergingCheckbox->GetToggled();
 
-	m_pPlayer->RebuildVoxelCharacter(faceMerging);
+	m_pPlayer->RebuildVogueelCharacter(faceMerging);
 }
 
-void VoxGame::_StepUpdatePressed(void *apData)
+void VogueGame::_StepUpdatePressed(void *apData)
 {
-	VoxGame* lpVoxGame = (VoxGame*)apData;
-	lpVoxGame->StepUpdatePressed();
+	VogueGame* lpVogueGame = (VogueGame*)apData;
+	lpVogueGame->StepUpdatePressed();
 }
 
-void VoxGame::StepUpdatePressed()
+void VogueGame::StepUpdatePressed()
 {
 	m_pChunkManager->StepNextUpdate();
 }
 
-void VoxGame::_ConsoleReturnPressed(void *apData)
+void VogueGame::_ConsoleReturnPressed(void *apData)
 {
-	VoxGame* lpVoxGame = (VoxGame*)apData;
-	lpVoxGame->ConsoleReturnPressed();
+	VogueGame* lpVogueGame = (VogueGame*)apData;
+	lpVogueGame->ConsoleReturnPressed();
 }
 
-void VoxGame::ConsoleReturnPressed()
+void VogueGame::ConsoleReturnPressed()
 {
 	if (m_pConsoleTextbox->GetText() == "")
 	{

@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "VoxGame.h"
+#include "VogueGame.h"
 
 
 // Input callbacks
@@ -22,13 +22,13 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	{
 		case GLFW_PRESS:
 		{
-			VoxGame::GetInstance()->KeyPressed(key, scancode, mods);
+			VogueGame::GetInstance()->KeyPressed(key, scancode, mods);
 			
 			break;
 		}
 		case GLFW_RELEASE:
 		{
-			VoxGame::GetInstance()->KeyReleased(key, scancode, mods);
+			VogueGame::GetInstance()->KeyReleased(key, scancode, mods);
 			break;
 		}
 		case GLFW_REPEAT:
@@ -40,7 +40,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
 void CharacterCallback(GLFWwindow* window, unsigned int keyCode)
 {
-	VoxGame::GetInstance()->CharacterEntered(keyCode);
+	VogueGame::GetInstance()->CharacterEntered(keyCode);
 }
 
 void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
@@ -50,22 +50,22 @@ void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 		case GLFW_PRESS:
 		{
 			if (button == GLFW_MOUSE_BUTTON_LEFT)
-				VoxGame::GetInstance()->MouseLeftPressed();
+				VogueGame::GetInstance()->MouseLeftPressed();
 			if (button == GLFW_MOUSE_BUTTON_RIGHT)
-				VoxGame::GetInstance()->MouseRightPressed();
+				VogueGame::GetInstance()->MouseRightPressed();
 			if (button == GLFW_MOUSE_BUTTON_MIDDLE)
-				VoxGame::GetInstance()->MouseMiddlePressed();
+				VogueGame::GetInstance()->MouseMiddlePressed();
 
 			break;
 		}
 		case GLFW_RELEASE:
 		{
 			if (button == GLFW_MOUSE_BUTTON_LEFT)
-				VoxGame::GetInstance()->MouseLeftReleased();
+				VogueGame::GetInstance()->MouseLeftReleased();
 			if (button == GLFW_MOUSE_BUTTON_RIGHT)
-				VoxGame::GetInstance()->MouseRightReleased();
+				VogueGame::GetInstance()->MouseRightReleased();
 			if (button == GLFW_MOUSE_BUTTON_MIDDLE)
-				VoxGame::GetInstance()->MouseMiddleReleased();
+				VogueGame::GetInstance()->MouseMiddleReleased();
 
 			break;
 		}
@@ -74,11 +74,11 @@ void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 
 void MouseScrollCallback(GLFWwindow* window, double x, double y)
 {
-	VoxGame::GetInstance()->MouseScroll(x, y);
+	VogueGame::GetInstance()->MouseScroll(x, y);
 }
 
 // Input
-void VoxGame::KeyPressed(int key, int scancode, int mods)
+void VogueGame::KeyPressed(int key, int scancode, int mods)
 {
 	m_pGUI->KeyPressed(key, mods);
 
@@ -135,7 +135,7 @@ void VoxGame::KeyPressed(int key, int scancode, int mods)
 	}
 }
 
-void VoxGame::KeyReleased(int key, int scancode, int mods)
+void VogueGame::KeyReleased(int key, int scancode, int mods)
 {
 	m_pGUI->KeyReleased(key, mods);
 
@@ -227,7 +227,7 @@ void VoxGame::KeyReleased(int key, int scancode, int mods)
 					{
 						m_pInventoryGUI->Unload();
 
-						if (VoxGame::GetInstance()->IsGUIWindowStillDisplayed() == false)
+						if (VogueGame::GetInstance()->IsGUIWindowStillDisplayed() == false)
 						{
 							TurnCursorOff(false);
 						}
@@ -254,7 +254,7 @@ void VoxGame::KeyReleased(int key, int scancode, int mods)
 					{
 						m_pCharacterGUI->Unload();
 
-						if (VoxGame::GetInstance()->IsGUIWindowStillDisplayed() == false)
+						if (VogueGame::GetInstance()->IsGUIWindowStillDisplayed() == false)
 						{
 							TurnCursorOff(false);
 						}
@@ -281,7 +281,7 @@ void VoxGame::KeyReleased(int key, int scancode, int mods)
 					{
 						m_pQuestGUI->Unload();
 
-						if (VoxGame::GetInstance()->IsGUIWindowStillDisplayed() == false)
+						if (VogueGame::GetInstance()->IsGUIWindowStillDisplayed() == false)
 						{
 							TurnCursorOff(false);
 						}
@@ -353,12 +353,12 @@ void VoxGame::KeyReleased(int key, int scancode, int mods)
 	}
 }
 
-void VoxGame::CharacterEntered(int keyCode)
+void VogueGame::CharacterEntered(int keyCode)
 {
 	m_pGUI->CharacterEntered(keyCode);
 }
 
-void VoxGame::MouseLeftPressed()
+void VogueGame::MouseLeftPressed()
 {
 	m_bPressedCursorDown = true;
 
@@ -369,8 +369,8 @@ void VoxGame::MouseLeftPressed()
 
 	if (IsCursorOn() == false || !m_pGUI->IsMouseInteractingWithGUIComponent(false))
 	{
-		m_currentX = m_pVoxWindow->GetCursorX();
-		m_currentY = m_pVoxWindow->GetCursorY();
+		m_currentX = m_pVogueWindow->GetCursorX();
+		m_currentY = m_pVogueWindow->GetCursorY();
 		m_pressedX = m_currentX;
 		m_pressedY = m_currentY;
 
@@ -410,7 +410,7 @@ void VoxGame::MouseLeftPressed()
 	}
 }
 
-void VoxGame::MouseLeftReleased()
+void VogueGame::MouseLeftReleased()
 {
 	m_bPressedCursorDown = false;
 
@@ -440,7 +440,7 @@ void VoxGame::MouseLeftReleased()
 	}
 }
 
-void VoxGame::MouseRightPressed()
+void VogueGame::MouseRightPressed()
 {
 	m_bPressedCursorDown = true;
 
@@ -456,14 +456,14 @@ void VoxGame::MouseRightPressed()
 
 	if (IsCursorOn() == false || !m_pGUI->IsMouseInteractingWithGUIComponent(false))
 	{
-		m_currentX = m_pVoxWindow->GetCursorX();
-		m_currentY = m_pVoxWindow->GetCursorY();
+		m_currentX = m_pVogueWindow->GetCursorX();
+		m_currentY = m_pVogueWindow->GetCursorY();
 		m_pressedX = m_currentX;
 		m_pressedY = m_currentY;
 	}
 }
 
-void VoxGame::MouseRightReleased()
+void VogueGame::MouseRightReleased()
 {
 	m_bPressedCursorDown = false;
 
@@ -475,7 +475,7 @@ void VoxGame::MouseRightReleased()
 	ReleaseEnemyTarget();
 }
 
-void VoxGame::MouseMiddlePressed()
+void VogueGame::MouseMiddlePressed()
 {
 	if (IsCursorOn())
 	{
@@ -483,7 +483,7 @@ void VoxGame::MouseMiddlePressed()
 	}
 }
 
-void VoxGame::MouseMiddleReleased()
+void VogueGame::MouseMiddleReleased()
 {
 	if (IsCursorOn())
 	{
@@ -491,7 +491,7 @@ void VoxGame::MouseMiddleReleased()
 	}
 }
 
-void VoxGame::MouseScroll(double x, double y)
+void VogueGame::MouseScroll(double x, double y)
 {
 	GameMode gameMode = GetGameMode();
 
@@ -523,7 +523,7 @@ void VoxGame::MouseScroll(double x, double y)
 	}
 }
 
-void VoxGame::WrapCameraZoomValue()
+void VogueGame::WrapCameraZoomValue()
 {
 	float minAmount = 0.5f;
 	float maxAmount = 15.0f;
@@ -554,10 +554,10 @@ void VoxGame::WrapCameraZoomValue()
 }
 
 // Mouse controls
-void VoxGame::MouseCameraRotate()
+void VogueGame::MouseCameraRotate()
 {
-	int x = m_pVoxWindow->GetCursorX();
-	int y = m_pVoxWindow->GetCursorY();
+	int x = m_pVogueWindow->GetCursorX();
+	int y = m_pVogueWindow->GetCursorY();
 
 	float changeX;
 	float changeY;
@@ -585,14 +585,14 @@ void VoxGame::MouseCameraRotate()
 	}
 
 	// Inverted mouse
-	if (m_pVoxSettings->m_invertedMouse == true)
+	if (m_pVogueSettings->m_invertedMouse == true)
 	{
 		changeY = -changeY;
 	}
 
 	// Scale based on mouse sensitivity options
-	changeX *= m_pVoxSettings->m_mouseSensitivity * 0.02f;
-	changeY *= m_pVoxSettings->m_mouseSensitivity * 0.02f;
+	changeX *= m_pVogueSettings->m_mouseSensitivity * 0.02f;
+	changeY *= m_pVogueSettings->m_mouseSensitivity * 0.02f;
 
 	// Limit the rotation, so we can't go 'over' or 'under' the player with out rotations
 	vec3 cameraFacing = m_pGameCamera->GetFacing();
@@ -620,17 +620,17 @@ void VoxGame::MouseCameraRotate()
 }
 
 // Joystick controls
-void VoxGame::JoystickCameraMove(float dt)
+void VogueGame::JoystickCameraMove(float dt)
 {
-	float axisX = m_pVoxWindow->GetJoystickAxisValue(0, 0);
-	float axisY = m_pVoxWindow->GetJoystickAxisValue(0, 1);
+	float axisX = m_pVogueWindow->GetJoystickAxisValue(0, 0);
+	float axisY = m_pVogueWindow->GetJoystickAxisValue(0, 1);
 
 	// Dead zones
-	if (fabs(axisX) < m_pVoxWindow->GetJoystickAnalogDeadZone())
+	if (fabs(axisX) < m_pVogueWindow->GetJoystickAnalogDeadZone())
 	{
 		axisX = 0.0f;
 	}
-	if (fabs(axisY) < m_pVoxWindow->GetJoystickAnalogDeadZone())
+	if (fabs(axisY) < m_pVogueWindow->GetJoystickAnalogDeadZone())
 	{
 		axisY = 0.0f;
 	}
@@ -642,17 +642,17 @@ void VoxGame::JoystickCameraMove(float dt)
 	m_pGameCamera->Strafe(changeX);
 }
 
-void VoxGame::JoystickCameraRotate(float dt)
+void VogueGame::JoystickCameraRotate(float dt)
 {
-	float axisX = m_pVoxWindow->GetJoystickAxisValue(0, 4);
-	float axisY = m_pVoxWindow->GetJoystickAxisValue(0, 3);
+	float axisX = m_pVogueWindow->GetJoystickAxisValue(0, 4);
+	float axisY = m_pVogueWindow->GetJoystickAxisValue(0, 3);
 
 	// Dead zones
-	if (fabs(axisX) < m_pVoxWindow->GetJoystickAnalogDeadZone())
+	if (fabs(axisX) < m_pVogueWindow->GetJoystickAnalogDeadZone())
 	{
 		axisX = 0.0f;
 	}
-	if (fabs(axisY) < m_pVoxWindow->GetJoystickAnalogDeadZone())
+	if (fabs(axisY) < m_pVogueWindow->GetJoystickAnalogDeadZone())
 	{
 		axisY = 0.0f;
 	}
@@ -673,14 +673,14 @@ void VoxGame::JoystickCameraRotate(float dt)
 	}
 
 	// Inverted mouse
-	if (m_pVoxSettings->m_invertedMouse == true)
+	if (m_pVogueSettings->m_invertedMouse == true)
 	{
 		changeY = -changeY;
 	}
 
 	// Scale based on gamepad sensitivity options
-	changeX *= m_pVoxSettings->m_gamepadSensitivity * 0.02f;
-	changeY *= m_pVoxSettings->m_gamepadSensitivity * 0.02f;
+	changeX *= m_pVogueSettings->m_gamepadSensitivity * 0.02f;
+	changeY *= m_pVogueSettings->m_gamepadSensitivity * 0.02f;
 
 	// Limit the rotation, so we can't go 'over' or 'under' the player with out rotations
 	vec3 cameraFacing = m_pGameCamera->GetFacing();
@@ -704,10 +704,10 @@ void VoxGame::JoystickCameraRotate(float dt)
 	}
 }
 
-void VoxGame::JoystickCameraZoom(float dt)
+void VogueGame::JoystickCameraZoom(float dt)
 {
-	bool zoomOut = m_pVoxWindow->GetJoystickButton(0, 4);
-	bool zoomIn = m_pVoxWindow->GetJoystickButton(0, 5);
+	bool zoomOut = m_pVogueWindow->GetJoystickButton(0, 4);
+	bool zoomIn = m_pVogueWindow->GetJoystickButton(0, 5);
 
 	float zoomAmount = 0.0f;
 	if (zoomIn)

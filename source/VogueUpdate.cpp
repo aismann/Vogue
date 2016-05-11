@@ -9,7 +9,7 @@
 // Copyright (c) 2005-2016, Steven Ball
 // ******************************************************************************
 
-#include "VoxGame.h"
+#include "VogueGame.h"
 
 #include "utils/Interpolator.h"
 #include "utils/TimeManager.h"
@@ -20,7 +20,7 @@
 
 
 // Updating
-void VoxGame::Update()
+void VogueGame::Update()
 {
 	// FPS
 #ifdef _WIN32
@@ -188,8 +188,8 @@ void VoxGame::Update()
 	m_pFrontendManager->Update(m_deltaTime);
 
 	// Update the GUI
-	int x = m_pVoxWindow->GetCursorX();
-	int y = m_pVoxWindow->GetCursorY();
+	int x = m_pVogueWindow->GetCursorX();
+	int y = m_pVogueWindow->GetCursorY();
 	m_pGUI->Update(m_deltaTime);
 	if (IsCursorOn())
 	{
@@ -207,12 +207,12 @@ void VoxGame::Update()
 	}
 
 	// Update the application and window
-	m_pVoxWindow->Update(m_deltaTime);
+	m_pVogueWindow->Update(m_deltaTime);
 }
 
-void VoxGame::UpdateNamePicking()
+void VogueGame::UpdateNamePicking()
 {
-	POINT lMouse = { VoxGame::GetInstance()->GetWindowCursorX(), (m_windowHeight - VoxGame::GetInstance()->GetWindowCursorY()) };
+	POINT lMouse = { VogueGame::GetInstance()->GetWindowCursorX(), (m_windowHeight - VogueGame::GetInstance()->GetWindowCursorY()) };
 
 	// Push attribs
 	glPushAttrib(GL_LIST_BIT | GL_CURRENT_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT);
@@ -252,7 +252,7 @@ void VoxGame::UpdateNamePicking()
 	}
 }
 
-void VoxGame::UpdatePlayerAlpha(float dt)
+void VogueGame::UpdatePlayerAlpha(float dt)
 {
 	vec3 toPlayer = ((m_pPlayer->GetCenter() + Player::PLAYER_CENTER_OFFSET) - m_pGameCamera->GetPosition());
 	float distance = length(toPlayer);
@@ -273,12 +273,12 @@ void VoxGame::UpdatePlayerAlpha(float dt)
 	m_pPlayer->SetPlayerAlpha(alpha);
 }
 
-void VoxGame::UpdateLights(float dt)
+void VogueGame::UpdateLights(float dt)
 {
 	m_pRenderer->EditLightPosition(m_defaultLight, m_defaultLightPosition);
 }
 
-void VoxGame::UpdateGameGUI(float dt)
+void VogueGame::UpdateGameGUI(float dt)
 {
 	if (m_pInventoryGUI->IsLoaded())
 	{

@@ -9,10 +9,10 @@
 // Copyright (c) 2005-2015, Steven Ball
 // ******************************************************************************
 
-#include "VoxGame.h"
+#include "VogueGame.h"
 
 // Controls
-void VoxGame::UpdateControls(float dt)
+void VogueGame::UpdateControls(float dt)
 {
 	if (m_gamepadMovement == false)
 	{
@@ -22,14 +22,14 @@ void VoxGame::UpdateControls(float dt)
 
 	if (m_keyboardMovement == false)
 	{
-		if (m_pVoxWindow->IsJoyStickConnected(0))
+		if (m_pVogueWindow->IsJoyStickConnected(0))
 		{
 			UpdateGamePadControls(dt);
 		}
 	}
 }
 
-void VoxGame::UpdateKeyboardControls(float dt)
+void VogueGame::UpdateKeyboardControls(float dt)
 {
 	GameMode gameMode = GetGameMode();
 
@@ -100,7 +100,7 @@ void VoxGame::UpdateKeyboardControls(float dt)
 			// Cancel quit popup menu with escape button
 			if (m_pFrontendManager->GetFrontendScreen() == FrontendScreen_QuitPopup)
 			{
-				VoxGame::GetInstance()->CancelQuitPopup();
+				VogueGame::GetInstance()->CancelQuitPopup();
 			}
 		}
 
@@ -278,7 +278,7 @@ void VoxGame::UpdateKeyboardControls(float dt)
 	}
 }
 
-void VoxGame::UpdateMouseControls(float dt)
+void VogueGame::UpdateMouseControls(float dt)
 {
 	GameMode gameMode = GetGameMode();
 	if (gameMode == GameMode_Debug || m_cameraMode == CameraMode_Debug)
@@ -314,17 +314,17 @@ void VoxGame::UpdateMouseControls(float dt)
 	}
 }
 
-void VoxGame::UpdateGamePadControls(float dt)
+void VogueGame::UpdateGamePadControls(float dt)
 {
 	JoystickCameraZoom(dt);
 
-	m_bJoystickJump = m_pVoxWindow->GetJoystickButton(0, 0);
+	m_bJoystickJump = m_pVogueWindow->GetJoystickButton(0, 0);
 	if (m_bAttackPressed_Joystick)
 	{
-		m_bCanDoAttack_Joystick = m_pVoxWindow->GetJoystickAxisValue(0, 2) >= -0.75f;
-		m_bAttackReleased_Joystick = m_pVoxWindow->GetJoystickAxisValue(0, 2) >= -0.75f;
+		m_bCanDoAttack_Joystick = m_pVogueWindow->GetJoystickAxisValue(0, 2) >= -0.75f;
+		m_bAttackReleased_Joystick = m_pVogueWindow->GetJoystickAxisValue(0, 2) >= -0.75f;
 	}
-	m_bAttackPressed_Joystick = m_pVoxWindow->GetJoystickAxisValue(0, 2) <= -0.75f;
+	m_bAttackPressed_Joystick = m_pVogueWindow->GetJoystickAxisValue(0, 2) <= -0.75f;
 
 	m_bTargetEnemyPressed_Joystick = false; // TODO : Need to get newer version of glfw to support different triggers for LT, RT
 	m_bTargetEnemyReleased_Joystick = false; // TODO : Need to get newer version of glfw to support different triggers for LT, RT
@@ -404,15 +404,15 @@ void VoxGame::UpdateGamePadControls(float dt)
 					}
 
 					// Player movements
-					float axisX = m_pVoxWindow->GetJoystickAxisValue(0, 0);
-					float axisY = m_pVoxWindow->GetJoystickAxisValue(0, 1);
+					float axisX = m_pVogueWindow->GetJoystickAxisValue(0, 0);
+					float axisY = m_pVogueWindow->GetJoystickAxisValue(0, 1);
 
 					// Dead zones
-					if (fabs(axisX) < m_pVoxWindow->GetJoystickAnalogDeadZone())
+					if (fabs(axisX) < m_pVogueWindow->GetJoystickAnalogDeadZone())
 					{
 						axisX = 0.0f;
 					}
-					if (fabs(axisY) < m_pVoxWindow->GetJoystickAnalogDeadZone())
+					if (fabs(axisY) < m_pVogueWindow->GetJoystickAnalogDeadZone())
 					{
 						axisY = 0.0f;
 					}

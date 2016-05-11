@@ -9,13 +9,13 @@
 // Copyright (c) 2005-2016, Steven Ball
 // ******************************************************************************
 
-#include "VoxGame.h"
+#include "VogueGame.h"
 
 #include <glm/detail/func_geometric.hpp>
 
 
 // Rendering
-void VoxGame::PreRender()
+void VogueGame::PreRender()
 {
 	// Update matrices for game objects
 	m_pPlayer->CalculateWorldTransformMatrix();
@@ -25,7 +25,7 @@ void VoxGame::PreRender()
 	m_pProjectileManager->CalculateWorldTransformMatrix();
 }
 
-void VoxGame::BeginShaderRender()
+void VogueGame::BeginShaderRender()
 {
 	glShader* pShader = NULL;
 
@@ -59,7 +59,7 @@ void VoxGame::BeginShaderRender()
 	}
 }
 
-void VoxGame::EndShaderRender()
+void VogueGame::EndShaderRender()
 {
 	glDisable(GL_FOG);
 
@@ -73,9 +73,9 @@ void VoxGame::EndShaderRender()
 	}
 }
 
-void VoxGame::Render()
+void VogueGame::Render()
 {
-	if (m_pVoxWindow->GetMinimized())
+	if (m_pVogueWindow->GetMinimized())
 	{
 		// Don't call any render functions if minimized
 		return;
@@ -300,7 +300,7 @@ void VoxGame::Render()
 		// Paperdoll for CharacterGUI
 		RenderPaperdollViewport();
 		// Portrait for HUD
-		if (m_pVoxSettings->m_renderGUI)
+		if (m_pVogueSettings->m_renderGUI)
 		{
 			RenderPortraitViewport();
 		}
@@ -347,7 +347,7 @@ void VoxGame::Render()
 			RenderCinematicLetterBox();
 
 			// Render the HUD
-			if (m_pVoxSettings->m_renderGUI)
+			if (m_pVogueSettings->m_renderGUI)
 			{
 				RenderHUD();
 			}
@@ -360,7 +360,7 @@ void VoxGame::Render()
 		// Paperdoll SSAO for CharacterGUI
 		RenderDeferredRenderingPaperDoll();
 		// Portrait SSAO for HUD
-		if (m_pVoxSettings->m_renderGUI)
+		if (m_pVogueSettings->m_renderGUI)
 		{
 			RenderDeferredRenderingPortrait();
 		}
@@ -388,7 +388,7 @@ void VoxGame::Render()
 		RenderGUI();
 
 		// Custom cursor
-		if (m_pVoxSettings->m_customCursors && m_bCustomCursorOn)
+		if (m_pVogueSettings->m_customCursors && m_bCustomCursorOn)
 		{
 			if (m_gameMode != GameMode_FrontEnd || m_pFrontendManager->GetFrontendScreen() != FrontendScreen_Intro)
 			{
@@ -407,10 +407,10 @@ void VoxGame::Render()
 
 
 	// Pass render call to the window class, allow to swap buffers
-	m_pVoxWindow->Render();
+	m_pVogueWindow->Render();
 }
 
-void VoxGame::RenderSkybox()
+void VogueGame::RenderSkybox()
 {
 	m_pRenderer->PushMatrix();
 		m_pRenderer->BeginGLSLShader(m_cubeMapShader);
@@ -440,7 +440,7 @@ void VoxGame::RenderSkybox()
 	m_pRenderer->PopMatrix();
 }
 
-void VoxGame::RenderShadows()
+void VogueGame::RenderShadows()
 {
 	m_pRenderer->PushMatrix();
 		m_pRenderer->StartRenderingToFrameBuffer(m_shadowFrameBuffer);
@@ -497,7 +497,7 @@ void VoxGame::RenderShadows()
 	m_pRenderer->PopMatrix();
 }
 
-void VoxGame::RenderWaterReflections()
+void VogueGame::RenderWaterReflections()
 {
 	m_pRenderer->StartRenderingToFrameBuffer(m_waterReflectionFrameBuffer);
 
@@ -553,7 +553,7 @@ void VoxGame::RenderWaterReflections()
 	m_pRenderer->StopRenderingToFrameBuffer(m_waterReflectionFrameBuffer);
 }
 
-void VoxGame::RenderWater()
+void VogueGame::RenderWater()
 {
 	m_pRenderer->PushMatrix();
 
@@ -614,7 +614,7 @@ void VoxGame::RenderWater()
 	m_pRenderer->PopMatrix();
 }
 
-void VoxGame::RenderDeferredLighting()
+void VogueGame::RenderDeferredLighting()
 {
 	// Render deferred lighting to light frame buffer
 	m_pRenderer->PushMatrix();
@@ -702,7 +702,7 @@ void VoxGame::RenderDeferredLighting()
 	m_pRenderer->PopMatrix();
 }
 
-void VoxGame::RenderTransparency()
+void VogueGame::RenderTransparency()
 {
 	m_pRenderer->PushMatrix();
 		m_pRenderer->SetProjectionMode(PM_PERSPECTIVE, m_defaultViewport);
@@ -746,7 +746,7 @@ void VoxGame::RenderTransparency()
 	m_pRenderer->PopMatrix();
 }
 
-void VoxGame::RenderSSAOTexture()
+void VogueGame::RenderSSAOTexture()
 {
 	m_pRenderer->PushMatrix();
 		m_pRenderer->SetProjectionMode(PM_2D, m_defaultViewport);
@@ -826,7 +826,7 @@ void VoxGame::RenderSSAOTexture()
 	m_pRenderer->PopMatrix();
 }
 
-void VoxGame::RenderFXAATexture()
+void VogueGame::RenderFXAATexture()
 {
 	m_pRenderer->PushMatrix();
 		m_pRenderer->SetProjectionMode(PM_2D, m_defaultViewport);
@@ -870,7 +870,7 @@ void VoxGame::RenderFXAATexture()
 	m_pRenderer->PopMatrix();
 }
 
-void VoxGame::RenderFirstPassFullScreen()
+void VogueGame::RenderFirstPassFullScreen()
 {
 	m_pRenderer->PushMatrix();
 		m_pRenderer->SetProjectionMode(PM_2D, m_defaultViewport);
@@ -914,7 +914,7 @@ void VoxGame::RenderFirstPassFullScreen()
 	m_pRenderer->PopMatrix();
 }
 
-void VoxGame::RenderSecondPassFullScreen()
+void VogueGame::RenderSecondPassFullScreen()
 {
 	m_pRenderer->PushMatrix();
 		m_pRenderer->SetProjectionMode(PM_2D, m_defaultViewport);
@@ -965,7 +965,7 @@ void VoxGame::RenderSecondPassFullScreen()
 	m_pRenderer->PopMatrix();
 }
 
-void VoxGame::RenderGUI()
+void VogueGame::RenderGUI()
 {
 	m_pRenderer->EmptyTextureIndex(0);
 
@@ -980,7 +980,7 @@ void VoxGame::RenderGUI()
 	m_pRenderer->PopMatrix();
 }
 
-void VoxGame::RenderHUD()
+void VogueGame::RenderHUD()
 {
 	// Render the HUD
 	if (m_gameMode == GameMode_Game)
@@ -989,7 +989,7 @@ void VoxGame::RenderHUD()
 	}
 }
 
-void VoxGame::RenderCinematicLetterBox()
+void VogueGame::RenderCinematicLetterBox()
 {
 	float letterboxHeight = 100.0f * m_letterBoxRatio;
 
@@ -1016,9 +1016,9 @@ void VoxGame::RenderCinematicLetterBox()
 	m_pRenderer->PopMatrix();
 }
 
-void VoxGame::RenderCrosshair()
+void VogueGame::RenderCrosshair()
 {
-	if (m_pVoxSettings->m_renderCrosshair == false)
+	if (m_pVogueSettings->m_renderCrosshair == false)
 	{
 		// If render crosshair is turned off in the options menu
 		return;
@@ -1052,7 +1052,7 @@ void VoxGame::RenderCrosshair()
 	m_pRenderer->PopMatrix();
 }
 
-void VoxGame::RenderCustomCursor()
+void VogueGame::RenderCustomCursor()
 {
 	m_pRenderer->PushMatrix();
 		//glLoadIdentity();
@@ -1068,8 +1068,8 @@ void VoxGame::RenderCustomCursor()
 		m_pRenderer->EnableTransparency(BF_SRC_ALPHA, BF_ONE_MINUS_SRC_ALPHA);
 
 		float cursorSize = 28.0f;
-		float xMouse = (float)m_pVoxWindow->GetCursorX();
-		float yMouse = m_windowHeight - (float)m_pVoxWindow->GetCursorY() - cursorSize;
+		float xMouse = (float)m_pVogueWindow->GetCursorX();
+		float yMouse = m_windowHeight - (float)m_pVogueWindow->GetCursorY() - cursorSize;
 
 		if(m_bPressedCursorDown)
 		{
@@ -1102,7 +1102,7 @@ void VoxGame::RenderCustomCursor()
 	m_pRenderer->PopMatrix();
 }
 
-void VoxGame::RenderPaperdollViewport()
+void VogueGame::RenderPaperdollViewport()
 {
 	if(m_pCharacterGUI->IsLoaded())
 	{
@@ -1166,7 +1166,7 @@ void VoxGame::RenderPaperdollViewport()
 	}
 }
 
-void VoxGame::RenderPortraitViewport()
+void VogueGame::RenderPortraitViewport()
 {
 	if(m_pHUD->IsLoaded())
 	{
@@ -1227,7 +1227,7 @@ void VoxGame::RenderPortraitViewport()
 	}
 }
 
-void VoxGame::RenderFirstPersonViewport()
+void VogueGame::RenderFirstPersonViewport()
 {
 	m_pRenderer->PushMatrix();
 		glLoadIdentity();
@@ -1252,7 +1252,7 @@ void VoxGame::RenderFirstPersonViewport()
 	m_pRenderer->PopMatrix();
 }
 
-void VoxGame::RenderDeferredRenderingPaperDoll()
+void VogueGame::RenderDeferredRenderingPaperDoll()
 {
 	m_pRenderer->StartRenderingToFrameBuffer(m_paperdollSSAOTextureBuffer);
 
@@ -1316,7 +1316,7 @@ void VoxGame::RenderDeferredRenderingPaperDoll()
 	m_pRenderer->StopRenderingToFrameBuffer(m_paperdollSSAOTextureBuffer);
 }
 
-void VoxGame::RenderDeferredRenderingPortrait()
+void VogueGame::RenderDeferredRenderingPortrait()
 {
 	m_pRenderer->StartRenderingToFrameBuffer(m_portraitSSAOTextureBuffer);
 
@@ -1380,7 +1380,7 @@ void VoxGame::RenderDeferredRenderingPortrait()
 	m_pRenderer->StopRenderingToFrameBuffer(m_portraitSSAOTextureBuffer);
 }
 
-void VoxGame::RenderDebugInformation()
+void VogueGame::RenderDebugInformation()
 {
 	char lCameraBuff[256];
 	sprintf(lCameraBuff, "Pos(%.2f, %.2f, %.2f), Facing(%.2f, %.2f, %.2f) = %.2f, Up(%.2f, %.2f, %.2f) = %.2f, Right(%.2f, %.2f, %.2f) = %.2f, View(%.2f, %.2f, %.2f), Zoom=%.2f",
@@ -1422,9 +1422,9 @@ void VoxGame::RenderDebugInformation()
 
 	char lBuildInfo[128];
 #if defined(_DEBUG) || defined(NDEBUG)
-	sprintf(lBuildInfo, "DEV %s", m_pVoxSettings->m_version.c_str());
+	sprintf(lBuildInfo, "DEV %s", m_pVogueSettings->m_version.c_str());
 #else
-	sprintf(lBuildInfo, "RELEASE %s", m_pVoxSettings->m_version.c_str());
+	sprintf(lBuildInfo, "RELEASE %s", m_pVogueSettings->m_version.c_str());
 #endif //defined(_DEBUG) || defined(NDEBUG)
 
 	int l_nTextHeight = m_pRenderer->GetFreeTypeTextHeight(m_defaultFont, "a");
