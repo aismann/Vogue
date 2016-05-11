@@ -10,7 +10,7 @@ A voxel roguelike.
 *Coming soon!*
 
 ## License
-This software is provided under the **GNU General Public License**, more information can be found in the [license file](https://github.com/AlwaysGeeky/Vox/blob/master/LICENSE.md).
+This software is provided under the **GNU General Public License**, more information can be found in the [license file](https://github.com/AlwaysGeeky/Vogue/blob/master/LICENSE.md).
 
 ## How To Contribute
 Contributions are always welcome, either reporting issues/bugs or forking the repository and then issuing pull requests when you have completed some additional coding that you feel will be beneficial to the main project. If you are interested in contributing in a more dedicated capacity, then please contact me.
