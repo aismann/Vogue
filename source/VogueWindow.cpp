@@ -200,10 +200,7 @@ void VogueWindow::TurnCursorOff(bool forceOff)
 {
 	if (IsCursorOn() == true)
 	{
-		if (m_pVogueSettings->m_customCursors == false || forceOff)
-		{
-			glfwSetInputMode(m_pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		}
+		glfwSetInputMode(m_pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 
 	m_cursorOldX = m_cursorX;
@@ -217,10 +214,7 @@ void VogueWindow::TurnCursorOn(bool resetCursorPosition, bool forceOn)
 {
 	if (IsCursorOn() == false)
 	{
-		if (m_pVogueSettings->m_customCursors == false || forceOn)
-		{
-			glfwSetInputMode(m_pWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		}
+		glfwSetInputMode(m_pWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 
 	if (resetCursorPosition)

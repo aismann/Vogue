@@ -263,12 +263,6 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	m_allowToChangeToFrontend = true;
 	SetGameMode(m_gameMode);
 
-	// Turn the cursor initially off if we have custom cursors enabled
-	if (m_pVogueSettings->m_customCursors)
-	{
-		TurnCursorOff(true);
-	}
-
 	// Create, setup and skin the GUI components
 	CreateGUI();
 	SetupGUI();
@@ -375,14 +369,7 @@ void VogueGame::TurnCursorOff(bool forceOff)
 
 bool VogueGame::IsCursorOn()
 {
-	if (m_pVogueSettings->m_customCursors)
-	{
-		return m_bCustomCursorOn;
-	}
-	else
-	{
-		return m_pVogueWindow->IsCursorOn();
-	}
+	return m_pVogueWindow->IsCursorOn();
 }
 
 void VogueGame::ResizeWindow(int width, int height)

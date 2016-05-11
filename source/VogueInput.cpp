@@ -370,15 +370,9 @@ void VogueGame::MouseCameraRotate()
 		changeY = -changeY;
 	}
 
-	// Inverted mouse
-	if (m_pVogueSettings->m_invertedMouse == true)
-	{
-		changeY = -changeY;
-	}
-
 	// Scale based on mouse sensitivity options
-	changeX *= m_pVogueSettings->m_mouseSensitivity * 0.02f;
-	changeY *= m_pVogueSettings->m_mouseSensitivity * 0.02f;
+	//changeX *= m_pVogueSettings->m_mouseSensitivity * 0.02f;
+	//changeY *= m_pVogueSettings->m_mouseSensitivity * 0.02f;
 
 	// Limit the rotation, so we can't go 'over' or 'under' the player with out rotations
 	vec3 cameraFacing = m_pGameCamera->GetFacing();
@@ -458,15 +452,9 @@ void VogueGame::JoystickCameraRotate(float dt)
 		changeY = -changeY;
 	}
 
-	// Inverted mouse
-	if (m_pVogueSettings->m_invertedMouse == true)
-	{
-		changeY = -changeY;
-	}
-
 	// Scale based on gamepad sensitivity options
-	changeX *= m_pVogueSettings->m_gamepadSensitivity * 0.02f;
-	changeY *= m_pVogueSettings->m_gamepadSensitivity * 0.02f;
+	//changeX *= m_pVogueSettings->m_gamepadSensitivity * 0.02f;
+	//changeY *= m_pVogueSettings->m_gamepadSensitivity * 0.02f;
 
 	// Limit the rotation, so we can't go 'over' or 'under' the player with out rotations
 	vec3 cameraFacing = m_pGameCamera->GetFacing();
