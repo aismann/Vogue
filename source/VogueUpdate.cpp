@@ -51,9 +51,6 @@ void VogueGame::Update()
 	// Update the time manager (countdowntimers);
 	TimeManager::GetInstance()->Update(m_deltaTime);
 
-	// Update the audio manager
-	AudioManager::GetInstance()->Update(m_deltaTime);
-
 	// Update the initial wait timer and variables, so we dont do gameplay updates straight away
 	if (m_initialStartWait == true)
 	{
@@ -66,144 +63,6 @@ void VogueGame::Update()
 			m_initialWaitTimer += m_deltaTime;
 			m_initialStartWait = true;
 		}
-	}
-
-	// Update the current biome
-	Biome currentBiome = m_pBiomeManager->GetBiome(m_pPlayer->GetCenter());
-	if (currentBiome != m_currentBiome)
-	{
-		m_pSkybox->SetCurrentBiome(currentBiome);
-		m_currentBiome = currentBiome;
-	}
-	
-	// Main components update
-	if (m_bPaused == false && m_initialStartWait == false)
-	{
-		// Update the lighting manager
-		m_pLightingManager->Update(m_deltaTime);
-
-		// Block particle manager
-		m_pBlockParticleManager->Update(m_deltaTime);
-
-		// Instance manager
-		m_pInstanceManager->Update(m_deltaTime);
-
-		// Scenery manager
-		m_pSceneryManager->Update(m_deltaTime);
-
-		// Inventory manager
-		m_pInventoryManager->Update(m_deltaTime);
-
-		// Item manager
-		m_pItemManager->Update(m_deltaTime);
-		m_pItemManager->UpdateItemLights(m_deltaTime);
-		m_pItemManager->UpdateItemParticleEffects(m_deltaTime);
-		m_interactItemMutex.lock();
-		m_pInteractItem = m_pItemManager->CheckItemPlayerInteraction();
-		m_interactItemMutex.unlock();
-
-		// Projectile manager
-		m_pProjectileManager->Update(m_deltaTime);
-		m_pProjectileManager->UpdateProjectileLights(m_deltaTime);
-		m_pProjectileManager->UpdateProjectileParticleEffects(m_deltaTime);
-
-		// Text effects manager
-		m_pTextEffectsManager->Update(m_deltaTime);
-
-		// Update the NPC manager
-		m_pNPCManager->Update(m_deltaTime);
-
-		// Update the enemy manager
-		m_pEnemyManager->Update(m_deltaTime);
-
-		// Update the biome manager
-		m_pBiomeManager->Update(m_deltaTime);
-
-		// Player
-		if (m_animationUpdate)
-		{
-			m_pPlayer->Update(m_deltaTime);
-		}
-
-		// Camera faked position
-		if (m_cameraMode == CameraMode_MouseRotate || m_cameraMode == CameraMode_AutoCamera || m_cameraMode == CameraMode_NPCDialog)
-		{
-			vec3 playerMovementChanged = m_pPlayer->GetPositionMovementAmount();
-			m_pGameCamera->SetFakePosition(m_pGameCamera->GetFakePosition() + playerMovementChanged);
-		}
-
-		// Water
-		m_elapsedWaterTime += m_deltaTime;
-	}
-
-	// Update the chunk manager
-	m_pChunkManager->Update(m_deltaTime);
-
-	// Update name picking
-	if (m_pGUI->IsMouseInteractingWithGUIComponent(false) == false)
-	{
-		UpdateNamePicking();
-	}
-
-	// Update the NPC hover selection based on the mouse name picking
-	if (m_gameMode == GameMode_FrontEnd)
-	{
-		if (m_bNamePickingSelected)
-		{
-			m_pNPCManager->UpdateHoverNamePickingSelection(m_pickedObject);
-		}
-		else
-		{
-			m_pNPCManager->UpdateHoverNamePickingSelection(-1);
-		}
-	}
-
-	// Update controls
-	UpdateControls(m_deltaTime);
-
-	// Update the camera based on movements
-	if (m_gameMode == GameMode_Game)
-	{
-		UpdateCamera(m_deltaTime);
-		m_pPlayer->SetCameraPosition(m_pGameCamera->GetPosition());
-		m_pPlayer->SetCameraForward(normalize(m_pGameCamera->GetFacing()));
-		m_pPlayer->SetCameraUp(normalize(m_pGameCamera->GetUp()));
-		m_pPlayer->SetCameraRight(normalize(m_pGameCamera->GetRight()));
-	}
-
-	// Update the dynamic camera zoom
-	UpdateCameraZoom(m_deltaTime);
-
-	// Update the camera clipping
-	m_targetCameraPositionBeforeClipping = m_pGameCamera->GetFakePosition();
-	UpdateCameraClipping(m_deltaTime);
-
-	// Update the player's alpha and transparency based on camera distance to player
-	if (m_gameMode == GameMode_Game && m_cameraMode != CameraMode_Debug)
-	{
-		UpdatePlayerAlpha(m_deltaTime);
-	}
-
-	// Update the frontend
-	m_pFrontendManager->Update(m_deltaTime);
-
-	// Update the GUI
-	int x = m_pVogueWindow->GetCursorX();
-	int y = m_pVogueWindow->GetCursorY();
-	m_pGUI->Update(m_deltaTime);
-	if (IsCursorOn())
-	{
-		m_pGUI->ImportMouseMotion(x, m_windowHeight - y);
-	}
-	UpdateGUI(m_deltaTime);
-
-	if (m_bPaused == false && m_initialStartWait == false)
-	{
-		// Update game GUI
-		UpdateGameGUI(m_deltaTime);
-
-		// Update lights
-		UpdateLights(m_deltaTime);
 	}
 
 	// Update the application and window
@@ -232,7 +91,6 @@ void VogueGame::UpdateNamePicking()
 
 	// Different sub-systems render name picking
 	{
-		m_pNPCManager->RenderNamePicking();
 	}
 
 	// End the name picking
@@ -252,27 +110,6 @@ void VogueGame::UpdateNamePicking()
 	}
 }
 
-void VogueGame::UpdatePlayerAlpha(float dt)
-{
-	vec3 toPlayer = ((m_pPlayer->GetCenter() + Player::PLAYER_CENTER_OFFSET) - m_pGameCamera->GetPosition());
-	float distance = length(toPlayer);
-	float alpha = (distance) / 7.5f;
-
-	if (m_cameraMode == CameraMode_NPCDialog)
-	{
-		// Dialog and crafting camera alpha
-		alpha = 1.0f;
-	}
-
-	if (m_cameraMode == CameraMode_FirstPerson)
-	{
-		// First person alpha
-		alpha = 0.45f;
-	}
-
-	m_pPlayer->SetPlayerAlpha(alpha);
-}
-
 void VogueGame::UpdateLights(float dt)
 {
 	m_pRenderer->EditLightPosition(m_defaultLight, m_defaultLightPosition);
@@ -280,28 +117,4 @@ void VogueGame::UpdateLights(float dt)
 
 void VogueGame::UpdateGameGUI(float dt)
 {
-	if (m_pInventoryGUI->IsLoaded())
-	{
-		m_pInventoryGUI->Update(dt);
-	}
-	if (m_pCharacterGUI->IsLoaded())
-	{
-		m_pCharacterGUI->Update(dt);
-	}
-	if (m_pLootGUI->IsLoaded())
-	{
-		m_pLootGUI->Update(dt);
-	}
-	if (m_pCraftingGUI->IsLoaded())
-	{
-		m_pCraftingGUI->Update(dt);
-	}
-	if (m_pQuestGUI->IsLoaded())
-	{
-		m_pQuestGUI->Update(dt);
-	}
-	if (m_pHUD->IsLoaded())
-	{
-		m_pHUD->Update(dt);
-	}
 }

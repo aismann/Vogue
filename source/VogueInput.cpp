@@ -189,167 +189,6 @@ void VogueGame::KeyReleased(int key, int scancode, int mods)
 			m_bKeyboardMenu = false;
 			break;
 		}
-		case GLFW_KEY_O:
-		{
-			m_pDebugCameraOptionBox->SetToggled(true);
-			CameraModeChanged();
-			break;
-		}
-		case GLFW_KEY_L:
-		{
-			SetPaused(!IsPaused());
-			break;
-		}
-		case GLFW_KEY_P:
-		{
-			if (m_pGUI->IsKeyboardInteractingWithGUIComponent() == false)
-			{
-				if (m_pMainWindow->IsVisible() == false)
-				{
-					ShowGUI();
-				}
-				else
-				{
-					HideGUI();
-				}
-			}
-			break;
-		}
-
-		// Game GUI
-		case GLFW_KEY_I:
-		{
-			if (GetGameMode() == GameMode_Game)
-			{
-				if (m_pPlayer->IsDead() == false)
-				{
-					if (m_pInventoryGUI->IsLoaded())
-					{
-						m_pInventoryGUI->Unload();
-
-						if (VogueGame::GetInstance()->IsGUIWindowStillDisplayed() == false)
-						{
-							TurnCursorOff(false);
-						}
-					}
-					else if (m_pFrontendManager->GetFrontendScreen() == FrontendScreen_None)
-					{
-						m_pInventoryGUI->Load();
-
-						m_pPlayer->StopMoving();
-
-						TurnCursorOn(false, false);
-					}
-				}
-			}
-			break;
-		}
-		case GLFW_KEY_C:
-		{
-			if (GetGameMode() == GameMode_Game)
-			{
-				if (m_pPlayer->IsDead() == false)
-				{
-					if (m_pCharacterGUI->IsLoaded())
-					{
-						m_pCharacterGUI->Unload();
-
-						if (VogueGame::GetInstance()->IsGUIWindowStillDisplayed() == false)
-						{
-							TurnCursorOff(false);
-						}
-					}
-					else if (m_pFrontendManager->GetFrontendScreen() == FrontendScreen_None)
-					{
-						m_pCharacterGUI->Load();
-
-						m_pPlayer->StopMoving();
-
-						TurnCursorOn(false, false);
-					}
-				}
-			}
-			break;
-		}
-		case GLFW_KEY_K:
-		{
-			if (GetGameMode() == GameMode_Game)
-			{
-				if (m_pPlayer->IsDead() == false)
-				{
-					if (m_pQuestGUI->IsLoaded())
-					{
-						m_pQuestGUI->Unload();
-
-						if (VogueGame::GetInstance()->IsGUIWindowStillDisplayed() == false)
-						{
-							TurnCursorOff(false);
-						}
-					}
-					else if (m_pFrontendManager->GetFrontendScreen() == FrontendScreen_None)
-					{
-						m_pQuestGUI->Load();
-
-						m_pPlayer->StopMoving();
-
-						TurnCursorOn(false, false);
-					}
-				}
-			}
-			break;
-		}
-
-		// Number keys
-		case GLFW_KEY_1:
-		{
-			m_pActionBar->UseActionBarslot(0);
-			break;
-		}		
-		case GLFW_KEY_2:
-		{
-			m_pActionBar->UseActionBarslot(1);
-			break;
-		}
-		case GLFW_KEY_3:
-		{
-			m_pActionBar->UseActionBarslot(2);
-			break;
-		}
-		case GLFW_KEY_4:
-		{
-			m_pActionBar->UseActionBarslot(3);
-			break;
-		}
-		case GLFW_KEY_5:
-		{
-			m_pActionBar->UseActionBarslot(4);
-			break;
-		}
-		case GLFW_KEY_6:
-		{
-			m_pActionBar->UseActionBarslot(5);
-			break;
-		}
-		case GLFW_KEY_7:
-		{
-			m_pActionBar->UseActionBarslot(6);
-			break;
-		}
-		case GLFW_KEY_8:
-		{
-			m_pActionBar->UseActionBarslot(7);
-			break;
-		}
-		case GLFW_KEY_9:
-		{
-			m_pActionBar->UseActionBarslot(8);
-			break;
-		}
-		case GLFW_KEY_0:
-		{
-			m_pActionBar->UseActionBarslot(9);
-			break;
-		}
 	}
 }
 
@@ -388,25 +227,6 @@ void VogueGame::MouseLeftPressed()
 		{
 			m_bAttackPressed_Mouse = true;
 		}
-	}
-
-	// For front-end character selection
-	if (m_gameMode == GameMode_FrontEnd && !m_pGUI->IsMouseInteractingWithGUIComponent(false))
-	{
-		if (m_bNamePickingSelected) 
-		{
-			m_pNPCManager->UpdateNamePickingSelection(m_pickedObject);
-		}
-		else
-		{
-			m_pNPCManager->UpdateNamePickingSelection(-1);
-		}
-	}
-
-	// For front-end credits screen advancement
-	if (m_gameMode == GameMode_FrontEnd && m_pFrontendManager->GetFrontendScreen() == FrontendScreen_Credits)
-	{
-		m_pFrontendManager->GotoNextCreditScreen();
 	}
 }
 
@@ -449,11 +269,6 @@ void VogueGame::MouseRightPressed()
 		m_pGUI->MousePressed(MOUSE_BUTTON2);
 	}
 
-	if (m_gameMode == GameMode_Game && m_cameraMode != CameraMode_FirstPerson)
-	{
-		SetEnemyTarget();
-	}
-
 	if (IsCursorOn() == false || !m_pGUI->IsMouseInteractingWithGUIComponent(false))
 	{
 		m_currentX = m_pVogueWindow->GetCursorX();
@@ -471,8 +286,6 @@ void VogueGame::MouseRightReleased()
 	{
 		m_pGUI->MouseReleased(MOUSE_BUTTON2);
 	}
-
-	ReleaseEnemyTarget();
 }
 
 void VogueGame::MouseMiddlePressed()
@@ -494,33 +307,6 @@ void VogueGame::MouseMiddleReleased()
 void VogueGame::MouseScroll(double x, double y)
 {
 	GameMode gameMode = GetGameMode();
-
-	if (m_pPlayer->IsDead() == false || (gameMode == GameMode_Debug || m_cameraMode == CameraMode_Debug))
-	{
-		if (m_bPaused == false)
-		{
-			if (m_pPlayer->GetTargetEnemy() == NULL) // Don't allow mouse zooming when we are an enemy target.
-			{
-				if (IsCursorOn() == false || !m_pGUI->IsMouseInteractingWithGUIComponent(false))
-				{
-					if (m_cameraMode != CameraMode_FirstPerson)
-					{
-						m_maxCameraDistance += (float)(-y*0.5f);
-
-						WrapCameraZoomValue();
-					}
-					else
-					{
-						if (y < 0.0f)
-						{
-							m_cameraDistance = 2.0f;
-							m_maxCameraDistance = 2.0f;
-						}
-					}
-				}
-			}
-		}
-	}
 }
 
 void VogueGame::WrapCameraZoomValue()

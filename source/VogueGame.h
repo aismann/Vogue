@@ -21,36 +21,8 @@
 #include "Renderer/Renderer.h"
 #include "gui/openglgui.h"
 #include "Renderer/camera.h"
-#include "Lighting/LightingManager.h"
-#include "Particles/BlockParticleManager.h"
-#include "Player/Player.h"
-#include "NPC/NPCManager.h"
-#include "Enemy/EnemyManager.h"
-#include "Inventory/InventoryManager.h"
-#include "Items/ItemManager.h"
-#include "Items/RandomLootManager.h"
-#include "Quests/QuestManager.h"
-#include "Quests/QuestJournal.h"
-#include "blocks/ChunkManager.h"
-#include "blocks/BiomeManager.h"
-#include "frontend/FrontendManager.h"
-#include "Skybox/Skybox.h"
-#include "scenery/SceneryManager.h"
-#include "Instance/InstanceManager.h"
-#include "Projectile/ProjectileManager.h"
-#include "TextEffects/TextEffectsManager.h"
-#include "Mods/ModsManager.h"
-#include "AudioManager/AudioManager.h"
 #include "VogueWindow.h"
 #include "VogueSettings.h"
-#include "GameGUI/ActionBar.h"
-#include "GameGUI/CharacterGUI.h"
-#include "GameGUI/CraftingGUI.h"
-#include "GameGUI/InventoryGUI.h"
-#include "GameGUI/LootGUI.h"
-#include "GameGUI/QuestGUI.h"
-#include "GameGUI/HUD.h"
-
 
 #ifdef __linux__
 typedef struct POINT {
@@ -92,17 +64,6 @@ public:
 	// Destruction
 	void Destroy();
 	void DestroyGUI();
-
-	// Quitting
-	void CancelQuitPopup();
-	void ShowQuitPopup();
-	void SetGameQuit(bool quit);
-
-	// Pause
-	bool IsPaused();
-	void SetPaused(bool pause);
-	void SetPauseMenu();
-	void UnsetPauseMenu();
 
 	// Blur
 	void SetGlobalBlurAmount(float blurAmount);
@@ -185,18 +146,9 @@ public:
 	void SetCameraMode(CameraMode mode);
 	CameraMode GetCameraMode();
 
-	// Interactions
-	bool CheckInteractions();
-	Item* GetInteractItem();
-
-	// Enemy Targeting
-	void SetEnemyTarget();
-	void ReleaseEnemyTarget();
-
 	// Updating
 	void Update();
 	void UpdateNamePicking();
-	void UpdatePlayerAlpha(float dt);
 	void UpdateLights(float dt);
 	void UpdateGUI(float dt);
 	void UpdateGameGUI(float dt);
@@ -206,32 +158,6 @@ public:
 	void BeginShaderRender();
 	void EndShaderRender();
 	void Render();
-	void RenderSkybox();
-	void RenderShadows();
-	void RenderWaterReflections();
-	void RenderWater();
-	void RenderDeferredLighting();
-	void RenderTransparency();
-	void RenderSSAOTexture();
-	void RenderFXAATexture();
-	void RenderFirstPassFullScreen();
-	void RenderSecondPassFullScreen();
-	void RenderGUI();
-	void RenderHUD();
-	void RenderCinematicLetterBox();
-	void RenderCrosshair();
-	void RenderCustomCursor();
-	void RenderPaperdollViewport();
-	void RenderPortraitViewport();
-	void RenderFirstPersonViewport();	
-	void RenderDeferredRenderingPaperDoll();
-	void RenderDeferredRenderingPortrait();
-	void RenderDebugInformation();
-
-	// GUI Helper functions
-	bool IsGUIWindowStillDisplayed();
-	void CloseAllGUIWindows();
-	void CloseInteractionGUI();
 
 	// GUI
 	void CreateGUI();
@@ -241,32 +167,10 @@ public:
 	void GUITurnOffCursor();
 	void ShowGUI();
 	void HideGUI();
-	void UpdateCharactersPulldown();
-	void UpdateWeaponsPulldown();
-	void UpdateAnimationsPulldown();
-	void AddConsoleLabel(string message);
-	void ClearConsoleLabels();
-	void UpdateConsoleLabels();
-	void ToggleFullScreenPressed();
-	bool GetWaterRender();
 
 	// Accessors
 	unsigned int GetDefaultViewport();
 	Camera* GetGameCamera();
-	Player* GetPlayer();
-	ChunkManager* GetChunkManager();
-	BiomeManager* GetBiomeManager();
-	FrontendManager* GetFrontendManager();
-	BlockParticleManager* GetBlockParticleManager();
-	NPCManager* GetNPCManager();
-	ItemManager* GetItemManager();
-	InventoryManager* GetInventoryManager();
-	RandomLootManager* GetRandomLootManager();
-	ModsManager* GetModsManager();
-	CharacterGUI* GetCharacterGUI();
-	QuestGUI* GetQuestGUI();
-	HUD* GetHUD();
-	ActionBar* GetActionBar();
 	VogueSettings* GetVogueSettings();
 
 protected:
@@ -274,34 +178,6 @@ protected:
 	VogueGame() {};
 	VogueGame(const VogueGame&) {};
 	VogueGame &operator=(const VogueGame&) {};
-
-	// GUI callbacks
-	static void _PlayAnimationPressed(void *apData);
-	void PlayAnimationPressed();
-
-	static void _AnimationPullDownChanged(void *apData);
-	void AnimationPullDownChanged();
-
-	static void _CharacterPullDownChanged(void *apData);
-	void CharacterPullDownChanged();
-
-	static void _GameModeChanged(void *apData);
-	void GameModeChanged();
-
-	static void _CameraModeChanged(void *apData);
-	void CameraModeChanged();
-
-	static void _GUIThemePullDownChanged(void *apData);
-	void GUIThemePullDownChanged();
-
-	static void _FaceMergeCheckboxChanged(void *apData);
-	void FaceMergeCheckboxChanged();
-
-	static void _StepUpdatePressed(void *apData);
-	void StepUpdatePressed();
-
-	static void _ConsoleReturnPressed(void *apData);
-	void ConsoleReturnPressed();
 	
 private:
 	/* Private methods */
@@ -326,66 +202,6 @@ private:
 	// Game camera
 	Camera* m_pGameCamera;
 
-	// Qubicle binary manager
-	QubicleBinaryManager* m_pQubicleBinaryManager;
-
-	// Player
-	Player* m_pPlayer;
-
-	// NPC Manager
-	NPCManager* m_pNPCManager;
-
-	// Enemy manager
-	EnemyManager* m_pEnemyManager;
-
-	// Inventory
-	InventoryManager* m_pInventoryManager;
-
-	// Items
-	ItemManager* m_pItemManager;
-
-	// Random loot
-	RandomLootManager* m_pRandomLootManager;
-
-	// Projectile manager
-	ProjectileManager* m_pProjectileManager;
-
-	// Quest manager
-	QuestManager* m_pQuestManager;
-
-	// Quest journal
-	QuestJournal* m_pQuestJournal;
-
-	// Chunk manager
-	ChunkManager* m_pChunkManager;
-
-	// Biome manager
-	BiomeManager* m_pBiomeManager;
-
-	// Scenery
-	SceneryManager* m_pSceneryManager;
-
-	// Lighting manager
-	LightingManager* m_pLightingManager;
-
-	// Skybox
-	Skybox* m_pSkybox;
-
-	// Block particle manager
-	BlockParticleManager* m_pBlockParticleManager;
-
-	// Text effects
-	TextEffectsManager* m_pTextEffectsManager;
-
-	// Instance manager
-	InstanceManager* m_pInstanceManager;
-
-	// Frontend manager
-	FrontendManager* m_pFrontendManager;
-
-	// Mods manager
-	ModsManager* m_pModsManager;
-
 	// Mouse picking
 	int m_pickedObject;
 	bool m_bNamePickingSelected;
@@ -399,13 +215,6 @@ private:
 	CameraMode m_cameraMode;
 	CameraMode m_previousCameraMode;
 	bool m_shouldRestorePreviousCameraMode;
-
-	// Biome
-	Biome m_currentBiome;
-
-	// Interacting item
-	mutex m_interactItemMutex;
-	Item* m_pInteractItem;
 
 	// Window width and height
 	int m_windowWidth;
@@ -577,52 +386,8 @@ private:
 	// Paperdoll rendering
 	float m_paperdollRenderRotation;
 
-	// Game GUI
-	InventoryGUI* m_pInventoryGUI;
-	CharacterGUI* m_pCharacterGUI;
-	LootGUI* m_pLootGUI;
-	CraftingGUI* m_pCraftingGUI;
-	QuestGUI* m_pQuestGUI;
-	ActionBar* m_pActionBar;
-	HUD* m_pHUD;
-
 	// GUI Components
 	bool m_GUICreated;
-	GUIWindow* m_pMainWindow;
-	CheckBox* m_pShadowsCheckBox;
-	CheckBox* m_pSSAOCheckBox;
-	CheckBox* m_pDynamicLightingCheckBox;
-	CheckBox* m_pWireframeCheckBox;
-	CheckBox* m_pMSAACheckBox;
-	CheckBox* m_pDeferredCheckBox;
-	CheckBox* m_pUpdateCheckBox;
-	CheckBox* m_pBlurCheckBox;
-	CheckBox* m_pDebugRenderCheckBox;
-	CheckBox* m_pInstanceRenderCheckBox;
-	CheckBox* m_pFogRenderCheckBox;
-	CheckBox* m_pWaterRenderCheckBox;
-	Button* m_pPlayAnimationButton;
-	PulldownMenu* m_pAnimationsPulldown;
-	PulldownMenu* m_pCharacterPulldown;
-	GUIWindow* m_pGameWindow;
-	OptionBox* m_pGameOptionBox;
-	OptionBox* m_pDebugOptionBox;
-	OptionBox* m_pFrontEndOptionBox;
-	OptionController* m_pGameModeOptionController;
-	OptionBox* m_pDebugCameraOptionBox;
-	OptionBox* m_pMouseRotateCameraOptionBox;
-	OptionBox* m_pAutoCameraOptionBox;
-	OptionBox* m_pFrontendCameraOptionBox;
-	OptionController* m_pCameraModeOptionController;
-	CheckBox* m_pFaceMergingCheckbox;
-	CheckBox* m_pStepUpdateCheckbox;
-	Button* m_pStepUpdateButton;
-	GUIWindow* m_pConsoleWindow;
-	TextBox* m_pConsoleTextbox;
-	ScrollBar* m_pConsoleScrollbar;
-	vector<Label*> m_vpConsoleLabels;
-	vector<Label*> m_vpConsoleLabels_Add;
-	vector<string> m_vStringCache;
 
 	// Toggle flags
 	bool m_deferredRendering;
