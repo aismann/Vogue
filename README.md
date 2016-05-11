@@ -1,7 +1,7 @@
 <img src="readme_icon.png" align="right" />
 # Vox
 
-A voxel roguelike.
+A voxel Roguelike.
 
 ## Features
 *Coming soon!*
