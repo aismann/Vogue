@@ -86,6 +86,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\source;..\..\source\glfw\include;..\..\source\glew\include;..\..\source\freetype\include;..\..\source\lua;..\..\source\selene;..\..\source\libnoise</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\..\source\glfw\libs\2015\d\glfw3.lib;..\..\source\freetype\libs\2015\freetype261d.lib;..\..\source\libnoise\libs\2015\noise_d.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -97,6 +98,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\source;..\..\source\glfw\include;..\..\source\glew\include;..\..\source\freetype\include;..\..\source\lua;..\..\source\selene;..\..\source\libnoise</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\..\source\glfw\libs\2015\d\glfw3_64.lib;..\..\source\freetype\libs\2015\freetype261d_64.lib;..\..\source\libnoise\libs\2015\noise64_d.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
