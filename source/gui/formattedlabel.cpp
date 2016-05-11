@@ -1,7 +1,7 @@
 // ******************************************************************************
 //
 // Filename:	formattedlabel.h
-// Project:     Vox
+// Project:     Vogue
 // Author:		Steven Ball
 //
 // Purpose:

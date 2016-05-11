@@ -1,7 +1,7 @@
 // ******************************************************************************
 //
 // Filename:	guiwindow.cpp
-// Project:     Vox
+// Project:     Vogue
 // Author:		Steven Ball
 //
 // Purpose:

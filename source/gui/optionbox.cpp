@@ -1,7 +1,7 @@
 // ******************************************************************************
 //
 // Filename:	optionbox.cpp
-// Project:     Vox
+// Project:     Vogue
 // Author:		Steven Ball
 //
 // Purpose:

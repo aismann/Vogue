@@ -1,7 +1,7 @@
 // ******************************************************************************
 //
 // Filename:	menu.h
-// Project:     Vox
+// Project:     Vogue
 // Author:		Steven Ball
 //
 // Purpose:

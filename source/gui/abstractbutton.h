@@ -1,7 +1,7 @@
 // ******************************************************************************
 //
 // Filename:	abstractbutton.h
-// Project:     Vox
+// Project:     Vogue
 // Author:		Steven Ball
 //
 // Purpose:
