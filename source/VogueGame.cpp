@@ -191,23 +191,9 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	m_cameraDistance = m_pGameCamera->GetZoomAmount();
 	m_maxCameraDistance = m_cameraDistance;
 
-	// Auto camera mode
-	m_autoCameraMovingModifier = 1.0f;
-
-	// Enemy target camera mode
-	m_targetCameraXAxisAmount = 0.0f;
-	m_targetCameraXAxisAmount_Target = 0.0f;
-	m_targetCameraYRatio = 0.0f;
-	m_targetCameraForwardRatio = 0.0f;
-
 	// Player movement
 	m_keyboardMovement = false;
 	m_gamepadMovement = false;
-	m_movementSpeed = 0.0f;
-	m_movementDragTime = 0.45f;
-	m_movementIncreaseTime = 0.25f;
-	m_maxMovementSpeed = 10.0f;
-	m_movementStopThreshold = 0.05f;
 
 	// Blur
 	m_globalBlurAmount = 0.0f;
@@ -388,9 +374,6 @@ void VogueGame::QuitToFrontEnd()
 	SetGameMode(GameMode_FrontEnd);
 
 	m_pVogueWindow->Update(m_deltaTime);
-
-	// Make sure that movement speed drag is reset, so that we dont carry on moving after quitting and restarting game
-	m_movementSpeed = 0.0f;
 }
 
 void VogueGame::SetupDataForGame()
@@ -404,12 +387,6 @@ void VogueGame::SetupDataForFrontEnd()
 void VogueGame::StartGameFromFrontEnd()
 {
 	m_previousCameraMode = CameraMode_MouseRotate;
-}
-
-void VogueGame::PlayerRespawned()
-{
-	// Stop any movement drag when we respawn
-	m_movementSpeed = 0.0f;
 }
 
 void VogueGame::SetGameMode(GameMode mode)

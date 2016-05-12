@@ -128,7 +128,6 @@ public:
 	void SetupDataForGame();
 	void SetupDataForFrontEnd();
 	void StartGameFromFrontEnd();
-	void PlayerRespawned();
 	void SetGameMode(GameMode mode);
 	GameMode GetGameMode();
 	void SetCameraMode(CameraMode mode);
@@ -317,35 +316,9 @@ private:
 	float m_cameraDistance;
 	float m_maxCameraDistance;
 
-	// Auto camera mode
-	vec3 m_cameraPosition_AutoModeCached;
-	vec3 m_cameraPosition_AutoMode;
-	vec3 m_cameraBehindPlayerPosition;
-	float m_autoCameraMovingModifier;
-
-	// NPC dialog camera mode
-	vec3 m_targetCameraView_NPCDialog;
-	vec3 m_targetCameraPosition_NPCDialog;
-
-	// Enemy target camera mode
-	float m_targetCameraXAxisAmount;
-	float m_targetCameraXAxisAmount_Target;
-	float m_targetCameraYRatio;
-	float m_targetCameraForwardRatio;
-
-	// Camera clipping
-	vec3 m_targetCameraPositionBeforeClipping;
-	vec3 m_cameraPositionAfterClipping;
-
 	// Player movement
 	bool m_keyboardMovement;
 	bool m_gamepadMovement;
-	vec3 m_movementDirection;
-	float m_movementSpeed;
-	float m_movementDragTime;
-	float m_movementIncreaseTime;
-	float m_maxMovementSpeed;
-	float m_movementStopThreshold;
 
 	// Blur
 	float m_globalBlurAmount;
