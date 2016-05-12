@@ -236,10 +236,6 @@ private:
 	unsigned int m_FXAAFrameBuffer;
 	unsigned int m_firstPassFullscreenBuffer;
 	unsigned int m_secondPassFullscreenBuffer;
-	unsigned int m_paperdollBuffer;
-	unsigned int m_paperdollSSAOTextureBuffer;
-	unsigned int m_portraitBuffer;
-	unsigned int m_portraitSSAOTextureBuffer;
 
 	// Shaders
 	unsigned int m_defaultShader;
@@ -253,7 +249,6 @@ private:
 	unsigned int m_fxaaShader;
 	unsigned int m_blurVerticalShader;
 	unsigned int m_blurHorizontalShader;
-	unsigned int m_paperdollShader;
 
 	// Custom cursor textures
 	unsigned int m_customCursorNormalBuffer;
