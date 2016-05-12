@@ -2,6 +2,8 @@
 # Vogue
 
 [![Build Status](https://circleci.com/gh/AlwaysGeeky/Vogue.svg?style=shield&circle-token=cf7352c6949877a9b363a72e88f9ad1ebbc213c4)](https://circleci.com/gh/AlwaysGeeky/Vogue/tree/master)
+[![Repo Size](https://reposs.herokuapp.com/?path=AlwaysGeeky/Vogue)](https://github.com/AlwaysGeeky/Vogue)
+[![License](https://img.shields.io/badge/Licence-GNU-blue.svg)](https://github.com/AlwaysGeeky/Vogue/blob/master/LICENSE.md)
 
 A Voxel Roguelike.
 
