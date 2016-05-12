@@ -9,7 +9,7 @@
 // Revision History:
 //   Initial Revision - 02/04/06
 //
-// Copyright (c) 2005-2015, Steven Ball
+// Copyright (c) 2005-2016, Steven Ball
 // ******************************************************************************
 
 #pragma once
