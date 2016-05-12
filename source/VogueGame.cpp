@@ -63,10 +63,6 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	m_pickedObject = -1;
 	m_bNamePickingSelected = false;
 
-	/* Custom cursors */
-	m_bPressedCursorDown = false;
-	m_bCustomCursorOn = false;
-
 	/* Setup the initial starting wait timing */
 	m_initialWaitTimer = 0.0f;
 	m_initialWaitTime = 0.5f;
@@ -166,16 +162,6 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	// Joystick flags
 	m_bJoystickJump = false;
 
-	// Combat flags
-	m_bAttackPressed_Mouse = false;
-	m_bAttackReleased_Mouse = false;
-	m_bAttackPressed_Joystick = false;
-	m_bAttackReleased_Joystick = false;
-	m_bCanDoAttack_Mouse = true;
-	m_bCanDoAttack_Joystick = true;
-	m_bTargetEnemyPressed_Joystick = false;
-	m_bTargetEnemyReleased_Joystick = false;
-
 	// Camera movement
 	m_bCameraRotate = false;
 	m_pressedX = 0;
@@ -217,7 +203,6 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	// Camera mode
 	m_cameraMode = CameraMode_Debug;
 	m_previousCameraMode = CameraMode_Debug;
-	m_shouldRestorePreviousCameraMode = false;
 
 	// Game mode
 	m_gameMode = GameMode_Loading;
@@ -292,15 +277,11 @@ int VogueGame::GetWindowCursorY()
 void VogueGame::TurnCursorOn(bool resetCursorPosition, bool forceOn)
 {
 	m_pVogueWindow->TurnCursorOn(resetCursorPosition, forceOn);
-
-	m_bCustomCursorOn = true;
 }
 
 void VogueGame::TurnCursorOff(bool forceOff)
 {
 	m_pVogueWindow->TurnCursorOff(forceOff);
-
-	m_bCustomCursorOn = false;
 
 	// Make sure to set the current X and Y when we turn the cursor off, so that camera controls don't glitch.
 	m_currentX = m_pVogueWindow->GetCursorX();

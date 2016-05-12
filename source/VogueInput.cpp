@@ -199,8 +199,6 @@ void VogueGame::CharacterEntered(int keyCode)
 
 void VogueGame::MouseLeftPressed()
 {
-	m_bPressedCursorDown = true;
-
 	if (IsCursorOn())
 	{
 		m_pGUI->MousePressed(MOUSE_BUTTON1);
@@ -223,17 +221,11 @@ void VogueGame::MouseLeftPressed()
 
 			m_bCameraRotate = true;
 		}
-		else if (m_gameMode == GameMode_Game)
-		{
-			m_bAttackPressed_Mouse = true;
-		}
 	}
 }
 
 void VogueGame::MouseLeftReleased()
 {
-	m_bPressedCursorDown = false;
-
 	if (IsCursorOn())
 	{
 		m_pGUI->MouseReleased(MOUSE_BUTTON1);
@@ -252,18 +244,10 @@ void VogueGame::MouseLeftReleased()
 
 		m_bCameraRotate = false;
 	}
-	else if (m_gameMode == GameMode_Game)
-	{
-		m_bAttackReleased_Mouse = true;
-		m_bAttackPressed_Mouse = false;
-		m_bCanDoAttack_Mouse = true;
-	}
 }
 
 void VogueGame::MouseRightPressed()
 {
-	m_bPressedCursorDown = true;
-
 	if (IsCursorOn())
 	{
 		m_pGUI->MousePressed(MOUSE_BUTTON2);
@@ -280,8 +264,6 @@ void VogueGame::MouseRightPressed()
 
 void VogueGame::MouseRightReleased()
 {
-	m_bPressedCursorDown = false;
-
 	if (IsCursorOn())
 	{
 		m_pGUI->MouseReleased(MOUSE_BUTTON2);

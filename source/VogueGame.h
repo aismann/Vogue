@@ -90,17 +90,6 @@ public:
 
 	// Camera controls
 	void UpdateCamera(float dt);
-	void UpdateCameraModeSwitching();
-	void InitializeCameraRotation();
-	void UpdateCameraAutoCamera(float dt, bool updateCameraPosition);
-	void UpdateCameraFirstPerson(float dt);
-	void UpdateCameraNPCDialog(float dt);
-	void UpdateCameraEnemyTarget(float dt);
-	void UpdateCameraClipping(float dt);
-	void UpdateCameraZoom(float dt);
-	bool ShouldRestorePreviousCameraMode();
-	void SavePreviousCameraMode();
-	void RestorePreviousCameraMode();
 
 	// Input
 	void KeyPressed(int key, int scancode, int mods);
@@ -201,7 +190,6 @@ private:
 	// Camera mode
 	CameraMode m_cameraMode;
 	CameraMode m_previousCameraMode;
-	bool m_shouldRestorePreviousCameraMode;
 
 	// Window width and height
 	int m_windowWidth;
@@ -287,20 +275,6 @@ private:
 
 	// Joystick flags
 	bool m_bJoystickJump;
-
-	// Custom cursor
-	bool m_bPressedCursorDown;
-	bool m_bCustomCursorOn;
-
-	// Combat flags
-	bool m_bAttackPressed_Mouse;
-	bool m_bAttackReleased_Mouse;
-	bool m_bCanDoAttack_Mouse;
-	bool m_bAttackPressed_Joystick;
-	bool m_bAttackReleased_Joystick;
-	bool m_bCanDoAttack_Joystick;
-	bool m_bTargetEnemyPressed_Joystick;
-	bool m_bTargetEnemyReleased_Joystick;
 
 	// Camera movement
 	bool m_bCameraRotate;
