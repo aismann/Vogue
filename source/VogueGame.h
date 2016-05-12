@@ -46,10 +46,6 @@ enum CameraMode
 	CameraMode_Debug = 0,
 	CameraMode_Frontend,
 	CameraMode_MouseRotate,
-	CameraMode_AutoCamera,
-	CameraMode_FirstPerson,
-	CameraMode_NPCDialog,
-	CameraMode_EnemyTarget,
 };
 
 class VogueGame

@@ -315,17 +315,10 @@ void VogueGame::WrapCameraZoomValue()
 	float maxAmount = 15.0f;
 
 	// Camera rotation modes
-	if (m_gameMode == GameMode_Game && (m_cameraMode == CameraMode_AutoCamera || m_cameraMode == CameraMode_MouseRotate || m_cameraMode == CameraMode_NPCDialog))
+	if (m_gameMode == GameMode_Game && m_cameraMode == CameraMode_MouseRotate)
 	{
 		minAmount = 1.0f;
 		maxAmount = 15.0f;
-	}
-
-	// First person mode
-	if (m_gameMode == GameMode_Game && m_cameraMode == CameraMode_FirstPerson)
-	{
-		minAmount = 1.25f;
-		maxAmount = 1.75f;
 	}
 
 	if (m_maxCameraDistance <= minAmount)
@@ -364,16 +357,6 @@ void VogueGame::MouseCameraRotate()
 		changeX = -changeX;
 	}
 
-	// First person mode
-	if (m_cameraMode == CameraMode_FirstPerson)
-	{
-		changeY = -changeY;
-	}
-
-	// Scale based on mouse sensitivity options
-	//changeX *= m_pVogueSettings->m_mouseSensitivity * 0.02f;
-	//changeY *= m_pVogueSettings->m_mouseSensitivity * 0.02f;
-
 	// Limit the rotation, so we can't go 'over' or 'under' the player with out rotations
 	vec3 cameraFacing = m_pGameCamera->GetFacing();
 	float dotResult = acos(dot(cameraFacing, vec3(0.0f, 1.0f, 0.0f)));
@@ -384,16 +367,8 @@ void VogueGame::MouseCameraRotate()
 		changeY = 0.0f;
 	}
 
-	if (m_cameraMode == CameraMode_FirstPerson)
-	{
-		m_pGameCamera->Rotate(changeY*0.75f, 0.0f, 0.0f);
-		m_pGameCamera->RotateY(-changeX*0.75f);
-	}
-	else
-	{
-		m_pGameCamera->RotateAroundPoint(changeY*0.75f, 0.0f, 0.0f, true);
-		m_pGameCamera->RotateAroundPointY(-changeX*0.75f, true);
-	}
+	m_pGameCamera->RotateAroundPoint(changeY*0.75f, 0.0f, 0.0f, true);
+	m_pGameCamera->RotateAroundPointY(-changeX*0.75f, true);
 
 	m_currentX = x;
 	m_currentY = y;
@@ -446,16 +421,6 @@ void VogueGame::JoystickCameraRotate(float dt)
 		changeX = -changeX;
 	}
 
-	// First person mode
-	if (m_cameraMode == CameraMode_FirstPerson)
-	{
-		changeY = -changeY;
-	}
-
-	// Scale based on gamepad sensitivity options
-	//changeX *= m_pVogueSettings->m_gamepadSensitivity * 0.02f;
-	//changeY *= m_pVogueSettings->m_gamepadSensitivity * 0.02f;
-
 	// Limit the rotation, so we can't go 'over' or 'under' the player with out rotations
 	vec3 cameraFacing = m_pGameCamera->GetFacing();
 	float dotResult = acos(dot(cameraFacing, vec3(0.0f, 1.0f, 0.0f)));
@@ -466,16 +431,8 @@ void VogueGame::JoystickCameraRotate(float dt)
 		changeY = 0.0f;
 	}
 
-	if (m_cameraMode == CameraMode_FirstPerson)
-	{
-		m_pGameCamera->Rotate(changeY, 0.0f, 0.0f);
-		m_pGameCamera->RotateY(-changeX);
-	}
-	else
-	{
-		m_pGameCamera->RotateAroundPoint(changeY, 0.0f, 0.0f, true);
-		m_pGameCamera->RotateAroundPointY(-changeX, true);
-	}
+	m_pGameCamera->RotateAroundPoint(changeY, 0.0f, 0.0f, true);
+	m_pGameCamera->RotateAroundPointY(-changeX, true);
 }
 
 void VogueGame::JoystickCameraZoom(float dt)
@@ -495,19 +452,10 @@ void VogueGame::JoystickCameraZoom(float dt)
 
 	float changeY = zoomAmount * dt;
 
-	if (m_cameraMode != CameraMode_FirstPerson)
+	if (changeY < 0.0f)
 	{
-		m_maxCameraDistance += (float)(-changeY);
-
-		WrapCameraZoomValue();
-	}
-	else
-	{
-		if (changeY < 0.0f)
-		{
-			m_cameraDistance = 2.0f;
-			m_maxCameraDistance = 2.0f;
-		}
+		m_cameraDistance = 2.0f;
+		m_maxCameraDistance = 2.0f;
 	}
 
 	WrapCameraZoomValue();
