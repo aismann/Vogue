@@ -67,18 +67,6 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	m_bPressedCursorDown = false;
 	m_bCustomCursorOn = false;
 
-	/* Paper doll viewport dimensions */
-	m_paperdollViewportX = 0;
-	m_paperdollViewportY = 0;
-	m_paperdollViewportWidth = 800;
-	m_paperdollViewportHeight = 800;
-
-	/* Portrain viewport dimensions */
-	m_portraitViewportX = 0;
-	m_portraitViewportY = 0;
-	m_portraitViewportWidth = 800;
-	m_portraitViewportHeight = 800;
-
 	/* Setup the initial starting wait timing */
 	m_initialWaitTimer = 0.0f;
 	m_initialWaitTime = 0.5f;
@@ -106,9 +94,6 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 
 	/* Create viewports */
 	m_pRenderer->CreateViewport(0, 0, m_windowWidth, m_windowHeight, 60.0f, &m_defaultViewport);
-	m_pRenderer->CreateViewport(0, 0, m_windowWidth, m_windowHeight, 60.0f, &m_firstpersonViewport);
-	m_pRenderer->CreateViewport(m_paperdollViewportY, m_paperdollViewportX, m_paperdollViewportWidth, m_paperdollViewportHeight, 60.0f, &m_paperdollViewport);
-	m_pRenderer->CreateViewport(m_portraitViewportY, m_portraitViewportX, m_portraitViewportWidth, m_portraitViewportHeight, 60.0f, &m_portraitViewport);
 
 	/* Create fonts */
 	m_pRenderer->CreateFreeTypeFont("media/fonts/arial.ttf", 12, &m_defaultFont);
@@ -233,9 +218,6 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	// Water
 	m_elapsedWaterTime = 0.0f;
 
-	// Paperdoll rendering
-	m_paperdollRenderRotation = 0.0f;
-
 	// Toggle flags
 	m_deferredRendering = true;
 	m_modelWireframe = false;
@@ -304,28 +286,6 @@ void VogueGame::CloseLetterBox()
 	Interpolator::GetInstance()->AddFloatInterpolation(&m_letterBoxRatio, m_letterBoxRatio, 0.0f, 0.25f, 100.0f);
 }
 
-// Paperdoll rendering
-void VogueGame::SetPaperdollRotation(float rotation)
-{
-	m_paperdollRenderRotation = rotation;
-}
-
-void VogueGame::RotatePaperdollModel(float rot)
-{
-	m_paperdollRenderRotation += rot;// * m_deltaTime;
-}
-
-unsigned int VogueGame::GetDynamicPaperdollTexture()
-{
-	return m_pRenderer->GetDiffuseTextureFromFrameBuffer(m_paperdollSSAOTextureBuffer);
-}
-
-// Portrait
-unsigned int VogueGame::GetDynamicPortraitTexture()
-{
-	return m_pRenderer->GetDiffuseTextureFromFrameBuffer(m_portraitSSAOTextureBuffer);
-}
-
 // Events
 void VogueGame::PollEvents()
 {
@@ -386,9 +346,6 @@ void VogueGame::ResizeWindow(int width, int height)
 
 		// Resize the main viewport
 		m_pRenderer->ResizeViewport(m_defaultViewport, 0, 0, m_windowWidth, m_windowHeight, 60.0f);
-		m_pRenderer->ResizeViewport(m_firstpersonViewport, 0, 0, m_windowWidth, m_windowHeight, 60.0f);
-		m_pRenderer->ResizeViewport(m_paperdollViewport, m_paperdollViewportY, m_paperdollViewportX, m_paperdollViewportWidth, m_paperdollViewportHeight, 60.0f);
-		m_pRenderer->ResizeViewport(m_portraitViewport, m_portraitViewportY, m_portraitViewportX, m_portraitViewportWidth, m_portraitViewportHeight, 60.0f);
 
 		// Resize the frame buffers
 		bool frameBufferResize = false;

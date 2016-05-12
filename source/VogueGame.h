@@ -68,14 +68,6 @@ public:
 	void OpenLetterBox();
 	void CloseLetterBox();
 
-	// Paperdoll rendering
-	void SetPaperdollRotation(float rotation);
-	void RotatePaperdollModel(float rot);
-	unsigned int GetDynamicPaperdollTexture();
-
-	// Portrait
-	unsigned int GetDynamicPortraitTexture();
-
 	// Events
 	void PollEvents();
 	bool ShouldClose();
@@ -224,9 +216,6 @@ private:
 
 	// View ports
 	unsigned int m_defaultViewport;
-	unsigned int m_firstpersonViewport;
-	unsigned int m_paperdollViewport;
-	unsigned int m_portraitViewport;
 
 	// Fonts
 	unsigned int m_defaultFont;
@@ -272,18 +261,6 @@ private:
 	unsigned int m_customCursorClickedBuffer;
 	unsigned int m_customCursorRotateBuffer;
 	unsigned int m_customCursorZoomBuffer;
-
-	// Paperdoll viewport
-	int m_paperdollViewportX;
-	int m_paperdollViewportY;
-	int m_paperdollViewportWidth;
-	int m_paperdollViewportHeight;
-
-	// Portrait viewport
-	int m_portraitViewportX;
-	int m_portraitViewportY;
-	int m_portraitViewportWidth;
-	int m_portraitViewportHeight;
 
 	// FPS and deltatime
 #ifdef _WIN32
@@ -378,9 +355,6 @@ private:
 
 	// Water
 	float m_elapsedWaterTime;
-
-	// Paperdoll rendering
-	float m_paperdollRenderRotation;
 
 	// GUI Components
 	bool m_GUICreated;
