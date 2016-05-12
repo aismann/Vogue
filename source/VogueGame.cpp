@@ -191,7 +191,7 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	m_cameraDistance = m_pGameCamera->GetZoomAmount();
 	m_maxCameraDistance = m_cameraDistance;
 
-	// Player movement
+	// Movement
 	m_keyboardMovement = false;
 	m_gamepadMovement = false;
 

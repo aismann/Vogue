@@ -89,7 +89,7 @@ void VogueGame::KeyPressed(int key, int scancode, int mods)
 
 	switch (key)
 	{
-		// Player movement
+		// Movement
 		case GLFW_KEY_W:
 		{
 			m_bKeyboardForward = true;
@@ -146,7 +146,7 @@ void VogueGame::KeyReleased(int key, int scancode, int mods)
 
 	switch (key)
 	{
-		// Player movement
+		// Movement
 		case GLFW_KEY_W:
 		{
 			m_bKeyboardForward = false;
@@ -357,7 +357,7 @@ void VogueGame::MouseCameraRotate()
 		changeX = -changeX;
 	}
 
-	// Limit the rotation, so we can't go 'over' or 'under' the player with out rotations
+	// Limit the rotation, so we can't go 'over' or 'under' the player with our rotations
 	vec3 cameraFacing = m_pGameCamera->GetFacing();
 	float dotResult = acos(dot(cameraFacing, vec3(0.0f, 1.0f, 0.0f)));
 	float rotationDegrees = RadToDeg(dotResult) - 90.0f;
@@ -421,7 +421,7 @@ void VogueGame::JoystickCameraRotate(float dt)
 		changeX = -changeX;
 	}
 
-	// Limit the rotation, so we can't go 'over' or 'under' the player with out rotations
+	// Limit the rotation, so we can't go 'over' or 'under' the player with our rotations
 	vec3 cameraFacing = m_pGameCamera->GetFacing();
 	float dotResult = acos(dot(cameraFacing, vec3(0.0f, 1.0f, 0.0f)));
 	float rotationDegrees = RadToDeg(dotResult) - 90.0f;

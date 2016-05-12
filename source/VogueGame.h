@@ -316,7 +316,7 @@ private:
 	float m_cameraDistance;
 	float m_maxCameraDistance;
 
-	// Player movement
+	// Movement
 	bool m_keyboardMovement;
 	bool m_gamepadMovement;
 
