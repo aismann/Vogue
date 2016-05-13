@@ -134,6 +134,8 @@ public:
 	void BeginShaderRender();
 	void EndShaderRender();
 	void Render();
+	void RenderGUI();
+	void RenderDebugInformation();
 
 	// GUI
 	void CreateGUI();
