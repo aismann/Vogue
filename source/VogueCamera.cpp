@@ -14,4 +14,5 @@
 // Camera controls
 void VogueGame::UpdateCamera(float dt)
 {
+	m_pGameCamera->SetPosition(m_pGameCamera->GetFakePosition());
 }

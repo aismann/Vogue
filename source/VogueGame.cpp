@@ -214,6 +214,9 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	CreateGUI();
 	SetupGUI();
 	SkinGUI();
+
+	SetGameMode(GameMode_Debug);
+	SetCameraMode(CameraMode_Debug);
 }
 
 // Destruction

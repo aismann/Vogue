@@ -65,6 +65,18 @@ void VogueGame::Update()
 		}
 	}
 
+	// Main components update
+	if (m_bPaused == false && m_initialStartWait == false)
+	{
+
+	}
+
+	// Update controls
+	UpdateControls(m_deltaTime);
+
+	// Update the camera
+	UpdateCamera(m_deltaTime);
+
 	// Update the application and window
 	m_pVogueWindow->Update(m_deltaTime);
 }
