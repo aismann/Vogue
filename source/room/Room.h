@@ -25,6 +25,7 @@ public:
 	Room(Renderer* pRenderer);
 	~Room();
 
+	void SetPosition(vec3 pos);
 	void SetDimensions(float length, float width, float height);
 
 	void Update(float dt);

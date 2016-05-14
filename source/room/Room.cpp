@@ -24,6 +24,11 @@ Room::~Room()
 {
 }
 
+void Room::SetPosition(vec3 pos)
+{
+	m_position = pos;
+}
+
 void Room::SetDimensions(float length, float width, float height)
 {
 	m_length = length;
