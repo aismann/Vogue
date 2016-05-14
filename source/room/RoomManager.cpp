@@ -51,56 +51,51 @@ void RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedDi
 
 	pNewRoom->SetDimensions(length, width, height);
 
+	eDirection dontAllowDirection = eDirection_NONE;
+
+	// If we are connected to a room, set our position
 	if (pRoomConnection != NULL)
 	{
 		vec3 newRoomPosition = pRoomConnection->GetPosition();
 		if (connectedDirection == eDirection_Up)
 		{
 			newRoomPosition -= vec3(0.0f, 0.0f, width + pRoomConnection->GetWidth());
+			dontAllowDirection = eDirection_Down;
 		}
 		if (connectedDirection == eDirection_Down)
 		{
 			newRoomPosition += vec3(0.0f, 0.0f, width + pRoomConnection->GetWidth());
+			dontAllowDirection = eDirection_Up;
 		}
 		if (connectedDirection == eDirection_Left)
 		{
 			newRoomPosition -= vec3(length + pRoomConnection->GetLength(), 0.0f, 0.0f);
+			dontAllowDirection = eDirection_Right;
 		}
 		if (connectedDirection == eDirection_Right)
 		{
 			newRoomPosition += vec3(length + pRoomConnection->GetLength(), 0.0f, 0.0f);
+			dontAllowDirection = eDirection_Left;
 		}
 
 		pNewRoom->SetPosition(newRoomPosition);
 	}
 
+	// Create a door and connected room
 	if (roomDepth < 2)
 	{
-		eDirection dontAllowDirection = eDirection_NONE;
-		if (connectedDirection == eDirection_Up)
-		{
-			dontAllowDirection = eDirection_Down;
-		}
-		else if (connectedDirection == eDirection_Down)
-		{
-			dontAllowDirection = eDirection_Up;
-		}
-		else if (connectedDirection == eDirection_Left)
-		{
-			dontAllowDirection = eDirection_Right;
-		}
-		else if (connectedDirection == eDirection_Right)
-		{
-			dontAllowDirection = eDirection_Left;
-		}
-
+		// Don't allow to create doors back to the previously connected room (if we have one)
+		// Keep getting a new direction, until we don't match the connected direction.
 		eDirection doorDirection = dontAllowDirection;
 		while(doorDirection == dontAllowDirection)
 		{
 			doorDirection = (eDirection)GetRandomNumber(0, 3);
 		}
+
+		// Create the door object
 		pNewRoom->CreateDoor(doorDirection);
 
+		// Create a new room, that connects to this one
 		CreateRandomRoom(pNewRoom, doorDirection, roomDepth+1);
 	}
 
