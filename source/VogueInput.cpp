@@ -189,9 +189,16 @@ void VogueGame::KeyReleased(int key, int scancode, int mods)
 			m_bKeyboardMenu = false;
 			break;
 		}
+
+		// Debug
 		case GLFW_KEY_O:
 		{
 			m_debugRender = !m_debugRender;
+			break;
+		}
+		case GLFW_KEY_P:
+		{
+			m_pRoomManager->GenerateNewLayout();
 			break;
 		}
 	}

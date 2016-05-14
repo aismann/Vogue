@@ -15,8 +15,22 @@
 
 #include "../Maths/3dmaths.h"
 #include "../Renderer/Renderer.h"
+#include "Door.h"
 
 #include <stdio.h>
+#include <vector>
+using namespace std;
+
+enum eDirection
+{
+	eDirection_Up = 0,
+	eDirection_Down,
+	eDirection_Right,
+	eDirection_Left,
+};
+
+typedef vector<Door*> DoorList;
+
 
 class Room
 {
@@ -25,11 +39,20 @@ public:
 	Room(Renderer* pRenderer);
 	~Room();
 
+	// Clearing
+	void ClearDoors();
+
+	// Accessors
 	void SetPosition(vec3 pos);
 	void SetDimensions(float length, float width, float height);
 
+	// Generation
+	void CreateRoom();
+
+	// Update
 	void Update(float dt);
 
+	// Render
     void Render();
 
 protected:
@@ -54,4 +77,6 @@ private:
 
 	// Chunk position
 	vec3 m_position;
+
+	DoorList m_vpDoorList;
 };

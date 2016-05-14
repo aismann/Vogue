@@ -1,5 +1,5 @@
 // ******************************************************************************
-// Filename:    RoomManager.h
+// Filename:    Door.h
 // Project:     Vox
 // Author:      Steven Ball
 //
@@ -13,30 +13,22 @@
 
 #pragma once
 
-#include "Room.h"
 #include "../Maths/3dmaths.h"
 #include "../Renderer/Renderer.h"
 
 #include <stdio.h>
-#include <vector>
-using namespace std;
-
-typedef vector<Room*> RoomList;
 
 
-class RoomManager
+class Door
 {
 public:
 	/* Public methods */
-	RoomManager(Renderer* pRenderer);
-	~RoomManager();
+	Door(Renderer* pRenderer);
+	~Door();
 
-	// Clearing
-	void ClearRooms();
-
-	// Generation
-	void GenerateNewLayout();
-	void CreateRandomRoom();
+	// Accessors
+	void SetPosition(vec3 pos);
+	void SetDimensions(float length, float width, float height);
 
 	// Update
 	void Update(float dt);
@@ -60,5 +52,10 @@ private:
 	/* Private members */
 	Renderer* m_pRenderer;
 
-	RoomList m_vpRoomList;
+	float m_length;
+	float m_width;
+	float m_height;
+
+	// Chunk position
+	vec3 m_position;
 };
