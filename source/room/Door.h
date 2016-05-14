@@ -17,7 +17,18 @@
 #include "../Renderer/Renderer.h"
 
 #include <stdio.h>
+#include <vector>
+using namespace std;
 
+enum eDirection
+{
+	eDirection_Up = 0,
+	eDirection_Down,
+	eDirection_Right,
+	eDirection_Left,
+
+	eDirection_NONE,
+};
 
 class Door
 {
@@ -29,6 +40,8 @@ public:
 	// Accessors
 	void SetPosition(vec3 pos);
 	void SetDimensions(float length, float width, float height);
+	void SetDirection(eDirection direction);
+	eDirection GetDirection();
 
 	// Update
 	void Update(float dt);
@@ -55,6 +68,8 @@ private:
 	float m_length;
 	float m_width;
 	float m_height;
+
+	eDirection m_direction;
 
 	// Chunk position
 	vec3 m_position;

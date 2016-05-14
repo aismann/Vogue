@@ -38,21 +38,79 @@ void RoomManager::ClearRooms()
 void RoomManager::GenerateNewLayout()
 {
 	ClearRooms();
-	CreateRandomRoom();
+	CreateRandomRoom(NULL, eDirection_NONE, 0);
 }
 
-void RoomManager::CreateRandomRoom()
+void RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedDirection, int roomDepth)
 {
-	Room* pNewRoom = new Room(m_pRenderer);
+	Room* pNewRoom = new Room(m_pRenderer, this);
 
 	float length = GetRandomNumber(30, 80, 2) * 0.1f;
 	float width = GetRandomNumber(30, 80, 2) * 0.1f;
 	float height = 1.0f;
 
 	pNewRoom->SetDimensions(length, width, height);
-	pNewRoom->CreateRoom();
+
+	if (pRoomConnection != NULL)
+	{
+		vec3 newRoomPosition = pRoomConnection->GetPosition();
+		if (connectedDirection == eDirection_Up)
+		{
+			newRoomPosition -= vec3(0.0f, 0.0f, width + pRoomConnection->GetWidth());
+		}
+		if (connectedDirection == eDirection_Down)
+		{
+			newRoomPosition += vec3(0.0f, 0.0f, width + pRoomConnection->GetWidth());
+		}
+		if (connectedDirection == eDirection_Left)
+		{
+			newRoomPosition -= vec3(length + pRoomConnection->GetLength(), 0.0f, 0.0f);
+		}
+		if (connectedDirection == eDirection_Right)
+		{
+			newRoomPosition += vec3(length + pRoomConnection->GetLength(), 0.0f, 0.0f);
+		}
+
+		pNewRoom->SetPosition(newRoomPosition);
+	}
+
+	if (roomDepth < 2)
+	{
+		eDirection dontAllowDirection = eDirection_NONE;
+		if (connectedDirection == eDirection_Up)
+		{
+			dontAllowDirection = eDirection_Down;
+		}
+		else if (connectedDirection == eDirection_Down)
+		{
+			dontAllowDirection = eDirection_Up;
+		}
+		else if (connectedDirection == eDirection_Left)
+		{
+			dontAllowDirection = eDirection_Right;
+		}
+		else if (connectedDirection == eDirection_Right)
+		{
+			dontAllowDirection = eDirection_Left;
+		}
+		eDirection doorDirection = dontAllowDirection;
+		while(doorDirection == dontAllowDirection)
+		{
+			doorDirection = (eDirection)GetRandomNumber(0, 3);
+		}
+		pNewRoom->CreateDoor(doorDirection);
+
+		CreateRandomRoom(pNewRoom, doorDirection, roomDepth+1);
+	}
 
 	m_vpRoomList.push_back(pNewRoom);
+}
+
+void RoomManager::CreateConnectedRoom()
+{
+	int randomRoomIndex = GetRandomNumber(0, (int)m_vpRoomList.size());
+
+	Room* pRoom = m_vpRoomList[randomRoomIndex];
 }
 
 // Update

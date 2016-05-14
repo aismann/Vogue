@@ -208,7 +208,7 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	SetupGUI();
 	SkinGUI();
 
-	SeedRandomNumberGenerator();
+	//SeedRandomNumberGenerator();
 
 	m_pRoomManager->GenerateNewLayout();
 

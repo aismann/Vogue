@@ -38,6 +38,16 @@ void Door::SetDimensions(float length, float width, float height)
 	m_height = height;
 }
 
+void Door::SetDirection(eDirection direction)
+{
+	m_direction = direction;
+}
+
+eDirection Door::GetDirection()
+{
+	return m_direction;
+}
+
 // Update
 void Door::Update(float dt)
 {

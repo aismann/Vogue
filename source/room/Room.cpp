@@ -10,12 +10,14 @@
 // ******************************************************************************
 
 #include "Room.h"
+#include "RoomManager.h"
 #include "../utils/Random.h"
 
 
-Room::Room(Renderer* pRenderer)
+Room::Room(Renderer* pRenderer, RoomManager* pRoomManager)
 {
 	m_pRenderer = pRenderer;
+	m_pRoomManager = pRoomManager;
 
 	m_length = 0.5f;
 	m_width = 0.5f;
@@ -44,6 +46,11 @@ void Room::SetPosition(vec3 pos)
 	m_position = pos;
 }
 
+vec3 Room::GetPosition()
+{
+	return m_position;
+}
+
 void Room::SetDimensions(float length, float width, float height)
 {
 	m_length = length;
@@ -51,37 +58,87 @@ void Room::SetDimensions(float length, float width, float height)
 	m_height = height;
 }
 
+float Room::GetLength()
+{
+	return m_length;
+}
+
+float Room::GetWidth()
+{
+	return m_width;
+}
+
+float Room::GetHeight()
+{
+	return m_height;
+}
+
 // Generation
-void Room::CreateRoom()
+bool Room::CanCreateDoor(eDirection doorDirection)
+{
+	if (doorDirection == eDirection_NONE)
+	{
+		return false;
+	}
+
+	eDirection dontAllowDirection = eDirection_NONE;
+	if (doorDirection == eDirection_Up)
+	{
+		dontAllowDirection = eDirection_Down;
+	}
+	else if (doorDirection == eDirection_Down)
+	{
+		dontAllowDirection = eDirection_Up;
+	}
+	else if (doorDirection == eDirection_Left)
+	{
+		dontAllowDirection = eDirection_Right;
+	}
+	else if (doorDirection == eDirection_Right)
+	{
+		dontAllowDirection = eDirection_Left;
+	}
+
+	for (unsigned int i = 0; i < m_vpDoorList.size(); i++)
+	{
+		Door* pDoor = m_vpDoorList[i];
+		if (pDoor->GetDirection() == dontAllowDirection)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+void Room::CreateDoor(eDirection doorDirection)
 {
 	Door* pNewDoor = new Door(m_pRenderer);
-
-	eDirection randomDirection = (eDirection)GetRandomNumber(0, 3);
 
 	float doorLength = 0.5f;
 	float doorWidth = 0.15f;
 	float doorHeight = 1.0f;
 	vec3 doorPosition;
 
-	if (randomDirection == eDirection_Up)
+	if (doorDirection == eDirection_Up)
 	{
 		doorLength = 0.5f;
 		doorWidth = 0.15f;
 		doorPosition = vec3(0.0f, 0.0f, -m_width);
 	}
-	if (randomDirection == eDirection_Down)
+	if (doorDirection == eDirection_Down)
 	{
 		doorLength = 0.5f;
 		doorWidth = 0.15f;
 		doorPosition = vec3(0.0f, 0.0f, m_width);
 	}
-	if (randomDirection == eDirection_Left)
+	if (doorDirection == eDirection_Left)
 	{
 		doorLength = 0.15f;
 		doorWidth = 0.5f;
 		doorPosition = vec3(-m_length, 0.0f, 0.0f);
 	}
-	if (randomDirection == eDirection_Right)
+	if (doorDirection == eDirection_Right)
 	{
 		doorLength = 0.15f;
 		doorWidth = 0.5f;
@@ -89,7 +146,8 @@ void Room::CreateRoom()
 	}
 
 	pNewDoor->SetDimensions(doorLength, doorWidth, doorHeight);
-	pNewDoor->SetPosition(doorPosition);
+	pNewDoor->SetPosition(m_position + doorPosition);
+	pNewDoor->SetDirection(doorDirection);
 
 	m_vpDoorList.push_back(pNewDoor);
 }

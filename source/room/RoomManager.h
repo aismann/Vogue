@@ -36,7 +36,8 @@ public:
 
 	// Generation
 	void GenerateNewLayout();
-	void CreateRandomRoom();
+	void CreateRandomRoom(Room* pRoomConnection, eDirection connectedDirection, int roomDepth);
+	void CreateConnectedRoom();
 
 	// Update
 	void Update(float dt);

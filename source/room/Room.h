@@ -21,22 +21,14 @@
 #include <vector>
 using namespace std;
 
-enum eDirection
-{
-	eDirection_Up = 0,
-	eDirection_Down,
-	eDirection_Right,
-	eDirection_Left,
-};
-
+class RoomManager;
 typedef vector<Door*> DoorList;
-
 
 class Room
 {
 public:
 	/* Public methods */
-	Room(Renderer* pRenderer);
+	Room(Renderer* pRenderer, RoomManager* pRoomManager);
 	~Room();
 
 	// Clearing
@@ -44,10 +36,15 @@ public:
 
 	// Accessors
 	void SetPosition(vec3 pos);
+	vec3 GetPosition();
 	void SetDimensions(float length, float width, float height);
+	float GetLength();
+	float GetWidth();
+	float GetHeight();
 
 	// Generation
-	void CreateRoom();
+	bool CanCreateDoor(eDirection doorDirection);
+	void CreateDoor(eDirection doorDirection);
 
 	// Update
 	void Update(float dt);
@@ -70,6 +67,7 @@ protected:
 private:
 	/* Private members */
 	Renderer* m_pRenderer;
+	RoomManager* m_pRoomManager;
 
 	float m_length;
 	float m_width;
