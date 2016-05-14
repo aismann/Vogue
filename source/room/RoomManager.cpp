@@ -16,8 +16,6 @@
 RoomManager::RoomManager(Renderer* pRenderer)
 {
 	m_pRenderer = pRenderer;
-	
-	GenerateNewLayout();
 }
 
 RoomManager::~RoomManager()

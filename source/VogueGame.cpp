@@ -13,6 +13,7 @@
 
 #include "VogueGame.h"
 #include "utils/Interpolator.h"
+#include "utils/Random.h"
 #include <glm/detail/func_geometric.hpp>
 
 #ifdef __linux__
@@ -206,6 +207,10 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	CreateGUI();
 	SetupGUI();
 	SkinGUI();
+
+	SeedRandomNumberGenerator();
+
+	m_pRoomManager->GenerateNewLayout();
 
 	SetGameMode(GameMode_Debug);
 	SetCameraMode(CameraMode_Debug);
