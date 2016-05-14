@@ -93,6 +93,7 @@ void RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedDi
 		{
 			dontAllowDirection = eDirection_Left;
 		}
+
 		eDirection doorDirection = dontAllowDirection;
 		while(doorDirection == dontAllowDirection)
 		{
