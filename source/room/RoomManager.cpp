@@ -14,6 +14,9 @@
 RoomManager::RoomManager(Renderer* pRenderer)
 {
 	m_pRenderer = pRenderer;
+
+	Room* pNewRoom = new Room(m_pRenderer);
+	m_vpRoomList.push_back(pNewRoom);
 }
 
 RoomManager::~RoomManager()
@@ -38,10 +41,12 @@ void RoomManager::Update(float dt)
 	
 void RoomManager::Render()
 {
-	for (unsigned int i = 0; i < m_vpRoomList.size(); i++)
-	{
-		Room *pRoom = m_vpRoomList[i];
+	m_pRenderer->PushMatrix();
+		for (unsigned int i = 0; i < m_vpRoomList.size(); i++)
+		{
+			Room *pRoom = m_vpRoomList[i];
 
-		pRoom->Render();
-	}
+			pRoom->Render();
+		}
+	m_pRenderer->PopMatrix();
 }

@@ -58,15 +58,30 @@ void VogueGame::Render()
 
 	// Begin rendering
 	m_pRenderer->BeginScene(true, true, true);
+		m_pRenderer->PushMatrix();
+			// Set the default projection mode
+			m_pRenderer->SetProjectionMode(PM_PERSPECTIVE, m_defaultViewport);
 
-		// Rooms
-		m_pRoomManager->Render();
+			// Set back culling as default
+			m_pRenderer->SetCullMode(CM_BACK);
 
-		// Render the GUI
-		RenderGUI();
+			// Set default depth test
+			m_pRenderer->EnableDepthTest(DT_LESS);
 
-		// Render debug information and text
-		RenderDebugInformation();
+			// Set the lookat camera
+			m_pGameCamera->Look();
+
+			// Rooms
+			m_pRoomManager->Render();
+		m_pRenderer->PopMatrix();
+
+		m_pRenderer->PushMatrix();
+			// Render the GUI
+			RenderGUI();
+
+			// Render debug information and text
+			RenderDebugInformation();
+		m_pRenderer->PopMatrix();
 
 	// End rendering
 	m_pRenderer->EndScene();

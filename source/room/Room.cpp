@@ -14,6 +14,10 @@
 Room::Room(Renderer* pRenderer)
 {
 	m_pRenderer = pRenderer;
+
+	m_length = 0.5f;
+	m_width = 0.5f;
+	m_height = 0.5f;
 }
 
 Room::~Room()
