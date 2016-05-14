@@ -24,6 +24,9 @@
 #include "VogueWindow.h"
 #include "VogueSettings.h"
 
+#include "room/RoomManager.h"
+
+
 #ifdef __linux__
 typedef struct POINT {
   float x;
@@ -304,20 +307,12 @@ private:
 	bool m_GUICreated;
 
 	// Toggle flags
-	bool m_deferredRendering;
-	bool m_modelWireframe;
-	int m_modelAnimationIndex;
-	bool m_multiSampling;
-	bool m_ssao;
-	bool m_blur;
 	bool m_shadows;
-	bool m_dynamicLighting;
-	bool m_animationUpdate;
 	bool m_fullscreen;
 	bool m_debugRender;
-	bool m_instanceRender;
-	bool m_fogRender;
-	bool m_waterRender;
+
+	// Game objects
+	RoomManager *m_pRoomManager;
 
 	// Singleton instance
 	static VogueGame *c_instance;

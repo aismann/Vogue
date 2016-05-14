@@ -59,6 +59,9 @@ void VogueGame::Render()
 	// Begin rendering
 	m_pRenderer->BeginScene(true, true, true);
 
+		// Rooms
+		m_pRoomManager->Render();
+
 		// Render the GUI
 		RenderGUI();
 

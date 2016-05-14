@@ -185,20 +185,9 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	m_elapsedWaterTime = 0.0f;
 
 	// Toggle flags
-	m_deferredRendering = true;
-	m_modelWireframe = false;
-	m_modelAnimationIndex = 0;
-	m_multiSampling = true;
-	m_ssao = true;
-	m_blur = false;
 	m_shadows = true;
-	m_dynamicLighting = true;
-	m_animationUpdate = true;
 	m_fullscreen = m_pVogueSettings->m_fullscreen;
 	m_debugRender = false;
-	m_instanceRender = true;
-	m_fogRender = true;
-	m_waterRender = true;
 
 	// Camera mode
 	m_cameraMode = CameraMode_Debug;
@@ -224,6 +213,8 @@ void VogueGame::Destroy()
 {
 	if (c_instance)
 	{
+		delete m_pRoomManager;
+
 		delete m_pGameCamera;
 		DestroyGUI();  // Destroy the GUI components before we delete the GUI manager object.
 		delete m_pGUI;

@@ -64,6 +64,9 @@
     <Filter Include="source\gui">
       <UniqueIdentifier>{b004c320-3529-497a-8ba6-f2ffdf28f9a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\room">
+      <UniqueIdentifier>{7f081b21-90af-4cf1-9b91-24dd771d3fbf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\main.cpp">
@@ -401,6 +404,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\gui\checkbox.cpp">
       <Filter>source\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\room\RoomManager.cpp">
+      <Filter>source\room</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1204,6 +1210,9 @@
     </ClInclude>
     <ClInclude Include="..\..\source\gui\button.h">
       <Filter>source\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\room\RoomManager.h">
+      <Filter>source\room</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
