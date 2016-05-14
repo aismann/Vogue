@@ -1,5 +1,5 @@
 // ******************************************************************************
-// Filename:    RoomManager.h
+// Filename:    Room.h
 // Project:     Vox
 // Author:      Steven Ball
 //
@@ -13,17 +13,16 @@
 
 #pragma once
 
-#include "Room.h"
 #include "../Maths/3dmaths.h"
 
 #include <stdio.h>
 
-class RoomManager
+class Room
 {
 public:
 	/* Public methods */
-	RoomManager();
-	~RoomManager();
+	Room();
+	~Room();
 
 	void Update(float dt);
 

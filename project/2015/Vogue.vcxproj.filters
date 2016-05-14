@@ -408,6 +408,9 @@
     <ClCompile Include="..\..\source\room\RoomManager.cpp">
       <Filter>source\room</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\room\Room.cpp">
+      <Filter>source\room</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\VogueGame.h">
@@ -1212,6 +1215,9 @@
       <Filter>source\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\room\RoomManager.h">
+      <Filter>source\room</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\room\Room.h">
       <Filter>source\room</Filter>
     </ClInclude>
   </ItemGroup>

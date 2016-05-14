@@ -233,6 +233,7 @@
     <ClCompile Include="..\..\source\Renderer\Renderer.cpp" />
     <ClCompile Include="..\..\source\Renderer\texture.cpp" />
     <ClCompile Include="..\..\source\Renderer\tga.cpp" />
+    <ClCompile Include="..\..\source\room\Room.cpp" />
     <ClCompile Include="..\..\source\room\RoomManager.cpp" />
     <ClCompile Include="..\..\source\simplex\simplexnoise.cpp" />
     <ClCompile Include="..\..\source\simplex\simplextextures.cpp" />
@@ -484,6 +485,7 @@
     <ClInclude Include="..\..\source\Renderer\tga.h" />
     <ClInclude Include="..\..\source\Renderer\vertexarray.h" />
     <ClInclude Include="..\..\source\Renderer\viewport.h" />
+    <ClInclude Include="..\..\source\room\Room.h" />
     <ClInclude Include="..\..\source\room\RoomManager.h" />
     <ClInclude Include="..\..\source\selene\selene.h" />
     <ClInclude Include="..\..\source\selene\selene\BaseFun.h" />

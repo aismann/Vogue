@@ -26,6 +26,7 @@ add_subdirectory(ini)
 add_subdirectory(simplex)
 add_subdirectory(tinythread)
 add_subdirectory(libnoise)
+add_subdirectory(room)
 
 source_group("source" FILES ${SRCS})
 source_group("source\\utils" FILES ${UTIL_SRCS})
@@ -46,6 +47,7 @@ source_group("source\\ini" FILES ${INI_SRCS})
 source_group("source\\simplex" FILES ${SIMPLEX_SRCS})
 source_group("source\\tinythread" FILES ${TINYTHREAD_SRCS})
 source_group("source\\libnoise" FILES ${LIBNOISE_SRCS})
+source_group("source\\room" FILES ${ROOM_SRCS})
 
 add_executable(Vogue
                ${SRCS}
@@ -66,7 +68,8 @@ add_executable(Vogue
                ${INI_SRCS}
                ${SIMPLEX_SRCS}
                ${TINYTHREAD_SRCS}
-               ${LIBNOISE_SRCS})
+               ${LIBNOISE_SRCS}
+               ${ROOM_SRCS})
 
 include_directories(".")			   
 include_directories("glfw\\include")
