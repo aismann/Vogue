@@ -17,6 +17,11 @@
 #include "../Maths/3dmaths.h"
 
 #include <stdio.h>
+#include <vector>
+using namespace std;
+
+typedef vector<Room*> ChunkList;
+
 
 class RoomManager
 {
@@ -43,4 +48,6 @@ protected:
 
 private:
 	/* Private members */
+
+	ChunkList m_vpChunkList;
 };
