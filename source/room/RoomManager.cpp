@@ -11,18 +11,37 @@
 
 #include "RoomManager.h"
 
-RoomManager::RoomManager()
+RoomManager::RoomManager(Renderer* pRenderer)
 {
+	m_pRenderer = pRenderer;
 }
 
 RoomManager::~RoomManager()
 {
+	for (unsigned int i = 0; i < m_vpRoomList.size(); i++)
+	{
+		delete m_vpRoomList[i];
+		m_vpRoomList[i] = 0;
+	}
+	m_vpRoomList.clear();
 }
 
 void RoomManager::Update(float dt)
 {
+	for (unsigned int i = 0; i < m_vpRoomList.size(); i++)
+	{
+		Room *pRoom = m_vpRoomList[i];
+
+		pRoom->Update(dt);
+	}
 }
 	
 void RoomManager::Render()
 {
+	for (unsigned int i = 0; i < m_vpRoomList.size(); i++)
+	{
+		Room *pRoom = m_vpRoomList[i];
+
+		pRoom->Render();
+	}
 }

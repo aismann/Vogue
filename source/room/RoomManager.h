@@ -15,19 +15,20 @@
 
 #include "Room.h"
 #include "../Maths/3dmaths.h"
+#include "../Renderer/Renderer.h"
 
 #include <stdio.h>
 #include <vector>
 using namespace std;
 
-typedef vector<Room*> ChunkList;
+typedef vector<Room*> RoomList;
 
 
 class RoomManager
 {
 public:
 	/* Public methods */
-	RoomManager();
+	RoomManager(Renderer* pRenderer);
 	~RoomManager();
 
 	void Update(float dt);
@@ -48,6 +49,7 @@ protected:
 
 private:
 	/* Private members */
+	Renderer* m_pRenderer;
 
-	ChunkList m_vpChunkList;
+	RoomList m_vpRoomList;
 };

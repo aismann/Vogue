@@ -14,6 +14,7 @@
 #pragma once
 
 #include "../Maths/3dmaths.h"
+#include "../Renderer/Renderer.h"
 
 #include <stdio.h>
 
@@ -21,7 +22,7 @@ class Room
 {
 public:
 	/* Public methods */
-	Room();
+	Room(Renderer* pRenderer);
 	~Room();
 
 	void Update(float dt);
@@ -42,4 +43,12 @@ protected:
 
 private:
 	/* Private members */
+	Renderer* m_pRenderer;
+
+	float m_length;
+	float m_width;
+	float m_height;
+
+	// Chunk position
+	vec3 m_position;
 };
