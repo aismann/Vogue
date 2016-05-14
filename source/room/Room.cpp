@@ -24,6 +24,13 @@ Room::~Room()
 {
 }
 
+void Room::SetDimensions(float length, float width, float height)
+{
+	m_length = length;
+	m_width = width;
+	m_height = height;
+}
+
 void Room::Update(float dt)
 {
 }

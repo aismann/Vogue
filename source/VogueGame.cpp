@@ -82,7 +82,7 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 
 	/* Create cameras */
 	m_pGameCamera = new Camera(m_pRenderer);
-	m_pGameCamera->SetPosition(vec3(0.0f, 8.25f, 15.5f));
+	m_pGameCamera->SetPosition(vec3(0.0f, 2.0f, 10.0f));
 	m_pGameCamera->SetFakePosition(m_pGameCamera->GetPosition());
 	m_pGameCamera->SetFacing(vec3(0.0f, 0.0f, -1.0f));
 	m_pGameCamera->SetUp(vec3(0.0f, 1.0f, 0.0f));

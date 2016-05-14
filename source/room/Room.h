@@ -25,6 +25,8 @@ public:
 	Room(Renderer* pRenderer);
 	~Room();
 
+	void SetDimensions(float length, float width, float height);
+
 	void Update(float dt);
 
     void Render();

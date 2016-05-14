@@ -31,6 +31,8 @@ public:
 	RoomManager(Renderer* pRenderer);
 	~RoomManager();
 
+	void CreateRandomRoom();
+
 	void Update(float dt);
 
     void Render();
