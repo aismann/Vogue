@@ -61,5 +61,6 @@ private:
 	/* Private members */
 	Renderer* m_pRenderer;
 
+	// List of rooms
 	RoomList m_vpRoomList;
 };

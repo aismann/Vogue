@@ -76,5 +76,6 @@ private:
 	// Chunk position
 	vec3 m_position;
 
+	// List of doors
 	DoorList m_vpDoorList;
 };
