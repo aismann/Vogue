@@ -69,6 +69,7 @@ private:
 	Renderer* m_pRenderer;
 	RoomManager* m_pRoomManager;
 
+	// Dimensions
 	float m_length;
 	float m_width;
 	float m_height;

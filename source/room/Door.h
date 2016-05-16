@@ -65,10 +65,12 @@ private:
 	/* Private members */
 	Renderer* m_pRenderer;
 
+	// Dimensions
 	float m_length;
 	float m_width;
 	float m_height;
 
+	// Door direction
 	eDirection m_direction;
 
 	// Chunk position
