@@ -1,5 +1,5 @@
 // ******************************************************************************
-// Filename:    RoomManager.h
+// Filename:    Corridor.h
 // Project:     Vox
 // Author:      Steven Ball
 //
@@ -13,33 +13,27 @@
 
 #pragma once
 
-#include "Room.h"
-#include "Corridor.h"
 #include "../Maths/3dmaths.h"
 #include "../Renderer/Renderer.h"
+#include "Door.h"
 
 #include <stdio.h>
 #include <vector>
 using namespace std;
 
-typedef vector<Room*> RoomList;
-typedef vector<Corridor*> CorridorList;
 
-
-class RoomManager
+class Corridor
 {
 public:
 	/* Public methods */
-	RoomManager(Renderer* pRenderer);
-	~RoomManager();
+	Corridor(Renderer* pRenderer);
+	~Corridor();
 
-	// Clearing
-	void ClearRooms();
-
-	// Generation
-	void GenerateNewLayout();
-	void CreateRandomRoom(Room* pRoomConnection, eDirection connectedDirection, int roomDepth);
-	void CreateConnectedRoom();
+	// Accessors
+	void SetPosition(vec3 pos);
+	void SetDimensions(float length, float width, float height);
+	void SetDirection(eDirection direction);
+	eDirection GetDirection();
 
 	// Update
 	void Update(float dt);
@@ -63,6 +57,14 @@ private:
 	/* Private members */
 	Renderer* m_pRenderer;
 
-	// List of rooms
-	RoomList m_vpRoomList;
+	// Dimensions
+	float m_length;
+	float m_width;
+	float m_height;
+
+	// Door direction
+	eDirection m_direction;
+
+	// Chunk position
+	vec3 m_position;
 };

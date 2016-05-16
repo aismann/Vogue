@@ -233,6 +233,7 @@
     <ClCompile Include="..\..\source\Renderer\Renderer.cpp" />
     <ClCompile Include="..\..\source\Renderer\texture.cpp" />
     <ClCompile Include="..\..\source\Renderer\tga.cpp" />
+    <ClCompile Include="..\..\source\room\Corridor.cpp" />
     <ClCompile Include="..\..\source\room\Door.cpp" />
     <ClCompile Include="..\..\source\room\Room.cpp" />
     <ClCompile Include="..\..\source\room\RoomManager.cpp" />
@@ -486,6 +487,7 @@
     <ClInclude Include="..\..\source\Renderer\tga.h" />
     <ClInclude Include="..\..\source\Renderer\vertexarray.h" />
     <ClInclude Include="..\..\source\Renderer\viewport.h" />
+    <ClInclude Include="..\..\source\room\Corridor.h" />
     <ClInclude Include="..\..\source\room\Door.h" />
     <ClInclude Include="..\..\source\room\Room.h" />
     <ClInclude Include="..\..\source\room\RoomManager.h" />

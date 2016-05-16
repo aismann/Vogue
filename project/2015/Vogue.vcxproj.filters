@@ -414,6 +414,9 @@
     <ClCompile Include="..\..\source\room\Door.cpp">
       <Filter>source\room</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\room\Corridor.cpp">
+      <Filter>source\room</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\VogueGame.h">
@@ -1224,6 +1227,9 @@
       <Filter>source\room</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\room\Door.h">
+      <Filter>source\room</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\room\Corridor.h">
       <Filter>source\room</Filter>
     </ClInclude>
   </ItemGroup>
