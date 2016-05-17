@@ -110,31 +110,38 @@ void RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedDi
 
 void RoomManager::CreateConnectedRoom()
 {
-	int randomRoomIndex = GetRandomNumber(0, (int)m_vpRoomList.size()-1);
+	Room* pRoom = NULL;
 
-	Room* pRoom = m_vpRoomList[randomRoomIndex];
-
-	bool canCreateRoomFromDirection = false;
-	int numDirctionTries = 0;
-	while (canCreateRoomFromDirection == false && numDirctionTries < 10)
+	if ((int)m_vpRoomList.size() > 0)
 	{
-		eDirection direction = (eDirection)GetRandomNumber(0, 3);
+		int randomRoomIndex = GetRandomNumber(0, (int)m_vpRoomList.size() - 1);
+		pRoom = m_vpRoomList[randomRoomIndex];
+	}
 
-		if (pRoom->CanCreateConnection(direction))
+	if (pRoom != NULL)
+	{
+		bool canCreateRoomFromDirection = false;
+		int numDirctionTries = 0;
+		while (canCreateRoomFromDirection == false && numDirctionTries < 10)
 		{
-			canCreateRoomFromDirection = true;
+			eDirection direction = (eDirection)GetRandomNumber(0, 3);
 
-			// Create the door object
-			pRoom->CreateDoor(direction);
+			if (pRoom->CanCreateConnection(direction))
+			{
+				canCreateRoomFromDirection = true;
 
-			// Create the corridor object
-			pRoom->CreateCorridor(direction);
+				// Create the door object
+				pRoom->CreateDoor(direction);
 
-			// Create a new room, that connects to this one
-			CreateRandomRoom(pRoom, direction, 0);
+				// Create the corridor object
+				pRoom->CreateCorridor(direction);
+
+				// Create a new room, that connects to this one
+				CreateRandomRoom(pRoom, direction, 0);
+			}
+
+			numDirctionTries++;
 		}
-
-		numDirctionTries++;
 	}
 }
 
