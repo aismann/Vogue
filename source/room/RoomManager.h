@@ -36,7 +36,11 @@ public:
 	// Clearing
 	void ClearRooms();
 
+	// Accessors
+	int GetNumRooms();
+
 	// Validation
+	bool DoesOverlap(vec3 position1, float length1, float width1, float height1, vec3 position2, float length2, float width2, float height2);
 	bool DoesRoomOverlap(vec3 position, float length, float width, float height);
 
 	// Generation

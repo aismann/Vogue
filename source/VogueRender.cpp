@@ -119,6 +119,8 @@ void VogueGame::RenderDebugInformation()
 
 	char lDrawingBuff[256];
 	sprintf(lDrawingBuff, "Vertices: %i, Faces: %i", 0, 0); // TODO : Debug rendering Metrics
+	char lRoomsBuff[256];
+	sprintf(lRoomsBuff, "Rooms: %i", m_pRoomManager->GetNumRooms());
 
 	char lFPSBuff[128];
 	float fpsWidthOffset = 65.0f;
@@ -150,7 +152,8 @@ void VogueGame::RenderDebugInformation()
 		if (m_debugRender)
 		{
 			m_pRenderer->RenderFreeTypeText(m_defaultFont, 10.0f, m_windowHeight - (l_nTextHeight * 1) - 10.0f, 1.0f, Colour(1.0f, 1.0f, 1.0f), 1.0f, lCameraBuff);
-			m_pRenderer->RenderFreeTypeText(m_defaultFont, 10.0f, m_windowHeight - (l_nTextHeight*2) - 10.0f, 1.0f, Colour(1.0f, 1.0f, 1.0f), 1.0f, lDrawingBuff);
+			m_pRenderer->RenderFreeTypeText(m_defaultFont, 10.0f, m_windowHeight - (l_nTextHeight * 2) - 10.0f, 1.0f, Colour(1.0f, 1.0f, 1.0f), 1.0f, lDrawingBuff);
+			m_pRenderer->RenderFreeTypeText(m_defaultFont, 10.0f, m_windowHeight - (l_nTextHeight * 3) - 10.0f, 1.0f, Colour(1.0f, 1.0f, 1.0f), 1.0f, lRoomsBuff);
 		}
 
 		m_pRenderer->RenderFreeTypeText(m_defaultFont, m_windowWidth-fpsWidthOffset, 10.0f, 1.0f, Colour(1.0f, 1.0f, 1.0f), 1.0f, lFPSBuff);

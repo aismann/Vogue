@@ -34,14 +34,96 @@ void RoomManager::ClearRooms()
 	m_vpRoomList.clear();
 }
 
+// Accessors
+int RoomManager::GetNumRooms()
+{
+	return (int)m_vpRoomList.size();
+}
+
 // Validation
+bool RoomManager::DoesOverlap(vec3 position1, float length1, float width1, float height1, vec3 position2, float length2, float width2, float height2)
+{
+	Plane3D planes[6];
+	planes[0] = Plane3D(vec3(-1.0f, 0.0f, 0.0f), vec3(length1, 0.0f, 0.0f));
+	planes[1] = Plane3D(vec3(1.0f, 0.0f, 0.0f), vec3(-length1, 0.0f, 0.0f));
+	planes[2] = Plane3D(vec3(0.0f, -1.0f, 0.0f), vec3(0.0f, height1, 0.0f));
+	planes[3] = Plane3D(vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, -height1, 0.0f));
+	planes[4] = Plane3D(vec3(0.0f, 0.0f, -1.0f), vec3(0.0f, 0.0f, width1));
+	planes[5] = Plane3D(vec3(0.0f, 0.0f, 1.0f), vec3(0.0f, 0.0f, -width1));
+
+	for (int i = 0; i < 8; i++)
+	{
+		// Check all corners and mid points along the walls
+		vec3 point;
+		if (i == 0)
+		{
+			point = position2 + vec3(length2, 0.0f, width2);
+		}
+		else if (i == 1)
+		{
+			point = position2 + vec3(-length2, 0.0f, width2);
+		}
+		else if (i == 2)
+		{
+			point = position2 + vec3(length2, 0.0f, -width2);
+		}
+		else if (i == 3)
+		{
+			point = position2 + vec3(-length2, 0.0f, -width2);
+		}
+		else if (i == 4)
+		{
+			point = position2 + vec3(length2, 0.0f, 0.0f);
+		}
+		else if (i == 5)
+		{
+			point = position2 + vec3(-length2, 0.0f, 0.0f);
+		}
+		else if (i == 6)
+		{
+			point = position2 + vec3(0.0f, 0.0f, width2);
+		}
+		else if (i == 7)
+		{
+			point = position2 + vec3(0.0f, 0.0f, -width2);
+		}
+
+		float distance;
+		int outside = 0;
+		int inside = 0;
+
+		for (int i = 0; i < 6; i++)
+		{
+			distance = planes[i].GetPointDistance(point - position1);
+
+			if (distance < 0.0f)
+			{
+				// Outside...
+				outside++;
+			}
+			else
+			{
+				// Inside...
+				inside++;
+			}
+		}
+
+		if (outside == 0)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 bool RoomManager::DoesRoomOverlap(vec3 position, float length, float width, float height)
 {
 	for (unsigned int i = 0; i < m_vpRoomList.size(); i++)
 	{
 		Room* pCheckRoom = m_vpRoomList[i];
 
-		// Check each corner and each midSection
+		// Check each corner and each mid point along the walls
 		vec3 topLeft = position + vec3(length, 0.0f, width);
 		vec3 topRight = position + vec3(-length, 0.0f, width);
 		vec3 bottomLeft = position + vec3(length, 0.0f, -width);
@@ -83,6 +165,12 @@ bool RoomManager::DoesRoomOverlap(vec3 position, float length, float width, floa
 		{
 			return true;
 		}
+
+		// Also make sure that our existing room is not overlapping with the new room
+		if (DoesOverlap(position, length, width, height, pCheckRoom->GetPosition(), pCheckRoom->GetLength(), pCheckRoom->GetWidth(), pCheckRoom->GetHeight()))
+		{
+			return true;
+		}
 	}
 
 	return false;
@@ -108,8 +196,8 @@ Room* RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedD
 	int numRoomTries = 0;
 	while(overlapsExistingRoom == true && numRoomTries < 10)
 	{
-		roomLength = GetRandomNumber(30, 80, 2) * 0.1f;
-		roomWidth = GetRandomNumber(30, 80, 2) * 0.1f;
+		roomLength = GetRandomNumber(30, 140, 2) * 0.1f;
+		roomWidth = GetRandomNumber(30, 140, 2) * 0.1f;
 		roomHeight = 1.0f;
 
 		// If we are connected to a room, set our position
