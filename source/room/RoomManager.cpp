@@ -85,7 +85,7 @@ void RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedDi
 	}
 
 	// Create a door and corridor for the connected room
-	if (roomDepth < 2)
+	if (roomDepth < 0)
 	{
 		// Don't allow to create doors back to the previously connected room (if we have one)
 		// Keep getting a new direction, until we don't match the connected direction.
@@ -110,9 +110,32 @@ void RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedDi
 
 void RoomManager::CreateConnectedRoom()
 {
-	int randomRoomIndex = GetRandomNumber(0, (int)m_vpRoomList.size());
+	int randomRoomIndex = GetRandomNumber(0, (int)m_vpRoomList.size()-1);
 
 	Room* pRoom = m_vpRoomList[randomRoomIndex];
+
+	bool canCreateRoomFromDirection = false;
+	int numDirctionTries = 0;
+	while (canCreateRoomFromDirection == false && numDirctionTries < 10)
+	{
+		eDirection direction = (eDirection)GetRandomNumber(0, 3);
+
+		if (pRoom->CanCreateConnection(direction))
+		{
+			canCreateRoomFromDirection = true;
+
+			// Create the door object
+			pRoom->CreateDoor(direction);
+
+			// Create the corridor object
+			pRoom->CreateCorridor(direction);
+
+			// Create a new room, that connects to this one
+			CreateRandomRoom(pRoom, direction, 0);
+		}
+
+		numDirctionTries++;
+	}
 }
 
 // Update

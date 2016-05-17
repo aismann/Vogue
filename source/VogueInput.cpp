@@ -191,6 +191,11 @@ void VogueGame::KeyReleased(int key, int scancode, int mods)
 		}
 
 		// Debug
+		case GLFW_KEY_I:
+		{
+			m_pRoomManager->CreateConnectedRoom();
+			break;
+		}
 		case GLFW_KEY_O:
 		{
 			m_debugRender = !m_debugRender;

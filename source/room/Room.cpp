@@ -113,29 +113,10 @@ bool Room::CanCreateConnection(eDirection direction)
 	{
 		return false;
 	}
-
-	eDirection dontAllowDirection = eDirection_NONE;
-	if (direction == eDirection_Up)
-	{
-		dontAllowDirection = eDirection_Down;
-	}
-	else if (direction == eDirection_Down)
-	{
-		dontAllowDirection = eDirection_Up;
-	}
-	else if (direction == eDirection_Left)
-	{
-		dontAllowDirection = eDirection_Right;
-	}
-	else if (direction == eDirection_Right)
-	{
-		dontAllowDirection = eDirection_Left;
-	}
-
 	for (unsigned int i = 0; i < m_vpDoorList.size(); i++)
 	{
 		Door* pDoor = m_vpDoorList[i];
-		if (pDoor->GetDirection() == dontAllowDirection)
+		if (pDoor->GetDirection() == direction)
 		{
 			return false;
 		}
