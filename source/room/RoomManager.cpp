@@ -179,7 +179,10 @@ bool RoomManager::DoesRoomOverlap(vec3 position, float length, float width, floa
 // Generation
 void RoomManager::GenerateNewLayout()
 {
+	// First clear all existing rooms
 	ClearRooms();
+
+	// Generate the starting room
 	Room* pCreatedRoom = CreateRandomRoom(NULL, eDirection_NONE, 0.0f, 0);
 }
 
