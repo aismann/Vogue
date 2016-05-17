@@ -16,6 +16,7 @@
 #include "../Maths/3dmaths.h"
 #include "../Renderer/Renderer.h"
 #include "Door.h"
+#include "Corridor.h"
 
 #include <stdio.h>
 #include <vector>
@@ -23,6 +24,7 @@ using namespace std;
 
 class RoomManager;
 typedef vector<Door*> DoorList;
+typedef vector<Corridor*> CorridorList;
 
 class Room
 {
@@ -33,6 +35,7 @@ public:
 
 	// Clearing
 	void ClearDoors();
+	void ClearCorridors();
 
 	// Accessors
 	void SetPosition(vec3 pos);
@@ -41,10 +44,12 @@ public:
 	float GetLength();
 	float GetWidth();
 	float GetHeight();
+	float GetCorridorLength(eDirection direction);
 
 	// Generation
-	bool CanCreateDoor(eDirection doorDirection);
-	void CreateDoor(eDirection doorDirection);
+	bool CanCreateConnection(eDirection direction);
+	void CreateDoor(eDirection direction);
+	void CreateCorridor(eDirection direction);
 
 	// Update
 	void Update(float dt);
@@ -79,4 +84,7 @@ private:
 
 	// List of doors
 	DoorList m_vpDoorList;
+
+	// List of corridors
+	CorridorList m_vpCorridorList;
 };

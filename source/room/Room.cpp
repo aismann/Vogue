@@ -27,6 +27,7 @@ Room::Room(Renderer* pRenderer, RoomManager* pRoomManager)
 Room::~Room()
 {
 	ClearDoors();
+	ClearCorridors();
 }
 
 // Clearing
@@ -38,6 +39,16 @@ void Room::ClearDoors()
 		m_vpDoorList[i] = 0;
 	}
 	m_vpDoorList.clear();
+}
+
+void Room::ClearCorridors()
+{
+	for (unsigned int i = 0; i < m_vpCorridorList.size(); i++)
+	{
+		delete m_vpCorridorList[i];
+		m_vpCorridorList[i] = 0;
+	}
+	m_vpCorridorList.clear();
 }
 
 // Accessors
@@ -73,28 +84,50 @@ float Room::GetHeight()
 	return m_height;
 }
 
-// Generation
-bool Room::CanCreateDoor(eDirection doorDirection)
+float Room::GetCorridorLength(eDirection direction)
 {
-	if (doorDirection == eDirection_NONE)
+	for (unsigned int i = 0; i < m_vpCorridorList.size(); i++)
+	{
+		Corridor *pCorridor = m_vpCorridorList[i];
+
+		if (pCorridor->GetDirection() == direction)
+		{
+			if (direction == eDirection_Up || direction == eDirection_Down)
+			{
+				return pCorridor->GetWidth();
+			}
+			if (direction == eDirection_Left || direction == eDirection_Right)
+			{
+				return pCorridor->GetLength();
+			}
+		}
+	}
+
+	return 0.0f;
+}
+
+// Generation
+bool Room::CanCreateConnection(eDirection direction)
+{
+	if (direction == eDirection_NONE)
 	{
 		return false;
 	}
 
 	eDirection dontAllowDirection = eDirection_NONE;
-	if (doorDirection == eDirection_Up)
+	if (direction == eDirection_Up)
 	{
 		dontAllowDirection = eDirection_Down;
 	}
-	else if (doorDirection == eDirection_Down)
+	else if (direction == eDirection_Down)
 	{
 		dontAllowDirection = eDirection_Up;
 	}
-	else if (doorDirection == eDirection_Left)
+	else if (direction == eDirection_Left)
 	{
 		dontAllowDirection = eDirection_Right;
 	}
-	else if (doorDirection == eDirection_Right)
+	else if (direction == eDirection_Right)
 	{
 		dontAllowDirection = eDirection_Left;
 	}
@@ -111,7 +144,7 @@ bool Room::CanCreateDoor(eDirection doorDirection)
 	return true;
 }
 
-void Room::CreateDoor(eDirection doorDirection)
+void Room::CreateDoor(eDirection direction)
 {
 	Door* pNewDoor = new Door(m_pRenderer);
 
@@ -120,25 +153,25 @@ void Room::CreateDoor(eDirection doorDirection)
 	float doorHeight = 1.0f;
 	vec3 doorPosition;
 
-	if (doorDirection == eDirection_Up)
+	if (direction == eDirection_Up)
 	{
 		doorLength = 0.5f;
 		doorWidth = 0.15f;
 		doorPosition = vec3(0.0f, 0.0f, -m_width);
 	}
-	if (doorDirection == eDirection_Down)
+	if (direction == eDirection_Down)
 	{
 		doorLength = 0.5f;
 		doorWidth = 0.15f;
 		doorPosition = vec3(0.0f, 0.0f, m_width);
 	}
-	if (doorDirection == eDirection_Left)
+	if (direction == eDirection_Left)
 	{
 		doorLength = 0.15f;
 		doorWidth = 0.5f;
 		doorPosition = vec3(-m_length, 0.0f, 0.0f);
 	}
-	if (doorDirection == eDirection_Right)
+	if (direction == eDirection_Right)
 	{
 		doorLength = 0.15f;
 		doorWidth = 0.5f;
@@ -147,25 +180,77 @@ void Room::CreateDoor(eDirection doorDirection)
 
 	pNewDoor->SetDimensions(doorLength, doorWidth, doorHeight);
 	pNewDoor->SetPosition(m_position + doorPosition);
-	pNewDoor->SetDirection(doorDirection);
+	pNewDoor->SetDirection(direction);
 
 	m_vpDoorList.push_back(pNewDoor);
+}
+
+void Room::CreateCorridor(eDirection direction)
+{
+	Corridor* pNewCorrider = new Corridor(m_pRenderer);
+	float corridorLength;
+	float corridorWidth;
+	float corridorHeight = m_height;
+	vec3 corridorPosition = GetPosition();
+	float randomCorridorAmount = GetRandomNumber(10, 40, 2) * 0.1f;
+	float constantCorridorWidth = 0.5f;
+	if (direction == eDirection_Up || direction == eDirection_Down)
+	{
+		corridorLength = constantCorridorWidth;
+		corridorWidth = randomCorridorAmount;
+		if (direction == eDirection_Up)
+		{
+			corridorPosition += vec3(0.0f, 0.0f, -m_width + -corridorWidth);
+		}
+		else if (direction == eDirection_Down)
+		{
+			corridorPosition += vec3(0.0f, 0.0f, m_width + corridorWidth);
+		}
+	}
+	if (direction == eDirection_Left || direction == eDirection_Right)
+	{
+		corridorLength = randomCorridorAmount;
+		corridorWidth = constantCorridorWidth;
+		if (direction == eDirection_Left)
+		{
+			corridorPosition += vec3(-m_length + -corridorLength, 0.0f, 0.0f);
+		}
+		else if (direction == eDirection_Right)
+		{
+			corridorPosition += vec3(m_length + corridorLength, 0.0f, 0.0f);
+		}
+	}
+	pNewCorrider->SetDimensions(corridorLength, corridorWidth, corridorHeight);
+	pNewCorrider->SetPosition(corridorPosition);
+	pNewCorrider->SetDirection(direction);
+
+	m_vpCorridorList.push_back(pNewCorrider);
 }
 
 // Update
 void Room::Update(float dt)
 {
+	// Update doors
 	for (unsigned int i = 0; i < m_vpDoorList.size(); i++)
 	{
 		Door* pDoor = m_vpDoorList[i];
 
 		pDoor->Update(dt);
 	}
+
+	// Update corridors
+	for (unsigned int i = 0; i < m_vpCorridorList.size(); i++)
+	{
+		Corridor *pCorridor = m_vpCorridorList[i];
+
+		pCorridor->Update(dt);
+	}
 }
 
 // Render
 void Room::Render()
 {
+	// Render room
 	m_pRenderer->SetRenderMode(RM_WIREFRAME);
 	m_pRenderer->SetCullMode(CM_NOCULL);
 	m_pRenderer->SetLineWidth(1.0f);
@@ -221,5 +306,13 @@ void Room::Render()
 		Door* pDoor = m_vpDoorList[i];
 
 		pDoor->Render();
+	}
+
+	// Rnder corridors
+	for (unsigned int i = 0; i < m_vpCorridorList.size(); i++)
+	{
+		Corridor *pCorridor = m_vpCorridorList[i];
+
+		pCorridor->Render();
 	}
 }

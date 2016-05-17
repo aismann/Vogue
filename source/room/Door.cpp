@@ -31,11 +31,31 @@ void Door::SetPosition(vec3 pos)
 	m_position = pos;
 }
 
+vec3 Door::GetPosition()
+{
+	return m_position;
+}
+
 void Door::SetDimensions(float length, float width, float height)
 {
 	m_length = length;
 	m_width = width;
 	m_height = height;
+}
+
+float Door::GetLength()
+{
+	return m_length;
+}
+
+float Door::GetWidth()
+{
+	return m_width;
+}
+
+float Door::GetHeight()
+{
+	return m_height;
 }
 
 void Door::SetDirection(eDirection direction)

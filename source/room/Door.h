@@ -39,7 +39,11 @@ public:
 
 	// Accessors
 	void SetPosition(vec3 pos);
+	vec3 GetPosition();
 	void SetDimensions(float length, float width, float height);
+	float GetLength();
+	float GetWidth();
+	float GetHeight();
 	void SetDirection(eDirection direction);
 	eDirection GetDirection();
 
