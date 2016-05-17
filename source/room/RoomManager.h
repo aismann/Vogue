@@ -36,9 +36,11 @@ public:
 	// Clearing
 	void ClearRooms();
 
+	// Validation
+	bool DoesRoomOverlap(vec3 position, float length, float width, float height);
+
 	// Generation
 	void GenerateNewLayout();
-	void CreateRandomRoom(Room* pRoomConnection, eDirection connectedDirection, int roomDepth);
 	void CreateConnectedRoom();
 
 	// Update

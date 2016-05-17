@@ -34,78 +34,132 @@ void RoomManager::ClearRooms()
 	m_vpRoomList.clear();
 }
 
+// Validation
+bool RoomManager::DoesRoomOverlap(vec3 position, float length, float width, float height)
+{
+	for (unsigned int i = 0; i < m_vpRoomList.size(); i++)
+	{
+		Room* pCheckRoom = m_vpRoomList[i];
+
+		// Check each corner and each midSection
+		vec3 topLeft = position + vec3(length, 0.0f, width);
+		vec3 topRight = position + vec3(-length, 0.0f, width);
+		vec3 bottomLeft = position + vec3(length, 0.0f, -width);
+		vec3 bottomRight = position + vec3(-length, 0.0f, -width);
+		vec3 midLeft = position + vec3(length, 0.0f, 0.0f);
+		vec3 midRight = position + vec3(-length, 0.0f, 0.0f);
+		vec3 midTop = position + vec3(0.0f, 0.0f, width);
+		vec3 midBottom = position + vec3(0.0f, 0.0f, -width);
+
+		if (pCheckRoom->IsPointInsideRoom(topLeft))
+		{
+			return true;
+		}
+		if (pCheckRoom->IsPointInsideRoom(topRight))
+		{
+			return true;
+		}
+		if (pCheckRoom->IsPointInsideRoom(bottomLeft))
+		{
+			return true;
+		}
+		if (pCheckRoom->IsPointInsideRoom(bottomRight))
+		{
+			return true;
+		}
+		if (pCheckRoom->IsPointInsideRoom(midLeft))
+		{
+			return true;
+		}
+		if (pCheckRoom->IsPointInsideRoom(midRight))
+		{
+			return true;
+		}
+		if (pCheckRoom->IsPointInsideRoom(midTop))
+		{
+			return true;
+		}
+		if (pCheckRoom->IsPointInsideRoom(midBottom))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 // Generation
 void RoomManager::GenerateNewLayout()
 {
 	ClearRooms();
-	CreateRandomRoom(NULL, eDirection_NONE, 0);
+	Room* pCreatedRoom = CreateRandomRoom(NULL, eDirection_NONE, 0.0f, 0);
 }
 
-void RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedDirection, int roomDepth)
+Room* RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedDirection, float corridorLengthAmount, int roomDepth)
 {
-	Room* pNewRoom = new Room(m_pRenderer, this);
-
-	float roomLength = GetRandomNumber(30, 80, 2) * 0.1f;
-	float roomWidth = GetRandomNumber(30, 80, 2) * 0.1f;
-	float roomHeight = 1.0f;
-
-	pNewRoom->SetDimensions(roomLength, roomWidth, roomHeight);
+	float roomLength = 0.0f;
+	float roomWidth = 0.0f;
+	float roomHeight = 0.0f;
 
 	eDirection dontAllowDirection = eDirection_NONE;
+	vec3 newRoomPosition;
 
-	// If we are connected to a room, set our position
-	if (pRoomConnection != NULL)
+	bool overlapsExistingRoom = true;
+	int numRoomTries = 0;
+	while(overlapsExistingRoom == true && numRoomTries < 10)
 	{
-		vec3 newRoomPosition = pRoomConnection->GetPosition();
-		if (connectedDirection == eDirection_Up)
+		roomLength = GetRandomNumber(30, 80, 2) * 0.1f;
+		roomWidth = GetRandomNumber(30, 80, 2) * 0.1f;
+		roomHeight = 1.0f;
+
+		// If we are connected to a room, set our position
+		if (pRoomConnection != NULL)
 		{
-			newRoomPosition -= vec3(0.0f, 0.0f, pRoomConnection->GetWidth() + pRoomConnection->GetCorridorLength(connectedDirection)*2.0f + roomWidth);
-			dontAllowDirection = eDirection_Down;
-		}
-		if (connectedDirection == eDirection_Down)
-		{
-			newRoomPosition += vec3(0.0f, 0.0f, pRoomConnection->GetWidth() + pRoomConnection->GetCorridorLength(connectedDirection)*2.0f + roomWidth);
-			dontAllowDirection = eDirection_Up;
-		}
-		if (connectedDirection == eDirection_Left)
-		{
-			newRoomPosition -= vec3(pRoomConnection->GetLength() + pRoomConnection->GetCorridorLength(connectedDirection)*2.0f + roomLength, 0.0f, 0.0f);
-			dontAllowDirection = eDirection_Right;
-		}
-		if (connectedDirection == eDirection_Right)
-		{
-			newRoomPosition += vec3(pRoomConnection->GetLength() + pRoomConnection->GetCorridorLength(connectedDirection)*2.0f + roomLength, 0.0f, 0.0f);
-			dontAllowDirection = eDirection_Left;
+			newRoomPosition = pRoomConnection->GetPosition();
+			if (connectedDirection == eDirection_Up)
+			{
+				newRoomPosition -= vec3(0.0f, 0.0f, pRoomConnection->GetWidth() + corridorLengthAmount + roomWidth);
+				dontAllowDirection = eDirection_Down;
+			}
+			if (connectedDirection == eDirection_Down)
+			{
+				newRoomPosition += vec3(0.0f, 0.0f, pRoomConnection->GetWidth() + corridorLengthAmount + roomWidth);
+				dontAllowDirection = eDirection_Up;
+			}
+			if (connectedDirection == eDirection_Left)
+			{
+				newRoomPosition -= vec3(pRoomConnection->GetLength() + corridorLengthAmount + roomLength, 0.0f, 0.0f);
+				dontAllowDirection = eDirection_Right;
+			}
+			if (connectedDirection == eDirection_Right)
+			{
+				newRoomPosition += vec3(pRoomConnection->GetLength() + corridorLengthAmount + roomLength, 0.0f, 0.0f);
+				dontAllowDirection = eDirection_Left;
+			}
 		}
 
+		overlapsExistingRoom = DoesRoomOverlap(newRoomPosition, roomLength, roomWidth, roomHeight);
+
+		numRoomTries++;
+	}
+
+	Room* pNewRoom = NULL;
+	if (overlapsExistingRoom == false)
+	{
+		pNewRoom = new Room(m_pRenderer, this);
+		pNewRoom->SetDimensions(roomLength, roomWidth, roomHeight);
 		pNewRoom->SetPosition(newRoomPosition);
-
-		// Create a door back to the room we just connected to
-		pNewRoom->CreateDoor(dontAllowDirection);
-	}
-
-	// Create a door and corridor for the connected room
-	if (roomDepth < 0)
-	{
-		// Don't allow to create doors back to the previously connected room (if we have one)
-		// Keep getting a new direction, until we don't match the connected direction.
-		eDirection direction = dontAllowDirection;
-		while(direction == dontAllowDirection)
+		pNewRoom->SetRoomDepth(roomDepth);
+		if (pRoomConnection != NULL)
 		{
-			direction = (eDirection)GetRandomNumber(0, 3);
+			// Create a door back to the room we just connected to
+			pNewRoom->CreateDoor(dontAllowDirection);
 		}
 
-		// Create the door object
-		pNewRoom->CreateDoor(direction);
-
-		// Create the corridor object
-		pNewRoom->CreateCorridor(direction);
-
-		// Create a new room, that connects to this one
-		CreateRandomRoom(pNewRoom, direction, roomDepth+1);
+		m_vpRoomList.push_back(pNewRoom);
 	}
 
-	m_vpRoomList.push_back(pNewRoom);
+	return pNewRoom;
 }
 
 void RoomManager::CreateConnectedRoom()
@@ -130,14 +184,19 @@ void RoomManager::CreateConnectedRoom()
 			{
 				canCreateRoomFromDirection = true;
 
-				// Create the door object
-				pRoom->CreateDoor(direction);
-
-				// Create the corridor object
-				pRoom->CreateCorridor(direction);
+				float randomCorridorAmount = GetRandomNumber(10, 40, 2) * 0.2f;
 
 				// Create a new room, that connects to this one
-				CreateRandomRoom(pRoom, direction, 0);
+				Room* pCreatedRoom = CreateRandomRoom(pRoom, direction, randomCorridorAmount, pRoom->GetRoomDepth() + 1);
+
+				if (pCreatedRoom != NULL)
+				{
+					// Create the door object
+					pRoom->CreateDoor(direction);
+
+					// Create the corridor object
+					pRoom->CreateCorridor(direction, randomCorridorAmount);
+				}
 			}
 
 			numDirctionTries++;

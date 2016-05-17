@@ -44,15 +44,21 @@ public:
 	float GetLength();
 	float GetWidth();
 	float GetHeight();
+	int GetRoomDepth();
+	void SetRoomDepth(int depth);
 	float GetCorridorLength(eDirection direction);
+
+	// Validation
+	bool IsPointInsideRoom(vec3 point);
 
 	// Generation
 	bool CanCreateConnection(eDirection direction);
 	void CreateDoor(eDirection direction);
-	void CreateCorridor(eDirection direction);
+	void CreateCorridor(eDirection direction, float corridorLengthAmount);
 
 	// Update
 	void Update(float dt);
+	void UpdateRoomPlanes();;
 
 	// Render
     void Render();
@@ -81,6 +87,12 @@ private:
 
 	// Chunk position
 	vec3 m_position;
+
+	// Room depth, from the initial starting room
+	int m_roomDepth;
+
+	// Bounding region for the room (to stop room overlaps)
+	Plane3D m_planes[6];
 
 	// List of doors
 	DoorList m_vpDoorList;

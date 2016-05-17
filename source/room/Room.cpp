@@ -22,6 +22,10 @@ Room::Room(Renderer* pRenderer, RoomManager* pRoomManager)
 	m_length = 0.5f;
 	m_width = 0.5f;
 	m_height = 0.5f;
+
+	m_roomDepth = 0;
+
+	UpdateRoomPlanes();
 }
 
 Room::~Room()
@@ -67,6 +71,8 @@ void Room::SetDimensions(float length, float width, float height)
 	m_length = length;
 	m_width = width;
 	m_height = height;
+
+	UpdateRoomPlanes();
 }
 
 float Room::GetLength()
@@ -82,6 +88,16 @@ float Room::GetWidth()
 float Room::GetHeight()
 {
 	return m_height;
+}
+
+int Room::GetRoomDepth()
+{
+	return m_roomDepth;
+}
+
+void Room::SetRoomDepth(int depth)
+{
+	m_roomDepth = depth;
 }
 
 float Room::GetCorridorLength(eDirection direction)
@@ -104,6 +120,37 @@ float Room::GetCorridorLength(eDirection direction)
 	}
 
 	return 0.0f;
+}
+
+// Validation
+bool Room::IsPointInsideRoom(vec3 point)
+{
+	float distance;
+	int outside = 0;
+	int inside = 0;
+
+	for (int i = 0; i < 6; i++)
+	{
+		distance = m_planes[i].GetPointDistance(point - m_position);
+
+		if (distance < 0.0f)
+		{
+			// Outside...
+			outside++;
+		}
+		else
+		{
+			// Inside...
+			inside++;
+		}
+	}
+
+	if (outside == 0)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 // Generation
@@ -166,19 +213,18 @@ void Room::CreateDoor(eDirection direction)
 	m_vpDoorList.push_back(pNewDoor);
 }
 
-void Room::CreateCorridor(eDirection direction)
+void Room::CreateCorridor(eDirection direction, float corridorLengthAmount)
 {
 	Corridor* pNewCorrider = new Corridor(m_pRenderer);
 	float corridorLength;
 	float corridorWidth;
 	float corridorHeight = m_height;
 	vec3 corridorPosition = GetPosition();
-	float randomCorridorAmount = GetRandomNumber(10, 40, 2) * 0.1f;
 	float constantCorridorWidth = 0.5f;
 	if (direction == eDirection_Up || direction == eDirection_Down)
 	{
 		corridorLength = constantCorridorWidth;
-		corridorWidth = randomCorridorAmount;
+		corridorWidth = corridorLengthAmount * 0.5f;
 		if (direction == eDirection_Up)
 		{
 			corridorPosition += vec3(0.0f, 0.0f, -m_width + -corridorWidth);
@@ -190,7 +236,7 @@ void Room::CreateCorridor(eDirection direction)
 	}
 	if (direction == eDirection_Left || direction == eDirection_Right)
 	{
-		corridorLength = randomCorridorAmount;
+		corridorLength = corridorLengthAmount * 0.5f;
 		corridorWidth = constantCorridorWidth;
 		if (direction == eDirection_Left)
 		{
@@ -226,6 +272,16 @@ void Room::Update(float dt)
 
 		pCorridor->Update(dt);
 	}
+}
+
+void Room::UpdateRoomPlanes()
+{
+	m_planes[0] = Plane3D(vec3(-1.0f, 0.0f, 0.0f), vec3(m_length, 0.0f, 0.0f));
+	m_planes[1] = Plane3D(vec3(1.0f, 0.0f, 0.0f), vec3(-m_length, 0.0f, 0.0f));
+	m_planes[2] = Plane3D(vec3(0.0f, -1.0f, 0.0f), vec3(0.0f, m_height, 0.0f));
+	m_planes[3] = Plane3D(vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, -m_height, 0.0f));
+	m_planes[4] = Plane3D(vec3(0.0f, 0.0f, -1.0f), vec3(0.0f, 0.0f, m_width));
+	m_planes[5] = Plane3D(vec3(0.0f, 0.0f, 1.0f), vec3(0.0f, 0.0f, -m_width));
 }
 
 // Render
