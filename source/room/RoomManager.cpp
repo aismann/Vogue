@@ -258,6 +258,7 @@ void RoomManager::CreateConnectedRoom()
 	Room* pRoom = NULL;
 	bool canCreateRoomConnection = false;
 	int numRoomTries = 0;
+	while (canCreateRoomConnection == false && numRoomTries < 10)
 	{
 		if ((int)m_vpRoomList.size() > 0)
 		{
