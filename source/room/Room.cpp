@@ -382,12 +382,12 @@ void Room::Render()
 	m_pRenderer->SetCullMode(CM_BACK);
 
 	// Render doors
-	for (unsigned int i = 0; i < m_vpDoorList.size(); i++)
-	{
-		Door* pDoor = m_vpDoorList[i];
+	//for (unsigned int i = 0; i < m_vpDoorList.size(); i++)
+	//{
+	//	Door* pDoor = m_vpDoorList[i];
 
-		pDoor->Render();
-	}
+	//	pDoor->Render();
+	//}
 
 	// Rnder corridors
 	for (unsigned int i = 0; i < m_vpCorridorList.size(); i++)
