@@ -12,6 +12,10 @@
 #include "RoomManager.h"
 #include "../utils/Random.h"
 
+#include <vector>
+#include <algorithm>
+using namespace std;
+
 
 RoomManager::RoomManager(Renderer* pRenderer)
 {
