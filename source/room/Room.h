@@ -56,7 +56,7 @@ public:
 	bool IsRoomFullOfDoors();
 	bool IsRoomAbleToCreateMoreConnections();
 	void SetRoomAbleToCreateMoreConnections(bool able);
-	void CreateDoor(eDirection direction);
+	void CreateDoor(eDirection direction, float randomRoomOffset);
 	void CreateCorridor(eDirection direction, float corridorLengthAmount);
 
 	// Update

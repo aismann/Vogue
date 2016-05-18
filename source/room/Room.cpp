@@ -189,7 +189,7 @@ void Room::SetRoomAbleToCreateMoreConnections(bool able)
 	m_ableToCreateConnectingRooms = able;
 }
 
-void Room::CreateDoor(eDirection direction)
+void Room::CreateDoor(eDirection direction, float randomRoomOffset)
 {
 	Door* pNewDoor = new Door(m_pRenderer);
 
@@ -202,25 +202,25 @@ void Room::CreateDoor(eDirection direction)
 	{
 		doorLength = 0.5f;
 		doorWidth = 0.15f;
-		doorPosition = vec3(0.0f, 0.0f, -m_width);
+		doorPosition = vec3(-randomRoomOffset, 0.0f, -m_width);
 	}
 	if (direction == eDirection_Down)
 	{
 		doorLength = 0.5f;
 		doorWidth = 0.15f;
-		doorPosition = vec3(0.0f, 0.0f, m_width);
+		doorPosition = vec3(randomRoomOffset, 0.0f, m_width);
 	}
 	if (direction == eDirection_Left)
 	{
 		doorLength = 0.15f;
 		doorWidth = 0.5f;
-		doorPosition = vec3(-m_length, 0.0f, 0.0f);
+		doorPosition = vec3(-m_length, 0.0f, -randomRoomOffset);
 	}
 	if (direction == eDirection_Right)
 	{
 		doorLength = 0.15f;
 		doorWidth = 0.5f;
-		doorPosition = vec3(m_length, 0.0f, 0.0f);
+		doorPosition = vec3(m_length, 0.0f, randomRoomOffset);
 	}
 
 	pNewDoor->SetDimensions(doorLength, doorWidth, doorHeight);
@@ -375,12 +375,12 @@ void Room::Render()
 	m_pRenderer->SetCullMode(CM_BACK);
 
 	// Render doors
-	//for (unsigned int i = 0; i < m_vpDoorList.size(); i++)
-	//{
-	//	Door* pDoor = m_vpDoorList[i];
+	for (unsigned int i = 0; i < m_vpDoorList.size(); i++)
+	{
+		Door* pDoor = m_vpDoorList[i];
 
-	//	pDoor->Render();
-	//}
+		pDoor->Render();
+	}
 
 	// Rnder corridors
 	for (unsigned int i = 0; i < m_vpCorridorList.size(); i++)
