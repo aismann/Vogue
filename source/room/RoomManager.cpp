@@ -256,42 +256,53 @@ Room* RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedD
 void RoomManager::CreateConnectedRoom()
 {
 	Room* pRoom = NULL;
-
-	if ((int)m_vpRoomList.size() > 0)
+	bool canCreateRoomConnection = false;
+	int numRoomTries = 0;
 	{
-		int randomRoomIndex = GetRandomNumber(0, (int)m_vpRoomList.size() - 1);
-		pRoom = m_vpRoomList[randomRoomIndex];
-	}
-
-	if (pRoom != NULL)
-	{
-		bool canCreateRoomFromDirection = false;
-		int numDirctionTries = 0;
-		while (canCreateRoomFromDirection == false && numDirctionTries < 10)
+		if ((int)m_vpRoomList.size() > 0)
 		{
-			eDirection direction = (eDirection)GetRandomNumber(0, 3);
+			int randomRoomIndex = GetRandomNumber(0, (int)m_vpRoomList.size() - 1);
+			pRoom = m_vpRoomList[randomRoomIndex];
+		}
 
-			if (pRoom->CanCreateConnection(direction))
+		if (pRoom != NULL && pRoom->IsRoomFullOfDoors() == false && pRoom->IsRoomAbleToCreateMoreConnections() == true)
+		{
+			bool canCreateRoomFromDirection = false;
+			int numDirctionTries = 0;
+			while (canCreateRoomFromDirection == false && numDirctionTries < 10)
 			{
-				canCreateRoomFromDirection = true;
+				eDirection direction = (eDirection)GetRandomNumber(0, 3);
 
-				float randomCorridorAmount = GetRandomNumber(10, 40, 2) * 0.2f;
-
-				// Create a new room, that connects to this one
-				Room* pCreatedRoom = CreateRandomRoom(pRoom, direction, randomCorridorAmount, pRoom->GetRoomDepth() + 1);
-
-				if (pCreatedRoom != NULL)
+				if (pRoom->CanCreateConnection(direction))
 				{
-					// Create the door object
-					pRoom->CreateDoor(direction);
+					float randomCorridorAmount = GetRandomNumber(10, 40, 2) * 0.2f;
 
-					// Create the corridor object
-					pRoom->CreateCorridor(direction, randomCorridorAmount);
+					// Create a new room, that connects to this one
+					Room* pCreatedRoom = CreateRandomRoom(pRoom, direction, randomCorridorAmount, pRoom->GetRoomDepth() + 1);
+
+					if (pCreatedRoom != NULL)
+					{
+						canCreateRoomFromDirection = true;
+						canCreateRoomConnection = true;
+
+						// Create the door object
+						pRoom->CreateDoor(direction);
+
+						// Create the corridor object
+						pRoom->CreateCorridor(direction, randomCorridorAmount);
+					}
+				}
+
+				numDirctionTries++;
+
+				if (numDirctionTries == 10 && canCreateRoomFromDirection == false)
+				{
+					pRoom->SetRoomAbleToCreateMoreConnections(false);
 				}
 			}
-
-			numDirctionTries++;
 		}
+
+		numRoomTries++;
 	}
 }
 

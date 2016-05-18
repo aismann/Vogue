@@ -53,6 +53,9 @@ public:
 
 	// Generation
 	bool CanCreateConnection(eDirection direction);
+	bool IsRoomFullOfDoors();
+	bool IsRoomAbleToCreateMoreConnections();
+	void SetRoomAbleToCreateMoreConnections(bool able);
 	void CreateDoor(eDirection direction);
 	void CreateCorridor(eDirection direction, float corridorLengthAmount);
 
@@ -90,6 +93,9 @@ private:
 
 	// Room depth, from the initial starting room
 	int m_roomDepth;
+
+	// Flag to indicate that we tried a number of times to create a connecting room and couldn't
+	bool m_ableToCreateConnectingRooms;
 
 	// Bounding region for the room (to stop room overlaps)
 	Plane3D m_planes[6];

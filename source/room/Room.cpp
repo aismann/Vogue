@@ -25,6 +25,8 @@ Room::Room(Renderer* pRenderer, RoomManager* pRoomManager)
 
 	m_roomDepth = 0;
 
+	m_ableToCreateConnectingRooms = true;
+
 	UpdateRoomPlanes();
 }
 
@@ -172,6 +174,21 @@ bool Room::CanCreateConnection(eDirection direction)
 	return true;
 }
 
+bool Room::IsRoomFullOfDoors()
+{
+	return (int)m_vpDoorList.size() == 4;
+}
+
+bool Room::IsRoomAbleToCreateMoreConnections()
+{
+	return m_ableToCreateConnectingRooms;
+}
+
+void Room::SetRoomAbleToCreateMoreConnections(bool able)
+{
+	m_ableToCreateConnectingRooms = able;
+}
+
 void Room::CreateDoor(eDirection direction)
 {
 	Door* pNewDoor = new Door(m_pRenderer);
@@ -294,7 +311,19 @@ void Room::Render()
 
 	m_pRenderer->PushMatrix();
 		m_pRenderer->TranslateWorldMatrix(m_position.x, m_position.y, m_position.z);
-		m_pRenderer->ImmediateColourAlpha(1.0f, 1.0f, 1.0f, 1.0f);
+
+		if (IsRoomFullOfDoors())
+		{
+			m_pRenderer->ImmediateColourAlpha(1.0f, 0.0f, 0.0f, 1.0f);
+		}
+		else if (IsRoomAbleToCreateMoreConnections() == false)
+		{
+			m_pRenderer->ImmediateColourAlpha(0.5f, 0.5f, 1.0f, 1.0f);
+		}
+		else
+		{
+			m_pRenderer->ImmediateColourAlpha(1.0f, 1.0f, 1.0f, 1.0f);
+		}
 
 		m_pRenderer->EnableImmediateMode(IM_QUADS);
 			m_pRenderer->ImmediateNormal(0.0f, 0.0f, -1.0f);
