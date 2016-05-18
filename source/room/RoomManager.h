@@ -64,7 +64,7 @@ private:
 
 public:
 	/* Public members */
-	static const int MAX_ROOM_DEPTH = 5;
+	static const int MAX_ROOM_DEPTH;
 
 protected:
 	/* Protected members */
