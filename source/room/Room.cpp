@@ -60,7 +60,14 @@ void Room::ClearCorridors()
 // Accessors
 void Room::SetPosition(vec3 pos)
 {
+	vec3 difference = pos - m_position;
+
 	m_position = pos;
+
+	for (unsigned int i = 0; i < m_vpDoorList.size(); i++)
+	{
+		m_vpDoorList[i]->SetPosition(m_vpDoorList[i]->GetPosition() + difference);
+	}
 }
 
 vec3 Room::GetPosition()
@@ -230,7 +237,7 @@ void Room::CreateDoor(eDirection direction, float randomRoomOffset)
 	m_vpDoorList.push_back(pNewDoor);
 }
 
-void Room::CreateCorridor(eDirection direction, float corridorLengthAmount)
+void Room::CreateCorridor(eDirection direction, float corridorLengthAmount, float randomRoomOffset)
 {
 	Corridor* pNewCorrider = new Corridor(m_pRenderer);
 	float corridorLength;
@@ -244,11 +251,11 @@ void Room::CreateCorridor(eDirection direction, float corridorLengthAmount)
 		corridorWidth = corridorLengthAmount * 0.5f;
 		if (direction == eDirection_Up)
 		{
-			corridorPosition += vec3(0.0f, 0.0f, -m_width + -corridorWidth);
+			corridorPosition += vec3(-randomRoomOffset, 0.0f, -m_width + -corridorWidth);
 		}
 		else if (direction == eDirection_Down)
 		{
-			corridorPosition += vec3(0.0f, 0.0f, m_width + corridorWidth);
+			corridorPosition += vec3(randomRoomOffset, 0.0f, m_width + corridorWidth);
 		}
 	}
 	if (direction == eDirection_Left || direction == eDirection_Right)
@@ -257,11 +264,11 @@ void Room::CreateCorridor(eDirection direction, float corridorLengthAmount)
 		corridorWidth = constantCorridorWidth;
 		if (direction == eDirection_Left)
 		{
-			corridorPosition += vec3(-m_length + -corridorLength, 0.0f, 0.0f);
+			corridorPosition += vec3(-m_length + -corridorLength, 0.0f, -randomRoomOffset);
 		}
 		else if (direction == eDirection_Right)
 		{
-			corridorPosition += vec3(m_length + corridorLength, 0.0f, 0.0f);
+			corridorPosition += vec3(m_length + corridorLength, 0.0f, randomRoomOffset);
 		}
 	}
 	pNewCorrider->SetDimensions(corridorLength, corridorWidth, corridorHeight);

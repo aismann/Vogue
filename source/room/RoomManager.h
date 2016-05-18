@@ -46,7 +46,7 @@ public:
 
 	// Generation
 	void GenerateNewLayout();
-	Room* CreateRandomRoom(Room* pRoomConnection, eDirection connectedDirection, float corridorLengthAmount, int roomDepth);
+	Room* CreateRandomRoom(Room* pRoomConnection, eDirection connectedDirection, float corridorLengthAmount, float *randomLengthOffset, int roomDepth);
 	void CreateConnectedRoom();
 	void RemoveRoomFromConnectionList(Room* pRoom);
 

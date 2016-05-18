@@ -194,10 +194,11 @@ void RoomManager::GenerateNewLayout()
 	ClearRooms();
 
 	// Generate the starting room
-	Room* pCreatedRoom = CreateRandomRoom(NULL, eDirection_NONE, 0.0f, 0);
+	float randomLengthOffset;
+	Room* pCreatedRoom = CreateRandomRoom(NULL, eDirection_NONE, 0.0f, &randomLengthOffset, 0);
 }
 
-Room* RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedDirection, float corridorLengthAmount, int roomDepth)
+Room* RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedDirection, float corridorLengthAmount, float *randomLengthOffset, int roomDepth)
 {
 	float roomLength = 0.0f;
 	float roomWidth = 0.0f;
@@ -215,6 +216,7 @@ Room* RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedD
 		roomWidth = GetRandomNumber(30, 140, 2) * 0.1f;
 		roomHeight = 1.0f;
 
+		*randomLengthOffset = GetRandomNumber(-100, 100, 2) * 0.01f;
 		// If we are connected to a room, set our position
 		if (pRoomConnection != NULL)
 		{
@@ -222,25 +224,25 @@ Room* RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedD
 			if (connectedDirection == eDirection_Up)
 			{
 				randomRoomOffset = (GetRandomNumber(-100, 100, 2) * 0.01f) * (roomLength - 0.5f);
-				newRoomPosition -= vec3(randomRoomOffset, 0.0f, pRoomConnection->GetWidth() + corridorLengthAmount + roomWidth);
+				newRoomPosition -= vec3(randomRoomOffset + (*randomLengthOffset * (pRoomConnection->GetLength() - 0.5f)), 0.0f, pRoomConnection->GetWidth() + corridorLengthAmount + roomWidth);
 				dontAllowDirection = eDirection_Down;
 			}
 			if (connectedDirection == eDirection_Down)
 			{
 				randomRoomOffset = (GetRandomNumber(-100, 100, 2) * 0.01f) * (roomLength - 0.5f);
-				newRoomPosition += vec3(randomRoomOffset, 0.0f, pRoomConnection->GetWidth() + corridorLengthAmount + roomWidth);
+				newRoomPosition += vec3(randomRoomOffset + (*randomLengthOffset * (pRoomConnection->GetLength() - 0.5f)), 0.0f, pRoomConnection->GetWidth() + corridorLengthAmount + roomWidth);
 				dontAllowDirection = eDirection_Up;
 			}
 			if (connectedDirection == eDirection_Left)
 			{
 				randomRoomOffset = (GetRandomNumber(-100, 100, 2) * 0.01f) * (roomWidth - 0.5f);
-				newRoomPosition -= vec3(pRoomConnection->GetLength() + corridorLengthAmount + roomLength, 0.0f, randomRoomOffset);
+				newRoomPosition -= vec3(pRoomConnection->GetLength() + corridorLengthAmount + roomLength, 0.0f, randomRoomOffset + (*randomLengthOffset * (pRoomConnection->GetWidth() - 0.5f)));
 				dontAllowDirection = eDirection_Right;
 			}
 			if (connectedDirection == eDirection_Right)
 			{
 				randomRoomOffset = (GetRandomNumber(-100, 100, 2) * 0.01f) * (roomWidth - 0.5f);
-				newRoomPosition += vec3(pRoomConnection->GetLength() + corridorLengthAmount + roomLength, 0.0f, randomRoomOffset);
+				newRoomPosition += vec3(pRoomConnection->GetLength() + corridorLengthAmount + roomLength, 0.0f, randomRoomOffset + (*randomLengthOffset * (pRoomConnection->GetWidth() - 0.5f)));
 				dontAllowDirection = eDirection_Left;
 			}
 		}
@@ -298,20 +300,30 @@ void RoomManager::CreateConnectedRoom()
 				if (pRoom->CanCreateConnection(direction))
 				{
 					float randomCorridorAmount = GetRandomNumber(10, 40, 2) * 0.2f;
-
+					
 					// Create a new room, that connects to this one
-					Room* pCreatedRoom = CreateRandomRoom(pRoom, direction, randomCorridorAmount, pRoom->GetRoomDepth() + 1);
+					float randomRoomOffset;
+					Room* pCreatedRoom = CreateRandomRoom(pRoom, direction, randomCorridorAmount, &randomRoomOffset, pRoom->GetRoomDepth() + 1);
 
 					if (pCreatedRoom != NULL)
 					{
 						canCreateRoomFromDirection = true;
 						canCreateRoomConnection = true;
+						float randomLengthOffset;
 
 						// Create the door object
-						pRoom->CreateDoor(direction, 0.0f);
+						if (direction == eDirection_Up || direction == eDirection_Down)
+						{
+							randomLengthOffset = randomRoomOffset * (pRoom->GetLength() - 0.5f);
+						}
+						else if (direction == eDirection_Left || direction == eDirection_Right)
+						{
+							randomLengthOffset = randomRoomOffset * (pRoom->GetWidth() - 0.5f);
+						}
+						pRoom->CreateDoor(direction, randomLengthOffset);
 
 						// Create the corridor object
-						pRoom->CreateCorridor(direction, randomCorridorAmount);
+						pRoom->CreateCorridor(direction, randomCorridorAmount, randomLengthOffset);
 
 						// Remove this room from the connection list if we become full of doors
 						if (pRoom->IsRoomFullOfDoors())
