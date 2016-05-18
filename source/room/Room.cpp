@@ -312,13 +312,21 @@ void Room::Render()
 	m_pRenderer->PushMatrix();
 		m_pRenderer->TranslateWorldMatrix(m_position.x, m_position.y, m_position.z);
 
-		if (IsRoomFullOfDoors())
+		if (m_roomDepth == 0)
+		{
+			m_pRenderer->ImmediateColourAlpha(0.2f, 0.35f, 1.0f, 1.0f);
+		}
+		else if (IsRoomFullOfDoors())
 		{
 			m_pRenderer->ImmediateColourAlpha(1.0f, 0.0f, 0.0f, 1.0f);
 		}
+		else if (m_roomDepth >= RoomManager::MAX_ROOM_DEPTH)
+		{
+			m_pRenderer->ImmediateColourAlpha(1.0f, 1.0f, 0.0f, 1.0f);
+		}
 		else if (IsRoomAbleToCreateMoreConnections() == false)
 		{
-			m_pRenderer->ImmediateColourAlpha(0.5f, 0.5f, 1.0f, 1.0f);
+			m_pRenderer->ImmediateColourAlpha(0.8f, 0.15f, 0.8f, 1.0f);
 		}
 		else
 		{
@@ -367,12 +375,12 @@ void Room::Render()
 	m_pRenderer->SetCullMode(CM_BACK);
 
 	// Render doors
-	for (unsigned int i = 0; i < m_vpDoorList.size(); i++)
-	{
-		Door* pDoor = m_vpDoorList[i];
+	//for (unsigned int i = 0; i < m_vpDoorList.size(); i++)
+	//{
+	//	Door* pDoor = m_vpDoorList[i];
 
-		pDoor->Render();
-	}
+	//	pDoor->Render();
+	//}
 
 	// Rnder corridors
 	for (unsigned int i = 0; i < m_vpCorridorList.size(); i++)

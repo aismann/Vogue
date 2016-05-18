@@ -32,12 +32,19 @@ void RoomManager::ClearRooms()
 		m_vpRoomList[i] = 0;
 	}
 	m_vpRoomList.clear();
+
+	m_vpConnectionRoomList.clear();
 }
 
 // Accessors
 int RoomManager::GetNumRooms()
 {
 	return (int)m_vpRoomList.size();
+}
+
+int RoomManager::GetNumConnectionRooms()
+{
+	return (int)m_vpConnectionRoomList.size();
 }
 
 // Validation
@@ -197,7 +204,7 @@ Room* RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedD
 
 	bool overlapsExistingRoom = true;
 	int numRoomTries = 0;
-	while(overlapsExistingRoom == true && numRoomTries < 10)
+	while(overlapsExistingRoom == true && numRoomTries < 1)
 	{
 		roomLength = GetRandomNumber(30, 140, 2) * 0.1f;
 		roomWidth = GetRandomNumber(30, 140, 2) * 0.1f;
@@ -248,6 +255,11 @@ Room* RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedD
 		}
 
 		m_vpRoomList.push_back(pNewRoom);
+
+		if (roomDepth < MAX_ROOM_DEPTH)
+		{
+			m_vpConnectionRoomList.push_back(pNewRoom);
+		}
 	}
 
 	return pNewRoom;
@@ -258,15 +270,15 @@ void RoomManager::CreateConnectedRoom()
 	Room* pRoom = NULL;
 	bool canCreateRoomConnection = false;
 	int numRoomTries = 0;
-	while (canCreateRoomConnection == false && numRoomTries < 10)
+	while (canCreateRoomConnection == false && numRoomTries < 1)
 	{
-		if ((int)m_vpRoomList.size() > 0)
+		if ((int)m_vpConnectionRoomList.size() > 0)
 		{
-			int randomRoomIndex = GetRandomNumber(0, (int)m_vpRoomList.size() - 1);
-			pRoom = m_vpRoomList[randomRoomIndex];
+			int randomRoomIndex = GetRandomNumber(0, (int)m_vpConnectionRoomList.size() - 1);
+			pRoom = m_vpConnectionRoomList[randomRoomIndex];
 		}
 
-		if (pRoom != NULL && pRoom->IsRoomFullOfDoors() == false && pRoom->IsRoomAbleToCreateMoreConnections() == true)
+		if (pRoom != NULL && pRoom->IsRoomFullOfDoors() == false && pRoom->IsRoomAbleToCreateMoreConnections() == true && pRoom->GetRoomDepth() < MAX_ROOM_DEPTH)
 		{
 			bool canCreateRoomFromDirection = false;
 			int numDirctionTries = 0;
@@ -291,6 +303,12 @@ void RoomManager::CreateConnectedRoom()
 
 						// Create the corridor object
 						pRoom->CreateCorridor(direction, randomCorridorAmount);
+
+						// Remove this room from the connection list if we become full of doors
+						if (pRoom->IsRoomFullOfDoors())
+						{
+							RemoveRoomFromConnectionList(pRoom);
+						}
 					}
 				}
 
@@ -298,12 +316,23 @@ void RoomManager::CreateConnectedRoom()
 
 				if (numDirctionTries == 10 && canCreateRoomFromDirection == false)
 				{
+					// Set room unable to create more connections and remove from connection list
 					pRoom->SetRoomAbleToCreateMoreConnections(false);
+					RemoveRoomFromConnectionList(pRoom);
 				}
 			}
 		}
 
 		numRoomTries++;
+	}
+}
+
+void RoomManager::RemoveRoomFromConnectionList(Room* pRoom)
+{
+	RoomList::iterator iter = find(m_vpConnectionRoomList.begin(), m_vpConnectionRoomList.end(), pRoom);
+	if (iter != m_vpConnectionRoomList.end())
+	{
+		m_vpConnectionRoomList.erase(iter);
 	}
 }
 

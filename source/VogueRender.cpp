@@ -120,7 +120,7 @@ void VogueGame::RenderDebugInformation()
 	char lDrawingBuff[256];
 	sprintf(lDrawingBuff, "Vertices: %i, Faces: %i", 0, 0); // TODO : Debug rendering Metrics
 	char lRoomsBuff[256];
-	sprintf(lRoomsBuff, "Rooms: %i", m_pRoomManager->GetNumRooms());
+	sprintf(lRoomsBuff, "Rooms: %i, ConnectionList: %i", m_pRoomManager->GetNumRooms(), m_pRoomManager->GetNumConnectionRooms());
 
 	char lFPSBuff[128];
 	float fpsWidthOffset = 65.0f;

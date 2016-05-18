@@ -38,6 +38,7 @@ public:
 
 	// Accessors
 	int GetNumRooms();
+	int GetNumConnectionRooms();
 
 	// Validation
 	bool DoesOverlap(vec3 position1, float length1, float width1, float height1, vec3 position2, float length2, float width2, float height2);
@@ -47,6 +48,7 @@ public:
 	void GenerateNewLayout();
 	Room* CreateRandomRoom(Room* pRoomConnection, eDirection connectedDirection, float corridorLengthAmount, int roomDepth);
 	void CreateConnectedRoom();
+	void RemoveRoomFromConnectionList(Room* pRoom);
 
 	// Update
 	void Update(float dt);
@@ -62,6 +64,7 @@ private:
 
 public:
 	/* Public members */
+	static const int MAX_ROOM_DEPTH = 5;
 
 protected:
 	/* Protected members */
@@ -72,4 +75,7 @@ private:
 
 	// List of rooms
 	RoomList m_vpRoomList;
+
+	// List of rooms that can be used to create connecting rooms
+	RoomList m_vpConnectionRoomList;
 };

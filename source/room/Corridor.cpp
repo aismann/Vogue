@@ -82,7 +82,7 @@ void Corridor::Render()
 
 	m_pRenderer->PushMatrix();
 		m_pRenderer->TranslateWorldMatrix(m_position.x, m_position.y, m_position.z);
-		m_pRenderer->ImmediateColourAlpha(0.0f, 1.0f, 1.0f, 1.0f);
+		m_pRenderer->ImmediateColourAlpha(1.0f, 1.0f, 1.0f, 1.0f);
 
 		m_pRenderer->EnableImmediateMode(IM_QUADS);
 			m_pRenderer->ImmediateNormal(0.0f, 0.0f, -1.0f);
