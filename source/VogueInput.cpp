@@ -202,6 +202,11 @@ void VogueGame::KeyReleased(int key, int scancode, int mods)
 			{
 				m_pRoomManager->CreateConnectedRoom();
 			}
+
+			m_pRoomManager->CreateItemRoom();
+			m_pRoomManager->CreateItemRoom();
+			m_pRoomManager->CreateBossRoom();
+
 			break;
 		}
 		case GLFW_KEY_O:

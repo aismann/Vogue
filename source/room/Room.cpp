@@ -27,6 +27,9 @@ Room::Room(Renderer* pRenderer, RoomManager* pRoomManager)
 
 	m_ableToCreateConnectingRooms = true;
 
+	m_itemRoom = false;
+	m_bossRoom = false;
+
 	UpdateRoomPlanes();
 }
 
@@ -129,6 +132,26 @@ float Room::GetCorridorLength(eDirection direction)
 	}
 
 	return 0.0f;
+}
+
+void Room::SetBossRoom(bool boss)
+{
+	m_bossRoom = boss;
+}
+
+bool Room::IsBossRoom()
+{
+	return m_bossRoom;
+}
+
+void Room::SetItemRoom(bool item)
+{
+	m_itemRoom = item;
+}
+
+bool Room::IsItemRoom()
+{
+	return m_itemRoom;
 }
 
 // Validation
@@ -322,6 +345,14 @@ void Room::Render()
 		if (m_roomDepth == 0)
 		{
 			m_pRenderer->ImmediateColourAlpha(0.2f, 0.35f, 1.0f, 1.0f);
+		}
+		else if (m_bossRoom)
+		{
+			m_pRenderer->ImmediateColourAlpha(1.0f, 0.0f, 0.0f, 1.0f);
+		}
+		else if (m_itemRoom)
+		{
+			m_pRenderer->ImmediateColourAlpha(1.0f, 1.0f, 0.0f, 1.0f);
 		}
 		else if (m_pRoomManager->GetNumConnectionRooms() == 0)
 		{

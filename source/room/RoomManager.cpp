@@ -39,6 +39,8 @@ void RoomManager::ClearRooms()
 	m_vpRoomList.clear();
 
 	m_vpConnectionRoomList.clear();
+	m_vpCanBeItemRoomList.clear();
+	m_vpCanBeBossRoomList.clear();
 }
 
 // Accessors
@@ -268,9 +270,17 @@ Room* RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedD
 
 		m_vpRoomList.push_back(pNewRoom);
 
+		if (roomDepth != 0)
+		{
+			m_vpCanBeItemRoomList.push_back(pNewRoom);
+		}
 		if (roomDepth < MAX_ROOM_DEPTH)
 		{
 			m_vpConnectionRoomList.push_back(pNewRoom);
+		}
+		else
+		{
+			m_vpCanBeBossRoomList.push_back(pNewRoom);
 		}
 	}
 
@@ -355,6 +365,78 @@ void RoomManager::RemoveRoomFromConnectionList(Room* pRoom)
 	if (iter != m_vpConnectionRoomList.end())
 	{
 		m_vpConnectionRoomList.erase(iter);
+	}
+}
+
+void RoomManager::RemoveRoomFromItemList(Room* pRoom)
+{
+	RoomList::iterator iter = find(m_vpCanBeItemRoomList.begin(), m_vpCanBeItemRoomList.end(), pRoom);
+	if (iter != m_vpCanBeItemRoomList.end())
+	{
+		m_vpCanBeItemRoomList.erase(iter);
+	}
+}
+
+void RoomManager::RemoveRoomFromBossList(Room* pRoom)
+{
+	RoomList::iterator iter = find(m_vpCanBeBossRoomList.begin(), m_vpCanBeBossRoomList.end(), pRoom);
+	if (iter != m_vpCanBeBossRoomList.end())
+	{
+		m_vpCanBeBossRoomList.erase(iter);
+	}
+}
+
+void RoomManager::CreateBossRoom()
+{
+	Room* pRoom = NULL;
+	bool createdBossRoom = false;
+	int numRoomTries = 0;
+	while (createdBossRoom == false && numRoomTries < 1)
+	{
+		if ((int)m_vpCanBeBossRoomList.size() > 0)
+		{
+			int randomRoomIndex = GetRandomNumber(0, (int)m_vpCanBeBossRoomList.size() - 1);
+			pRoom = m_vpCanBeBossRoomList[randomRoomIndex];
+		}
+
+		if (pRoom != NULL && pRoom->IsItemRoom() == false && pRoom->IsBossRoom() == false && pRoom->GetRoomDepth() != 0)
+		{
+			pRoom->SetBossRoom(true);
+
+			RemoveRoomFromItemList(pRoom);
+			RemoveRoomFromBossList(pRoom);
+
+			createdBossRoom = true;
+		}
+
+		numRoomTries++;
+	}
+}
+
+void RoomManager::CreateItemRoom()
+{
+	Room* pRoom = NULL;
+	bool createdItemRoom = false;
+	int numRoomTries = 0;
+	while (createdItemRoom == false && numRoomTries < 1)
+	{
+		if ((int)m_vpCanBeItemRoomList.size() > 0)
+		{
+			int randomRoomIndex = GetRandomNumber(0, (int)m_vpCanBeItemRoomList.size() - 1);
+			pRoom = m_vpCanBeItemRoomList[randomRoomIndex];
+		}
+
+		if (pRoom != NULL && pRoom->IsItemRoom() == false && pRoom->IsBossRoom() == false && pRoom->GetRoomDepth() != 0)
+		{
+			pRoom->SetItemRoom(true);
+
+			RemoveRoomFromItemList(pRoom);
+			RemoveRoomFromBossList(pRoom);
+
+			createdItemRoom = true;
+		}
+		
+		numRoomTries++;
 	}
 }
 

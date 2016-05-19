@@ -47,6 +47,10 @@ public:
 	int GetRoomDepth();
 	void SetRoomDepth(int depth);
 	float GetCorridorLength(eDirection direction);
+	void SetBossRoom(bool boss);
+	bool IsBossRoom();
+	void SetItemRoom(bool item);
+	bool IsItemRoom();
 
 	// Validation
 	bool IsPointInsideRoom(vec3 point);
@@ -96,6 +100,12 @@ private:
 
 	// Flag to indicate that we tried a number of times to create a connecting room and couldn't
 	bool m_ableToCreateConnectingRooms;
+
+	// Are we an item room
+	bool m_itemRoom;
+
+	// Are we a boss room
+	bool m_bossRoom;
 
 	// Bounding region for the room (to stop room overlaps)
 	Plane3D m_planes[6];

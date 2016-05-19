@@ -49,6 +49,10 @@ public:
 	Room* CreateRandomRoom(Room* pRoomConnection, eDirection connectedDirection, float corridorLengthAmount, float *randomLengthOffset, int roomDepth);
 	void CreateConnectedRoom();
 	void RemoveRoomFromConnectionList(Room* pRoom);
+	void RemoveRoomFromItemList(Room* pRoom);
+	void RemoveRoomFromBossList(Room* pRoom);
+	void CreateBossRoom();
+	void CreateItemRoom();
 
 	// Update
 	void Update(float dt);
@@ -78,4 +82,10 @@ private:
 
 	// List of rooms that can be used to create connecting rooms
 	RoomList m_vpConnectionRoomList;
+
+	// List of rooms that can be used to create item rooms
+	RoomList m_vpCanBeItemRoomList;
+
+	// List of rooms that can be used to create boss rooms
+	RoomList m_vpCanBeBossRoomList;
 };
