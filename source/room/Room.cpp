@@ -323,6 +323,10 @@ void Room::Render()
 		{
 			m_pRenderer->ImmediateColourAlpha(0.2f, 0.35f, 1.0f, 1.0f);
 		}
+		else if (m_pRoomManager->GetNumConnectionRooms() == 0)
+		{
+			m_pRenderer->ImmediateColourAlpha(1.0f, 1.0f, 1.0f, 1.0f);
+		}
 		else if (IsRoomFullOfDoors())
 		{
 			m_pRenderer->ImmediateColourAlpha(1.0f, 0.0f, 0.0f, 1.0f);
