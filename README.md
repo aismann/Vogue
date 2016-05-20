@@ -10,6 +10,8 @@ A Voxel Roguelike.
 ## Features
 * Procedural dungeon generation.
 * Random rooms and layout.
+* Special and unique rooms.
+* Secret rooms.
 * Random weapons and items.
 * Different playable characters.
 
