@@ -215,8 +215,6 @@ Room* RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedD
 	int numRoomTries = 0;
 	while(overlapsExistingRoom == true && numRoomTries < 1)
 	{
-		roomLength = GetRandomNumber(30, 140, 2) * 0.1f;
-		roomWidth = GetRandomNumber(30, 140, 2) * 0.1f;
 		roomHeight = 1.0f;
 
 		*randomLengthOffset = GetRandomNumber(-100, 100, 2) * 0.01f;
