@@ -15,6 +15,7 @@
 
 #include "Room.h"
 #include "Corridor.h"
+#include "TileManager.h"
 #include "../Maths/3dmaths.h"
 #include "../Renderer/Renderer.h"
 
@@ -30,7 +31,7 @@ class RoomManager
 {
 public:
 	/* Public methods */
-	RoomManager(Renderer* pRenderer);
+	RoomManager(Renderer* pRenderer, TileManager* pTileManager);
 	~RoomManager();
 
 	// Clearing
@@ -80,6 +81,7 @@ protected:
 private:
 	/* Private members */
 	Renderer* m_pRenderer;
+	TileManager* m_pTileManager;
 
 	// List of rooms
 	RoomList m_vpRoomList;

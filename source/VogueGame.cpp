@@ -148,11 +148,11 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	shaderLoaded = m_pRenderer->LoadGLSLShader("media/shaders/fullscreen/blur_vertical.vertex", "media/shaders/fullscreen/blur_vertical.pixel", &m_blurVerticalShader);
 	shaderLoaded = m_pRenderer->LoadGLSLShader("media/shaders/fullscreen/blur_horizontal.vertex", "media/shaders/fullscreen/blur_horizontal.pixel", &m_blurHorizontalShader);
 
-	/* Create the room manager */
-	m_pRoomManager = new RoomManager(m_pRenderer);
-
 	/* Create the tile manager */
 	m_pTileManager = new TileManager(m_pRenderer);
+
+	/* Create the room manager */
+	m_pRoomManager = new RoomManager(m_pRenderer, m_pTileManager);
 
 	// Keyboard movement
 	m_bKeyboardForward = false;

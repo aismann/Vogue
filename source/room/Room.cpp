@@ -14,10 +14,11 @@
 #include "../utils/Random.h"
 
 
-Room::Room(Renderer* pRenderer, RoomManager* pRoomManager)
+Room::Room(Renderer* pRenderer, TileManager* pTileManager, RoomManager* pRoomManager)
 {
 	m_pRenderer = pRenderer;
 	m_pRoomManager = pRoomManager;
+	m_pTileManager = pTileManager;
 
 	m_length = 0.5f;
 	m_width = 0.5f;
