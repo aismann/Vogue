@@ -73,6 +73,9 @@ void VogueGame::Render()
 
 			// Rooms
 			m_pRoomManager->Render();
+
+			// Tile
+			m_pTileManager->Render();
 		m_pRenderer->PopMatrix();
 
 		m_pRenderer->PushMatrix();

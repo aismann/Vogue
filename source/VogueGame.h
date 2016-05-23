@@ -25,6 +25,7 @@
 #include "VogueSettings.h"
 
 #include "room/RoomManager.h"
+#include "room/TileManager.h"
 
 
 #ifdef __linux__
@@ -312,7 +313,11 @@ private:
 	bool m_debugRender;
 
 	// Game objects
+	// Room manager
 	RoomManager *m_pRoomManager;
+
+	// Tile manager
+	TileManager *m_pTileManager;
 
 	// Singleton instance
 	static VogueGame *c_instance;
