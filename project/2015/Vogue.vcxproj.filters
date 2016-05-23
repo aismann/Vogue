@@ -417,6 +417,12 @@
     <ClCompile Include="..\..\source\room\Corridor.cpp">
       <Filter>source\room</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\room\TileManager.cpp">
+      <Filter>source\room</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\room\Tile.cpp">
+      <Filter>source\room</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\VogueGame.h">
@@ -1230,6 +1236,12 @@
       <Filter>source\room</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\room\Corridor.h">
+      <Filter>source\room</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\room\TileManager.h">
+      <Filter>source\room</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\room\Tile.h">
       <Filter>source\room</Filter>
     </ClInclude>
   </ItemGroup>

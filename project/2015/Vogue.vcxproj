@@ -237,6 +237,8 @@
     <ClCompile Include="..\..\source\room\Door.cpp" />
     <ClCompile Include="..\..\source\room\Room.cpp" />
     <ClCompile Include="..\..\source\room\RoomManager.cpp" />
+    <ClCompile Include="..\..\source\room\Tile.cpp" />
+    <ClCompile Include="..\..\source\room\TileManager.cpp" />
     <ClCompile Include="..\..\source\simplex\simplexnoise.cpp" />
     <ClCompile Include="..\..\source\simplex\simplextextures.cpp" />
     <ClCompile Include="..\..\source\tinythread\tinythread.cpp" />
@@ -491,6 +493,8 @@
     <ClInclude Include="..\..\source\room\Door.h" />
     <ClInclude Include="..\..\source\room\Room.h" />
     <ClInclude Include="..\..\source\room\RoomManager.h" />
+    <ClInclude Include="..\..\source\room\Tile.h" />
+    <ClInclude Include="..\..\source\room\TileManager.h" />
     <ClInclude Include="..\..\source\selene\selene.h" />
     <ClInclude Include="..\..\source\selene\selene\BaseFun.h" />
     <ClInclude Include="..\..\source\selene\selene\Class.h" />

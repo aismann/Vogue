@@ -7,6 +7,10 @@ set(ROOM_SRCS
     "${CMAKE_CURRENT_SOURCE_DIR}/Door.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/Corridor.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/Corridor.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/TileManager.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/TileManager.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Tile.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Tile.h"
     PARENT_SCOPE)
 
 source_group("room" FILES ${ROOM_SRCS})
