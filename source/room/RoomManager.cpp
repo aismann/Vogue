@@ -41,6 +41,9 @@ void RoomManager::ClearRooms()
 	m_vpConnectionRoomList.clear();
 	m_vpCanBeItemRoomList.clear();
 	m_vpCanBeBossRoomList.clear();
+
+	m_numItemRooms = 0;
+	m_numBossRooms = 0;
 }
 
 // Accessors
@@ -49,9 +52,29 @@ int RoomManager::GetNumRooms()
 	return (int)m_vpRoomList.size();
 }
 
-int RoomManager::GetNumConnectionRooms()
+int RoomManager::GetNumConnectionRoomsPossible()
 {
 	return (int)m_vpConnectionRoomList.size();
+}
+
+int RoomManager::GetNumItemRooms()
+{
+	return m_numItemRooms;
+}
+
+int RoomManager::GetNumItemRoomsPossible()
+{
+	return (int)m_vpCanBeItemRoomList.size();
+}
+
+int RoomManager::GetNumBossRooms()
+{
+	return m_numBossRooms;
+}
+
+int RoomManager::GetNumBossRoomsPossible()
+{
+	return (int)m_vpCanBeBossRoomList.size();
 }
 
 // Validation
@@ -443,11 +466,22 @@ void RoomManager::CreateItemRoom()
 // Update
 void RoomManager::Update(float dt)
 {
+	m_numItemRooms = 0;
+	m_numBossRooms = 0;
 	for (unsigned int i = 0; i < m_vpRoomList.size(); i++)
 	{
 		Room *pRoom = m_vpRoomList[i];
 
 		pRoom->Update(dt);
+
+		if (pRoom->IsItemRoom())
+		{
+			m_numItemRooms++;
+		}
+		if (pRoom->IsBossRoom())
+		{
+			m_numBossRooms++;
+		}
 	}
 }
 

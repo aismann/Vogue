@@ -38,7 +38,11 @@ public:
 
 	// Accessors
 	int GetNumRooms();
-	int GetNumConnectionRooms();
+	int GetNumConnectionRoomsPossible();
+	int GetNumItemRooms();
+	int GetNumItemRoomsPossible();
+	int GetNumBossRooms();
+	int GetNumBossRoomsPossible();
 
 	// Validation
 	bool DoesOverlap(vec3 position1, float length1, float width1, float height1, vec3 position2, float length2, float width2, float height2);
@@ -88,4 +92,8 @@ private:
 
 	// List of rooms that can be used to create boss rooms
 	RoomList m_vpCanBeBossRoomList;
+
+	// Counters for the type of rooms
+	int m_numItemRooms;
+	int m_numBossRooms;
 };

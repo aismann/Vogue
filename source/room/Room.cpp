@@ -354,7 +354,7 @@ void Room::Render()
 		{
 			m_pRenderer->ImmediateColourAlpha(1.0f, 1.0f, 0.0f, 1.0f);
 		}
-		else if (m_pRoomManager->GetNumConnectionRooms() == 0)
+		else if (m_pRoomManager->GetNumConnectionRoomsPossible() == 0)
 		{
 			m_pRenderer->ImmediateColourAlpha(1.0f, 1.0f, 1.0f, 1.0f);
 		}
