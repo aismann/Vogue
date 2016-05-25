@@ -230,6 +230,9 @@ void RoomManager::GenerateNewLayout()
 	// First clear all existing rooms
 	ClearRooms();
 
+	// Clear all tiles
+	m_pTileManager->ClearTiles();
+
 	// Generate the starting room
 	float randomLengthOffset;
 	Room* pCreatedRoom = CreateRandomRoom(NULL, eDirection_NONE, 0.0f, &randomLengthOffset, 0);
@@ -316,6 +319,11 @@ Room* RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedD
 		{
 			m_vpCanBeBossRoomList.push_back(pNewRoom);
 		}
+	}
+
+	if (pNewRoom != NULL)
+	{
+		pNewRoom->CreateTiles();
 	}
 
 	return pNewRoom;

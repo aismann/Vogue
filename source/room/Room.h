@@ -64,6 +64,7 @@ public:
 	void SetRoomAbleToCreateMoreConnections(bool able);
 	void CreateDoor(eDirection direction, float randomRoomOffset);
 	void CreateCorridor(eDirection direction, float corridorLengthAmount, float randomRoomOffset);
+	void CreateTiles();
 
 	// Update
 	void Update(float dt);

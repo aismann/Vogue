@@ -24,6 +24,10 @@ public:
 	Tile(Renderer* pRenderer);
 	~Tile();
 
+	// Accessors
+	void SetPosition(vec3 pos);
+	vec3 GetPosition();
+
 	// Update
 	void Update(float dt);
 
@@ -45,4 +49,7 @@ protected:
 private:
 	/* Private members */
 	Renderer* m_pRenderer;
+
+	// Tile position
+	vec3 m_position;
 };

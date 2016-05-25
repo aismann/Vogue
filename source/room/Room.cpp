@@ -302,6 +302,12 @@ void Room::CreateCorridor(eDirection direction, float corridorLengthAmount, floa
 	m_vpCorridorList.push_back(pNewCorrider);
 }
 
+void Room::CreateTiles()
+{
+	// Create tiles
+	m_pTileManager->CreateTile(m_position - vec3(0.0f, m_height, 0.0f));
+}
+
 // Update
 void Room::Update(float dt)
 {

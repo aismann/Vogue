@@ -31,6 +31,12 @@ public:
 	TileManager(Renderer* pRenderer);
 	~TileManager();
 
+	// Deletion
+	void ClearTiles();
+
+	// Creation
+	Tile* CreateTile(vec3 position);
+
 	// Update
 	void Update(float dt);
 

@@ -24,6 +24,29 @@ TileManager::TileManager(Renderer* pRenderer)
 
 TileManager::~TileManager()
 {
+	ClearTiles();
+}
+
+// Deletion
+void TileManager::ClearTiles()
+{
+	for (unsigned int i = 0; i < m_vpTileList.size(); i++)
+	{
+		delete m_vpTileList[i];
+		m_vpTileList[i] = 0;
+	}
+	m_vpTileList.clear();
+}
+
+// Creation
+Tile* TileManager::CreateTile(vec3 position)
+{
+	Tile* pNewTile = new Tile(m_pRenderer);
+	pNewTile->SetPosition(position);
+
+	m_vpTileList.push_back(pNewTile);
+
+	return pNewTile;
 }
 
 // Update
