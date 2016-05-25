@@ -89,7 +89,7 @@ bool RoomManager::DoesOverlap(vec3 position1, float length1, float width1, float
 	planes[4] = Plane3D(vec3(0.0f, 0.0f, -1.0f), vec3(0.0f, 0.0f, width1));
 	planes[5] = Plane3D(vec3(0.0f, 0.0f, 1.0f), vec3(0.0f, 0.0f, -width1));
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 9; i++)
 	{
 		// Check all corners and mid points along the walls
 		vec3 point;
@@ -124,6 +124,10 @@ bool RoomManager::DoesOverlap(vec3 position1, float length1, float width1, float
 		else if (i == 7)
 		{
 			point = position2 + vec3(0.0f, 0.0f, -width2);
+		}
+		else if (i == 8) // Center
+		{
+			point = position2;
 		}
 
 		float distance;
@@ -170,6 +174,7 @@ bool RoomManager::DoesRoomOverlap(vec3 position, float length, float width, floa
 		vec3 midRight = position + vec3(-length, 0.0f, 0.0f);
 		vec3 midTop = position + vec3(0.0f, 0.0f, width);
 		vec3 midBottom = position + vec3(0.0f, 0.0f, -width);
+		vec3 center = position;
 
 		if (pCheckRoom->IsPointInsideRoom(topLeft))
 		{
@@ -200,6 +205,10 @@ bool RoomManager::DoesRoomOverlap(vec3 position, float length, float width, floa
 			return true;
 		}
 		if (pCheckRoom->IsPointInsideRoom(midBottom))
+		{
+			return true;
+		}
+		if (pCheckRoom->IsPointInsideRoom(center))
 		{
 			return true;
 		}
