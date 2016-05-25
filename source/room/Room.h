@@ -27,6 +27,7 @@ class RoomManager;
 typedef vector<Door*> DoorList;
 typedef vector<Corridor*> CorridorList;
 
+
 class Room
 {
 public:

@@ -30,6 +30,7 @@ enum eDirection
 	eDirection_NONE,
 };
 
+
 class Door
 {
 public:

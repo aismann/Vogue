@@ -18,6 +18,7 @@ using namespace std;
 
 const int RoomManager::MAX_ROOM_DEPTH = 3;
 
+
 RoomManager::RoomManager(Renderer* pRenderer, TileManager* pTileManager)
 {
 	m_pRenderer = pRenderer;

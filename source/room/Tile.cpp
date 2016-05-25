@@ -16,6 +16,7 @@
 #include <algorithm>
 using namespace std;
 
+
 Tile::Tile(Renderer* pRenderer)
 {
 	m_pRenderer = pRenderer;
