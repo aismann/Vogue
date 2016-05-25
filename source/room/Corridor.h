@@ -66,9 +66,9 @@ private:
 	float m_width;
 	float m_height;
 
-	// Door direction
+	// Corridor direction
 	eDirection m_direction;
 
-	// Chunk position
+	// Corridor position
 	vec3 m_position;
 };

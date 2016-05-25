@@ -78,6 +78,6 @@ private:
 	// Door direction
 	eDirection m_direction;
 
-	// Chunk position
+	// Door position
 	vec3 m_position;
 };

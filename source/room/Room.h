@@ -95,7 +95,7 @@ private:
 	float m_width;
 	float m_height;
 
-	// Chunk position
+	// Room position
 	vec3 m_position;
 
 	// Room depth, from the initial starting room
