@@ -67,9 +67,9 @@ void Player::RenderDebug()
 	m_pRenderer->SetCullMode(CM_NOCULL);
 	m_pRenderer->SetLineWidth(1.0f);
 
-	float length = 0.5f;
+	float length = 0.25f;
 	float height = 0.5f;
-	float width = 0.5f;
+	float width = 0.25f;
 	m_pRenderer->PushMatrix();
 		m_pRenderer->MultiplyWorldMatrix(m_worldMatrix);
 		m_pRenderer->ImmediateColourAlpha(1.0f, 1.0f, 0.0f, 1.0f);
