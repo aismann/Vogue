@@ -18,6 +18,7 @@
 void VogueGame::PreRender()
 {
 	// Update matrices for game objects
+	m_pPlayer->CalculateWorldTransformMatrix();
 }
 
 void VogueGame::BeginShaderRender()
@@ -76,6 +77,9 @@ void VogueGame::Render()
 
 			// Tile
 			m_pTileManager->Render();
+
+			// Player
+			m_pPlayer->Render();
 		m_pRenderer->PopMatrix();
 
 		m_pRenderer->PushMatrix();

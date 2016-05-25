@@ -153,6 +153,9 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 
 	/* Create the room manager */
 	m_pRoomManager = new RoomManager(m_pRenderer, m_pTileManager);
+	
+	/* Create the player */
+	m_pPlayer = new Player(m_pRenderer);
 
 	// Keyboard movement
 	m_bKeyboardForward = false;
@@ -226,6 +229,7 @@ void VogueGame::Destroy()
 	{
 		delete m_pRoomManager;
 		delete m_pTileManager;
+		delete m_pPlayer;
 
 		delete m_pGameCamera;
 		DestroyGUI();  // Destroy the GUI components before we delete the GUI manager object.

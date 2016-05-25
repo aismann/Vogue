@@ -26,7 +26,7 @@
 
 #include "room/RoomManager.h"
 #include "room/TileManager.h"
-
+#include "Player/Player.h"
 
 #ifdef __linux__
 typedef struct POINT {
@@ -318,6 +318,9 @@ private:
 
 	// Tile manager
 	TileManager *m_pTileManager;
+
+	// Player
+	Player* m_pPlayer;
 
 	// Singleton instance
 	static VogueGame *c_instance;

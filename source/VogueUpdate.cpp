@@ -70,6 +70,8 @@ void VogueGame::Update()
 	{
 		m_pRoomManager->Update(m_deltaTime);
 		m_pTileManager->Update(m_deltaTime);
+
+		m_pPlayer->Update(m_deltaTime);
 	}
 
 	// Update controls

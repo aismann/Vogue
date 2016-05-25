@@ -225,6 +225,7 @@
     <ClCompile Include="..\..\source\Maths\Line3D.cpp" />
     <ClCompile Include="..\..\source\Maths\matrix4x4.cpp" />
     <ClCompile Include="..\..\source\Maths\Plane3D.cpp" />
+    <ClCompile Include="..\..\source\Player\Player.cpp" />
     <ClCompile Include="..\..\source\Renderer\camera.cpp" />
     <ClCompile Include="..\..\source\Renderer\colour.cpp" />
     <ClCompile Include="..\..\source\Renderer\frustum.cpp" />
@@ -476,6 +477,7 @@
     <ClInclude Include="..\..\source\Maths\3dGeometry.h" />
     <ClInclude Include="..\..\source\Maths\3dmaths.h" />
     <ClInclude Include="..\..\source\Maths\BoundingRegion.h" />
+    <ClInclude Include="..\..\source\Player\Player.h" />
     <ClInclude Include="..\..\source\Renderer\camera.h" />
     <ClInclude Include="..\..\source\Renderer\colour.h" />
     <ClInclude Include="..\..\source\Renderer\framebuffer.h" />
