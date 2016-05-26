@@ -310,12 +310,16 @@ void Room::CreateTiles()
 	{
 		for (int z = 0; z < m_width*2.0f; z++)
 		{
-			float scale = 0.03125f;
+			float scale = 0.0625f;
 			vec3 tilePos = m_position;
 			tilePos -= vec3(m_length, m_height, m_width);
 			tilePos += (vec3(0.5f, 0.5f, 0.5f)*scale);
 			tilePos += vec3(x*1.0f, 0.0f, z*1.0f);
-			m_pInstanceManager->AddInstanceObject("media/gamedata/tiles/wood_tile.qb", tilePos, vec3(0.0f, 0.0f, 0.0f), scale);
+			
+			int numTiles = 3;
+			char tileFilename[64];
+			sprintf(tileFilename, "media/gamedata/tiles/stone_tile%i.qb", GetRandomNumber(1, numTiles));
+			m_pInstanceManager->AddInstanceObject(tileFilename, tilePos, vec3(0.0f, 0.0f, 0.0f), scale);
 		}
 	}
 }
