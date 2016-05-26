@@ -234,6 +234,9 @@ void RoomManager::GenerateNewLayout()
 	// Clear all tiles
 	m_pTileManager->ClearTiles();
 
+	// Clear all instance objects
+	m_pInstanceManager->ClearInstanceObjects();
+
 	// Generate the starting room
 	float randomLengthOffset;
 	Room* pCreatedRoom = CreateRandomRoom(NULL, eDirection_NONE, 0.0f, &randomLengthOffset, 0);

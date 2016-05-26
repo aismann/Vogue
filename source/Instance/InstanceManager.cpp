@@ -50,6 +50,7 @@ InstanceManager::~InstanceManager()
 	ClearInstanceObjects();
 }
 
+// Clearing
 void InstanceManager::ClearInstanceObjects()
 {
 	for(unsigned int i = 0; i < (int)m_vpInstanceParentList.size(); i++)

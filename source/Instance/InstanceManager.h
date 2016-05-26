@@ -71,6 +71,7 @@ public:
 	InstanceManager(Renderer* pRenderer);
 	~InstanceManager();
 
+	// Clearing
 	void ClearInstanceObjects();
 
 	// Counters
