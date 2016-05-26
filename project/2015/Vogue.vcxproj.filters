@@ -70,6 +70,9 @@
     <Filter Include="source\Player">
       <UniqueIdentifier>{3fbd62f5-6cb0-4d0f-8ad1-5d474968df8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\models">
+      <UniqueIdentifier>{fb6ca043-8ab4-4069-96c6-043fd1a210d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\main.cpp">
@@ -428,6 +431,33 @@
     </ClCompile>
     <ClCompile Include="..\..\source\Player\Player.cpp">
       <Filter>source\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\models\MS3DAnimator.cpp">
+      <Filter>source\models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\models\MS3DModel.cpp">
+      <Filter>source\models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\models\objmodel.cpp">
+      <Filter>source\models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\models\QubicleBinary.cpp">
+      <Filter>source\models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\models\QubicleBinaryManager.cpp">
+      <Filter>source\models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\models\VoxelCharacter.cpp">
+      <Filter>source\models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\models\VoxelObject.cpp">
+      <Filter>source\models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\models\VoxelWeapon.cpp">
+      <Filter>source\models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\models\BoundingBox.cpp">
+      <Filter>source\models</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1252,6 +1282,36 @@
     </ClInclude>
     <ClInclude Include="..\..\source\Player\Player.h">
       <Filter>source\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\models\BoundingBox.h">
+      <Filter>source\models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\models\modelloader.h">
+      <Filter>source\models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\models\MS3DAnimator.h">
+      <Filter>source\models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\models\MS3DModel.h">
+      <Filter>source\models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\models\OBJModel.h">
+      <Filter>source\models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\models\QubicleBinary.h">
+      <Filter>source\models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\models\QubicleBinaryManager.h">
+      <Filter>source\models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\models\VoxelCharacter.h">
+      <Filter>source\models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\models\VoxelObject.h">
+      <Filter>source\models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\models\VoxelWeapon.h">
+      <Filter>source\models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

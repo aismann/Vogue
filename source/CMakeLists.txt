@@ -28,6 +28,7 @@ add_subdirectory(tinythread)
 add_subdirectory(libnoise)
 add_subdirectory(room)
 add_subdirectory(Player)
+add_subdirectory(models)
 
 source_group("source" FILES ${SRCS})
 source_group("source\\utils" FILES ${UTIL_SRCS})
@@ -50,6 +51,7 @@ source_group("source\\tinythread" FILES ${TINYTHREAD_SRCS})
 source_group("source\\libnoise" FILES ${LIBNOISE_SRCS})
 source_group("source\\room" FILES ${ROOM_SRCS})
 source_group("source\\Player" FILES ${PLAYER_SRCS})
+source_group("source\\models" FILES ${MODELS_SRCS})
 
 add_executable(Vogue
                ${SRCS}
@@ -72,7 +74,8 @@ add_executable(Vogue
                ${TINYTHREAD_SRCS}
                ${LIBNOISE_SRCS}
                ${ROOM_SRCS}
-               ${PLAYER_SRCS})
+               ${PLAYER_SRCS}
+               ${MODELS_SRCS})
 
 include_directories(".")			   
 include_directories("glfw\\include")
