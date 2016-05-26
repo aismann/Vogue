@@ -848,6 +848,17 @@ void Renderer::DisableDepthWrite()
 	glDepthMask(GL_FALSE);
 }
 
+// Colour material
+void Renderer::EnableColourMaterial()
+{
+	glEnable(GL_COLOR_MATERIAL);
+}
+
+void Renderer::DisableColourMaterial()
+{
+	glDisable(GL_COLOR_MATERIAL);
+}
+
 // Immediate mode
 void Renderer::EnableImmediateMode(ImmediateModePrimitive mode)
 {

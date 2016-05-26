@@ -249,6 +249,10 @@ public:
 	void EnableDepthWrite();
 	void DisableDepthWrite();
 
+	// Colour material
+	void EnableColourMaterial();
+	void DisableColourMaterial();
+
 	// Immediate mode
 	void EnableImmediateMode(ImmediateModePrimitive mode);
 	void ImmediateVertex(float x, float y, float z);
