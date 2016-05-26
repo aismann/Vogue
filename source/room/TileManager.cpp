@@ -17,9 +17,10 @@
 using namespace std;
 
 
-TileManager::TileManager(Renderer* pRenderer)
+TileManager::TileManager(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 {
 	m_pRenderer = pRenderer;
+	m_pQubicleBinaryManager = pQubicleBinaryManager;
 }
 
 TileManager::~TileManager()
@@ -41,7 +42,7 @@ void TileManager::ClearTiles()
 // Creation
 Tile* TileManager::CreateTile(vec3 position)
 {
-	Tile* pNewTile = new Tile(m_pRenderer);
+	Tile* pNewTile = new Tile(m_pRenderer, m_pQubicleBinaryManager);
 	pNewTile->SetPosition(position);
 
 	m_vpTileList.push_back(pNewTile);

@@ -17,9 +17,12 @@
 using namespace std;
 
 
-Tile::Tile(Renderer* pRenderer)
+Tile::Tile(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 {
 	m_pRenderer = pRenderer;
+	m_pQubicleBinaryManager = pQubicleBinaryManager;
+
+	m_pTileFile = m_pQubicleBinaryManager->GetQubicleBinaryFile("media/gamedata/tiles/wood_tile.qb", false);
 }
 
 Tile::~Tile()
@@ -44,6 +47,21 @@ void Tile::Update(float dt)
 
 // Render
 void Tile::Render()
+{
+	m_pRenderer->PushMatrix();
+		m_pRenderer->TranslateWorldMatrix(m_position.x, m_position.y, m_position.z);
+
+		// Scale down
+		m_pRenderer->ScaleWorldMatrix(0.03125f, 0.03125f, 0.03125f);
+
+		Colour OulineColour(1.0f, 1.0f, 0.0f, 1.0f);
+		m_pTileFile->Render(false, false, false, OulineColour);
+	m_pRenderer->PopMatrix();
+
+	//RenderDebug();
+}
+
+void Tile::RenderDebug()
 {
 	m_pRenderer->SetRenderMode(RM_WIREFRAME);
 	m_pRenderer->SetCullMode(CM_NOCULL);

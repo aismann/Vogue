@@ -15,13 +15,14 @@
 
 #include "../Maths/3dmaths.h"
 #include "../Renderer/Renderer.h"
+#include "../models/modelloader.h"
 
 
 class Tile
 {
 public:
 	/* Public methods */
-	Tile(Renderer* pRenderer);
+	Tile(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager);
 	~Tile();
 
 	// Accessors
@@ -33,6 +34,7 @@ public:
 
 	// Render
     void Render();
+	void RenderDebug();
 
 protected:
 	/* Protected methods */
@@ -49,7 +51,11 @@ protected:
 private:
 	/* Private members */
 	Renderer* m_pRenderer;
+	QubicleBinaryManager* m_pQubicleBinaryManager;
 
 	// Tile position
 	vec3 m_position;
+
+	// Qubicle binary file
+	QubicleBinary* m_pTileFile;
 };

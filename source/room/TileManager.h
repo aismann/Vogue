@@ -28,7 +28,7 @@ class TileManager
 {
 public:
 	/* Public methods */
-	TileManager(Renderer* pRenderer);
+	TileManager(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager);
 	~TileManager();
 
 	// Deletion
@@ -58,6 +58,7 @@ protected:
 private:
 	/* Private members */
 	Renderer* m_pRenderer;
+	QubicleBinaryManager* m_pQubicleBinaryManager;
 
 	// List of tiles
 	TileList m_vpTileList;

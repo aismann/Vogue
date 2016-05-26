@@ -313,6 +313,9 @@ private:
 	bool m_debugRender;
 
 	// Game objects
+	// Qubicle binary manager
+	QubicleBinaryManager* m_pQubicleBinaryManager;
+
 	// Room manager
 	RoomManager *m_pRoomManager;
 

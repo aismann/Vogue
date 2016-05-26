@@ -148,8 +148,11 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	shaderLoaded = m_pRenderer->LoadGLSLShader("media/shaders/fullscreen/blur_vertical.vertex", "media/shaders/fullscreen/blur_vertical.pixel", &m_blurVerticalShader);
 	shaderLoaded = m_pRenderer->LoadGLSLShader("media/shaders/fullscreen/blur_horizontal.vertex", "media/shaders/fullscreen/blur_horizontal.pixel", &m_blurHorizontalShader);
 
+	/* Create the qubicle binary file manager */
+	m_pQubicleBinaryManager = new QubicleBinaryManager(m_pRenderer);
+
 	/* Create the tile manager */
-	m_pTileManager = new TileManager(m_pRenderer);
+	m_pTileManager = new TileManager(m_pRenderer, m_pQubicleBinaryManager);
 
 	/* Create the room manager */
 	m_pRoomManager = new RoomManager(m_pRenderer, m_pTileManager);
@@ -230,6 +233,8 @@ void VogueGame::Destroy()
 		delete m_pRoomManager;
 		delete m_pTileManager;
 		delete m_pPlayer;
+
+		delete m_pQubicleBinaryManager;
 
 		delete m_pGameCamera;
 		DestroyGUI();  // Destroy the GUI components before we delete the GUI manager object.
