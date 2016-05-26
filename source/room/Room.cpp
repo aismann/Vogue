@@ -14,11 +14,12 @@
 #include "../utils/Random.h"
 
 
-Room::Room(Renderer* pRenderer, TileManager* pTileManager, RoomManager* pRoomManager)
+Room::Room(Renderer* pRenderer, TileManager* pTileManager, InstanceManager* pInstanceManager, RoomManager* pRoomManager)
 {
 	m_pRenderer = pRenderer;
 	m_pRoomManager = pRoomManager;
 	m_pTileManager = pTileManager;
+	m_pInstanceManager = pInstanceManager;
 
 	m_length = 0.5f;
 	m_width = 0.5f;
@@ -309,11 +310,12 @@ void Room::CreateTiles()
 	{
 		for (int z = 0; z < m_width*2.0f; z++)
 		{
+			float scale = 0.03125f;
 			vec3 tilePos = m_position;
 			tilePos -= vec3(m_length, m_height, m_width);
-			tilePos += vec3(0.5f, 0.05f, 0.5f);
+			tilePos += (vec3(0.5f, 0.5f, 0.5f)*scale);
 			tilePos += vec3(x*1.0f, 0.0f, z*1.0f);
-			m_pTileManager->CreateTile(tilePos);
+			m_pInstanceManager->AddInstanceObject("media/gamedata/tiles/wood_tile.qb", tilePos, vec3(0.0f, 0.0f, 0.0f), scale);
 		}
 	}
 }

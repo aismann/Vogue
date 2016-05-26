@@ -78,6 +78,9 @@ void VogueGame::Render()
 			// Tile
 			m_pTileManager->Render();
 
+			// Instanced objects
+			m_pInstanceManager->Render();
+
 			// Player
 			m_pPlayer->Render();
 		m_pRenderer->PopMatrix();
@@ -126,9 +129,13 @@ void VogueGame::RenderDebugInformation()
 
 	char lDrawingBuff[256];
 	sprintf(lDrawingBuff, "Vertices: %i, Faces: %i", 0, 0); // TODO : Debug rendering Metrics
+
 	char lRoomsBuff[256];
 	sprintf(lRoomsBuff, "Rooms: %i, ConnectionList: %i, Item: %i (%i), Boss: %i (%i)", m_pRoomManager->GetNumRooms(), m_pRoomManager->GetNumConnectionRoomsPossible(),
 		m_pRoomManager->GetNumItemRooms(), m_pRoomManager->GetNumItemRoomsPossible(), m_pRoomManager->GetNumBossRooms(), m_pRoomManager->GetNumBossRoomsPossible());
+	
+	char lInstancesBuff[256];
+	sprintf(lInstancesBuff, "Instance Parents: %i, Instance Objects: %i, Instance Render: %i", m_pInstanceManager->GetNumInstanceParents(), m_pInstanceManager->GetTotalNumInstanceObjects(), m_pInstanceManager->GetTotalNumInstanceRenderObjects());
 
 	char lFPSBuff[128];
 	float fpsWidthOffset = 65.0f;
@@ -162,6 +169,7 @@ void VogueGame::RenderDebugInformation()
 			m_pRenderer->RenderFreeTypeText(m_defaultFont, 10.0f, m_windowHeight - (l_nTextHeight * 1) - 10.0f, 1.0f, Colour(1.0f, 1.0f, 1.0f), 1.0f, lCameraBuff);
 			m_pRenderer->RenderFreeTypeText(m_defaultFont, 10.0f, m_windowHeight - (l_nTextHeight * 2) - 10.0f, 1.0f, Colour(1.0f, 1.0f, 1.0f), 1.0f, lDrawingBuff);
 			m_pRenderer->RenderFreeTypeText(m_defaultFont, 10.0f, m_windowHeight - (l_nTextHeight * 3) - 10.0f, 1.0f, Colour(1.0f, 1.0f, 1.0f), 1.0f, lRoomsBuff);
+			m_pRenderer->RenderFreeTypeText(m_defaultFont, 10.0f, m_windowHeight - (l_nTextHeight * 4) - 10.0f, 1.0f, Colour(1.0f, 1.0f, 1.0f), 1.0f, lInstancesBuff);
 		}
 
 		m_pRenderer->RenderFreeTypeText(m_defaultFont, m_windowWidth-fpsWidthOffset, 10.0f, 1.0f, Colour(1.0f, 1.0f, 1.0f), 1.0f, lFPSBuff);

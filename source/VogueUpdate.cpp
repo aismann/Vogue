@@ -68,6 +68,8 @@ void VogueGame::Update()
 	// Main components update
 	if (m_bPaused == false && m_initialStartWait == false)
 	{
+		m_pInstanceManager->Update(m_deltaTime);
+
 		m_pRoomManager->Update(m_deltaTime);
 		m_pTileManager->Update(m_deltaTime);
 

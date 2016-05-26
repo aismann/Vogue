@@ -15,6 +15,7 @@
 
 #include "../Maths/3dmaths.h"
 #include "../Renderer/Renderer.h"
+#include "../Instance/InstanceManager.h"
 #include "Door.h"
 #include "Corridor.h"
 #include "TileManager.h"
@@ -32,7 +33,7 @@ class Room
 {
 public:
 	/* Public methods */
-	Room(Renderer* pRenderer, TileManager* pTileManager, RoomManager* pRoomManager);
+	Room(Renderer* pRenderer, TileManager* pTileManager, InstanceManager* pInstanceManager, RoomManager* pRoomManager);
 	~Room();
 
 	// Clearing
@@ -90,6 +91,7 @@ private:
 	Renderer* m_pRenderer;
 	RoomManager* m_pRoomManager;
 	TileManager* m_pTileManager;
+	InstanceManager* m_pInstanceManager;
 
 	// Dimensions
 	float m_length;

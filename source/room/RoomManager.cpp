@@ -19,10 +19,11 @@ using namespace std;
 const int RoomManager::MAX_ROOM_DEPTH = 3;
 
 
-RoomManager::RoomManager(Renderer* pRenderer, TileManager* pTileManager)
+RoomManager::RoomManager(Renderer* pRenderer, TileManager* pTileManager, InstanceManager* pInstanceManager)
 {
 	m_pRenderer = pRenderer;
 	m_pTileManager = pTileManager;
+	m_pInstanceManager = pInstanceManager;
 }
 
 RoomManager::~RoomManager()
@@ -295,7 +296,7 @@ Room* RoomManager::CreateRandomRoom(Room* pRoomConnection, eDirection connectedD
 	Room* pNewRoom = NULL;
 	if (overlapsExistingRoom == false)
 	{
-		pNewRoom = new Room(m_pRenderer, m_pTileManager, this);
+		pNewRoom = new Room(m_pRenderer, m_pTileManager, m_pInstanceManager, this);
 		pNewRoom->SetDimensions(roomLength, roomWidth, roomHeight);
 		pNewRoom->SetPosition(newRoomPosition);
 		pNewRoom->SetRoomDepth(roomDepth);

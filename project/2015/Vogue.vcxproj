@@ -184,6 +184,7 @@
     <ClCompile Include="..\..\source\gui\TreeView.cpp" />
     <ClCompile Include="..\..\source\ini\ini.c" />
     <ClCompile Include="..\..\source\ini\INIReader.cpp" />
+    <ClCompile Include="..\..\source\Instance\InstanceManager.cpp" />
     <ClCompile Include="..\..\source\libnoise\noiseutils.cpp" />
     <ClCompile Include="..\..\source\lua\lapi.c" />
     <ClCompile Include="..\..\source\lua\lauxlib.c" />
@@ -456,6 +457,7 @@
     <ClInclude Include="..\..\source\gui\treeview.h" />
     <ClInclude Include="..\..\source\ini\ini.h" />
     <ClInclude Include="..\..\source\ini\INIReader.h" />
+    <ClInclude Include="..\..\source\Instance\InstanceManager.h" />
     <ClInclude Include="..\..\source\libnoise\noiseutils.h" />
     <ClInclude Include="..\..\source\lua\lapi.h" />
     <ClInclude Include="..\..\source\lua\lauxlib.h" />

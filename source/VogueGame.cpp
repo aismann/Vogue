@@ -151,11 +151,14 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	/* Create the qubicle binary file manager */
 	m_pQubicleBinaryManager = new QubicleBinaryManager(m_pRenderer);
 
+	/* Create the instance manager */
+	m_pInstanceManager = new InstanceManager(m_pRenderer);
+
 	/* Create the tile manager */
 	m_pTileManager = new TileManager(m_pRenderer, m_pQubicleBinaryManager);
 
 	/* Create the room manager */
-	m_pRoomManager = new RoomManager(m_pRenderer, m_pTileManager);
+	m_pRoomManager = new RoomManager(m_pRenderer, m_pTileManager, m_pInstanceManager);
 	
 	/* Create the player */
 	m_pPlayer = new Player(m_pRenderer);
@@ -234,6 +237,7 @@ void VogueGame::Destroy()
 		delete m_pTileManager;
 		delete m_pPlayer;
 
+		delete m_pInstanceManager;
 		delete m_pQubicleBinaryManager;
 
 		delete m_pGameCamera;

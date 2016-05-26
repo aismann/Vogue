@@ -27,6 +27,7 @@
 #include "room/RoomManager.h"
 #include "room/TileManager.h"
 #include "Player/Player.h"
+#include "Instance/InstanceManager.h"
 
 #ifdef __linux__
 typedef struct POINT {
@@ -315,6 +316,9 @@ private:
 	// Game objects
 	// Qubicle binary manager
 	QubicleBinaryManager* m_pQubicleBinaryManager;
+
+	// Instance manager
+	InstanceManager* m_pInstanceManager;
 
 	// Room manager
 	RoomManager *m_pRoomManager;

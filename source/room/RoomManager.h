@@ -31,7 +31,7 @@ class RoomManager
 {
 public:
 	/* Public methods */
-	RoomManager(Renderer* pRenderer, TileManager* pTileManager);
+	RoomManager(Renderer* pRenderer, TileManager* pTileManager, InstanceManager* pInstanceManager);
 	~RoomManager();
 
 	// Clearing
@@ -82,6 +82,7 @@ private:
 	/* Private members */
 	Renderer* m_pRenderer;
 	TileManager* m_pTileManager;
+	InstanceManager* m_pInstanceManager;
 
 	// List of rooms
 	RoomList m_vpRoomList;
