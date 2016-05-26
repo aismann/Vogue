@@ -430,7 +430,7 @@ void InstanceManager::Render()
 		else
 		{
 			m_pRenderer->SetCullMode(CM_BACK);
-			m_pRenderer->SetRenderMode(RM_SOLID);
+			m_pRenderer->SetRenderMode(RM_SHADED);
 		}
 
 		m_pRenderer->EnableTransparency(BF_SRC_ALPHA, BF_ONE_MINUS_SRC_ALPHA);

@@ -139,6 +139,8 @@ public:
 	void BeginShaderRender();
 	void EndShaderRender();
 	void Render();
+	void RenderSSAOTexture();
+	void RenderFXAATexture();
 	void RenderGUI();
 	void RenderDebugInformation();
 

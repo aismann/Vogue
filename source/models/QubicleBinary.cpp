@@ -1329,7 +1329,7 @@ void QubicleBinary::Render(bool renderOutline, bool reflection, bool silhouette,
 				}
 				else
 				{
-					m_pRenderer->SetRenderMode(RM_SOLID);
+					m_pRenderer->SetRenderMode(RM_SHADED);
 				}
 
 				// Store the model matrix
