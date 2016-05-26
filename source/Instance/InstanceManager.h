@@ -84,8 +84,12 @@ public:
 	// Setup
 	void SetupGLBuffers(InstanceParent *pInstanceParent);
 
+	// Creation
 	InstanceParent* GetInstanceParent(string modelName);
 	InstanceObject* AddInstanceObject(string modelName, vec3 position, vec3 rotation, float instanceScale);
+
+	// Rendering modes
+	void SetWireFrameRender(bool wireframe);
 
 	// Update
 	void Update(float dt);
@@ -108,6 +112,9 @@ protected:
 private:
 	/* Private members */
 	Renderer* m_pRenderer;
+
+	// Render modes
+	bool m_renderWireFrame;
 
 	// Shader
 	unsigned int m_instanceShader;

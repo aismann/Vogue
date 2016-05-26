@@ -22,6 +22,8 @@ InstanceManager::InstanceManager(Renderer* pRenderer)
 {
 	m_pRenderer = pRenderer;
 
+	m_renderWireFrame = false;
+
 	m_instanceShader = -1;
 	m_pRenderer->LoadGLSLShader("media/shaders/instance.vertex", "media/shaders/instance.pixel", &m_instanceShader);
 
@@ -270,6 +272,12 @@ bool instance_object_needs_erasing(InstanceObject* pInstanceObject)
 	return needsErase;
 }
 
+// Rendering modes
+void InstanceManager::SetWireFrameRender(bool wireframe)
+{
+	m_renderWireFrame = wireframe;
+}
+
 // Update
 void InstanceManager::Update(float dt)
 {
@@ -413,8 +421,18 @@ void InstanceManager::Render()
 		GLint in_light_ambient = glGetUniformLocation(pShader->GetProgramObject(), "in_light_ambient");
 		GLint in_light_diffuse = glGetUniformLocation(pShader->GetProgramObject(), "in_light_diffuse");
 
-		m_pRenderer->SetCullMode(CM_BACK);
-		m_pRenderer->SetRenderMode(RM_SOLID);
+		if (m_renderWireFrame)
+		{
+			m_pRenderer->SetLineWidth(1.0f);
+			m_pRenderer->SetRenderMode(RM_WIREFRAME);
+			m_pRenderer->SetCullMode(CM_NOCULL);
+		}
+		else
+		{
+			m_pRenderer->SetCullMode(CM_BACK);
+			m_pRenderer->SetRenderMode(RM_SOLID);
+		}
+
 		m_pRenderer->EnableTransparency(BF_SRC_ALPHA, BF_ONE_MINUS_SRC_ALPHA);
 
 		glDrawElementsInstanced(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, indicesBuffer, numInstanceObjectsRender);
