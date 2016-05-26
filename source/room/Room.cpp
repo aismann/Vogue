@@ -305,7 +305,17 @@ void Room::CreateCorridor(eDirection direction, float corridorLengthAmount, floa
 void Room::CreateTiles()
 {
 	// Create tiles
-	m_pTileManager->CreateTile(m_position - vec3(0.0f, m_height, 0.0f));
+	for (int x = 0; x < m_length*2.0f; x++)
+	{
+		for (int z = 0; z < m_width*2.0f; z++)
+		{
+			vec3 tilePos = m_position;
+			tilePos -= vec3(m_length, m_height, m_width);
+			tilePos += vec3(0.5f, 0.05f, 0.5f);
+			tilePos += vec3(x*1.0f, 0.0f, z*1.0f);
+			m_pTileManager->CreateTile(tilePos);
+		}
+	}
 }
 
 // Update
