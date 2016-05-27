@@ -141,6 +141,8 @@ public:
 	void Render();
 	void RenderSSAOTexture();
 	void RenderFXAATexture();
+	void RenderFirstPassFullScreen();
+	void RenderSecondPassFullScreen();
 	void RenderGUI();
 	void RenderDebugInformation();
 
@@ -311,6 +313,11 @@ private:
 	bool m_GUICreated;
 
 	// Toggle flags
+	bool m_deferredRendering;
+	bool m_multiSampling;
+	bool m_ssao;
+	bool m_dynamicLighting;
+	bool m_blur;
 	bool m_shadows;
 	bool m_fullscreen;
 	bool m_debugRender;

@@ -84,8 +84,18 @@ void VogueGame::Render()
 				m_pRenderer->EnableLight(m_defaultLight, 0);
 			m_pRenderer->PopMatrix();
 
+			// Multisampling MSAA
+			if (m_multiSampling)
+			{
+				m_pRenderer->EnableMultiSampling();
+			}
+			else
+			{
+				m_pRenderer->DisableMultiSampling();
+			}
+
 			// SSAO frame buffer rendering start
-			//if (m_deferredRendering) // TODO
+			if (m_deferredRendering)
 			{
 				m_pRenderer->StartRenderingToFrameBuffer(m_SSAOFrameBuffer);
 			}
@@ -113,20 +123,26 @@ void VogueGame::Render()
 			m_pPlayer->Render();
 
 			// SSAO frame buffer rendering stop
-			//if (m_deferredRendering) // TODO
+			if (m_deferredRendering)
 			{
 				m_pRenderer->StopRenderingToFrameBuffer(m_SSAOFrameBuffer);
 			}
 		m_pRenderer->PopMatrix();
 
 		// Render our deferred textures from the frame buffers
-		//if (m_deferredRendering) // TODO
+		if (m_deferredRendering)
 		{
 			RenderSSAOTexture();
 
-			//if (m_multiSampling && m_fxaaShader != -1) // TODO
+			if (m_multiSampling && m_fxaaShader != -1)
 			{
-				//RenderFXAATexture();
+				RenderFXAATexture();
+			}
+			
+			if (m_blur)
+			{
+				RenderFirstPassFullScreen();
+				RenderSecondPassFullScreen();
 			}
 		}
 
@@ -155,14 +171,14 @@ void VogueGame::RenderSSAOTexture()
 		m_pRenderer->SetProjectionMode(PM_2D, m_defaultViewport);
 		m_pRenderer->SetLookAtCamera(vec3(0.0f, 0.0f, 250.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
 
-		//if (m_multiSampling) // TODO
-		//{
-		//	m_pRenderer->StartRenderingToFrameBuffer(m_FXAAFrameBuffer);
-		//}
-		//else if (m_blur || m_pChunkManager->IsUnderWater(m_pGameCamera->GetPosition()))
-		//{
-		//	m_pRenderer->StartRenderingToFrameBuffer(m_firstPassFullscreenBuffer);
-		//}
+		if (m_multiSampling)
+		{
+			m_pRenderer->StartRenderingToFrameBuffer(m_FXAAFrameBuffer);
+		}
+		else if (m_blur)
+		{
+			m_pRenderer->StartRenderingToFrameBuffer(m_firstPassFullscreenBuffer);
+		}
 
 		// SSAO shader
 		m_pRenderer->BeginGLSLShader(m_SSAOShader);
@@ -195,8 +211,8 @@ void VogueGame::RenderSSAOTexture()
 
 		pShader->setUniform1f("samplingMultiplier", 1.5f);
 
-		pShader->setUniform1i("lighting_enabled", true); // TODO
-		pShader->setUniform1i("ssao_enabled", true); // TODO
+		pShader->setUniform1i("lighting_enabled", m_dynamicLighting);
+		pShader->setUniform1i("ssao_enabled", m_ssao);
 
 		m_pRenderer->SetRenderMode(RM_TEXTURED);
 		m_pRenderer->EnableImmediateMode(IM_QUADS);
@@ -218,14 +234,14 @@ void VogueGame::RenderSSAOTexture()
 
 		m_pRenderer->EndGLSLShader(m_SSAOShader);
 
-		//if (m_multiSampling) // TODO
-		//{
-		//	m_pRenderer->StopRenderingToFrameBuffer(m_FXAAFrameBuffer);
-		//}
-		//else if (m_blur || m_pChunkManager->IsUnderWater(m_pGameCamera->GetPosition()))
-		//{
-		//	m_pRenderer->StopRenderingToFrameBuffer(m_firstPassFullscreenBuffer);
-		//}
+		if (m_multiSampling)
+		{
+			m_pRenderer->StopRenderingToFrameBuffer(m_FXAAFrameBuffer);
+		}
+		else if (m_blur)
+		{
+			m_pRenderer->StopRenderingToFrameBuffer(m_firstPassFullscreenBuffer);
+		}
 	m_pRenderer->PopMatrix();
 }
 
@@ -235,11 +251,10 @@ void VogueGame::RenderFXAATexture()
 		m_pRenderer->SetProjectionMode(PM_2D, m_defaultViewport);
 		m_pRenderer->SetLookAtCamera(vec3(0.0f, 0.0f, 250.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
 
-		// TODO
-		//if (m_blur || m_pChunkManager->IsUnderWater(m_pGameCamera->GetPosition()))
-		//{
-		//	m_pRenderer->StartRenderingToFrameBuffer(m_firstPassFullscreenBuffer);
-		//}
+		if (m_blur)
+		{
+			m_pRenderer->StartRenderingToFrameBuffer(m_firstPassFullscreenBuffer);
+		}
 
 		m_pRenderer->BeginGLSLShader(m_fxaaShader);
 		glShader* pShader = m_pRenderer->GetShader(m_fxaaShader);
@@ -267,11 +282,99 @@ void VogueGame::RenderFXAATexture()
 
 		m_pRenderer->EndGLSLShader(m_fxaaShader);
 
-		// TODO
-		//if (m_blur || m_pChunkManager->IsUnderWater(m_pGameCamera->GetPosition()))
-		//{
-		//	m_pRenderer->StopRenderingToFrameBuffer(m_firstPassFullscreenBuffer);
-		//}
+		if (m_blur)
+		{
+			m_pRenderer->StopRenderingToFrameBuffer(m_firstPassFullscreenBuffer);
+		}
+	m_pRenderer->PopMatrix();
+}
+
+void VogueGame::RenderFirstPassFullScreen()
+{
+	m_pRenderer->PushMatrix();
+		m_pRenderer->SetProjectionMode(PM_2D, m_defaultViewport);
+		m_pRenderer->SetLookAtCamera(vec3(0.0f, 0.0f, 250.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
+
+		// Blur first pass (Horizontal)
+		m_pRenderer->StartRenderingToFrameBuffer(m_secondPassFullscreenBuffer);
+		m_pRenderer->BeginGLSLShader(m_blurHorizontalShader);
+		glShader* pShader = m_pRenderer->GetShader(m_blurHorizontalShader);
+
+		unsigned int textureId0 = glGetUniformLocationARB(pShader->GetProgramObject(), "texture");
+		m_pRenderer->PrepareShaderTexture(0, textureId0);
+		m_pRenderer->BindRawTextureId(m_pRenderer->GetDiffuseTextureFromFrameBuffer(m_firstPassFullscreenBuffer));
+
+		float blurSize = 0.0015f;
+
+		// Override any blur amount if we have global blur set
+		if (m_globalBlurAmount > 0.0f)
+		{
+			blurSize = m_globalBlurAmount;
+		}
+		
+		pShader->setUniform1f("blurSize", blurSize);
+
+		m_pRenderer->SetRenderMode(RM_TEXTURED);
+		m_pRenderer->EnableImmediateMode(IM_QUADS);
+			m_pRenderer->ImmediateTextureCoordinate(0.0f, 0.0f);
+			m_pRenderer->ImmediateVertex(0.0f, 0.0f, 1.0f);
+			m_pRenderer->ImmediateTextureCoordinate(1.0f, 0.0f);
+			m_pRenderer->ImmediateVertex((float)m_windowWidth, 0.0f, 1.0f);
+			m_pRenderer->ImmediateTextureCoordinate(1.0f, 1.0f);
+			m_pRenderer->ImmediateVertex((float)m_windowWidth, (float)m_windowHeight, 1.0f);
+			m_pRenderer->ImmediateTextureCoordinate(0.0f, 1.0f);
+			m_pRenderer->ImmediateVertex(0.0f, (float)m_windowHeight, 1.0f);
+		m_pRenderer->DisableImmediateMode();
+
+		m_pRenderer->EmptyTextureIndex(0);
+
+		m_pRenderer->EndGLSLShader(m_blurHorizontalShader);
+		m_pRenderer->StopRenderingToFrameBuffer(m_secondPassFullscreenBuffer);
+	m_pRenderer->PopMatrix();
+}
+
+void VogueGame::RenderSecondPassFullScreen()
+{
+	m_pRenderer->PushMatrix();
+		m_pRenderer->SetProjectionMode(PM_2D, m_defaultViewport);
+		m_pRenderer->SetLookAtCamera(vec3(0.0f, 0.0f, 250.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
+
+		// Blur second pass (Vertical)
+		m_pRenderer->BeginGLSLShader(m_blurVerticalShader);
+		glShader* pShader = m_pRenderer->GetShader(m_blurVerticalShader);
+
+		unsigned int textureId0 = glGetUniformLocationARB(pShader->GetProgramObject(), "texture");
+		m_pRenderer->PrepareShaderTexture(0, textureId0);
+		m_pRenderer->BindRawTextureId(m_pRenderer->GetDiffuseTextureFromFrameBuffer(m_secondPassFullscreenBuffer));
+
+		float blurSize = 0.0015f;
+		bool applyBlueTint = false;
+
+		// Override any blur amount if we have global blur set
+		if (m_globalBlurAmount > 0.0f)
+		{
+			blurSize = m_globalBlurAmount;
+		}
+		
+		pShader->setUniform1f("blurSize", blurSize);
+
+		glUniform1iARB(glGetUniformLocationARB(pShader->GetProgramObject(), "applyBlueTint"), applyBlueTint);
+
+		m_pRenderer->SetRenderMode(RM_TEXTURED);
+		m_pRenderer->EnableImmediateMode(IM_QUADS);
+			m_pRenderer->ImmediateTextureCoordinate(0.0f, 0.0f);
+			m_pRenderer->ImmediateVertex(0.0f, 0.0f, 1.0f);
+			m_pRenderer->ImmediateTextureCoordinate(1.0f, 0.0f);
+			m_pRenderer->ImmediateVertex((float)m_windowWidth, 0.0f, 1.0f);
+			m_pRenderer->ImmediateTextureCoordinate(1.0f, 1.0f);
+			m_pRenderer->ImmediateVertex((float)m_windowWidth, (float)m_windowHeight, 1.0f);
+			m_pRenderer->ImmediateTextureCoordinate(0.0f, 1.0f);
+			m_pRenderer->ImmediateVertex(0.0f, (float)m_windowHeight, 1.0f);
+		m_pRenderer->DisableImmediateMode();
+
+		m_pRenderer->EmptyTextureIndex(0);
+
+		m_pRenderer->EndGLSLShader(m_blurVerticalShader);
 	m_pRenderer->PopMatrix();
 }
 

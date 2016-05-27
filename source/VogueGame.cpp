@@ -201,6 +201,11 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	m_elapsedWaterTime = 0.0f;
 
 	// Toggle flags
+	m_deferredRendering = true;
+	m_multiSampling = true;
+	m_ssao = true;
+	m_dynamicLighting = true;
+	m_blur = false;
 	m_shadows = true;
 	m_fullscreen = m_pVogueSettings->m_fullscreen;
 	m_debugRender = false;
