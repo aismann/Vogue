@@ -190,7 +190,6 @@ void VogueGame::KeyReleased(int key, int scancode, int mods)
 			break;
 		}
 
-		// Debug
 		case GLFW_KEY_I:
 		{
 			m_pRoomManager->CreateConnectedRoom();
@@ -207,11 +206,6 @@ void VogueGame::KeyReleased(int key, int scancode, int mods)
 			m_pRoomManager->CreateItemRoom();
 			m_pRoomManager->CreateBossRoom();
 
-			break;
-		}
-		case GLFW_KEY_O:
-		{
-			m_debugRender = !m_debugRender;
 			break;
 		}
 		case GLFW_KEY_P:
