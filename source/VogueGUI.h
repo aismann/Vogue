@@ -9,6 +9,8 @@
 // Copyright (c) 2005-2016, Steven Ball
 // ******************************************************************************
 
+#include "VogueGame.h"
+
 
 class VogueGUI
 {
@@ -67,4 +69,16 @@ private:
 
 	// GUI components
 	GUIWindow* m_pMainWindow;
+	CheckBox* m_pShadowsCheckBox;
+	CheckBox* m_pSSAOCheckBox;
+	CheckBox* m_pDynamicLightingCheckBox;
+	CheckBox* m_pWireframeCheckBox;
+	CheckBox* m_pMSAACheckBox;
+	CheckBox* m_pDeferredCheckBox;
+	CheckBox* m_pBlurCheckBox;
+	CheckBox* m_pDebugRenderCheckBox;
+	CheckBox* m_pInstanceRenderCheckBox;
+
+	// Friend class
+	friend class VogueGame;
 };

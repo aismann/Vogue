@@ -145,4 +145,16 @@ void VogueGame::UpdateLights(float dt)
 void VogueGame::UpdateGameGUI(float dt)
 {
 	m_pVogueGUI->UpdateGUI(dt);
+
+	m_shadows = m_pVogueGUI->m_pShadowsCheckBox->GetToggled();
+	m_ssao = m_pVogueGUI->m_pSSAOCheckBox->GetToggled();
+	m_blur = m_pVogueGUI->m_pBlurCheckBox->GetToggled();
+	m_dynamicLighting = m_pVogueGUI->m_pDynamicLightingCheckBox->GetToggled();
+	m_multiSampling = m_pVogueGUI->m_pMSAACheckBox->GetToggled();
+	m_deferredRendering = m_pVogueGUI->m_pDeferredCheckBox->GetToggled();
+	m_debugRender = m_pVogueGUI->m_pDebugRenderCheckBox->GetToggled();
+	m_wireframeRender = m_pVogueGUI->m_pWireframeCheckBox->GetToggled();
+	m_instanceRender = m_pVogueGUI->m_pInstanceRenderCheckBox->GetToggled();
+
+	m_pInstanceManager->SetWireFrameRender(m_wireframeRender);
 }

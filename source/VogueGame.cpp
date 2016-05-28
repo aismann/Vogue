@@ -219,6 +219,8 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	m_shadows = true;
 	m_fullscreen = m_pVogueSettings->m_fullscreen;
 	m_debugRender = false;
+	m_wireframeRender = false;
+	m_instanceRender = false;
 
 	// Camera mode
 	m_cameraMode = CameraMode_Debug;

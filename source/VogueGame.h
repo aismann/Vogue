@@ -312,6 +312,8 @@ private:
 	bool m_shadows;
 	bool m_fullscreen;
 	bool m_debugRender;
+	bool m_wireframeRender;
+	bool m_instanceRender;
 
 	// Game objects
 	// Qubicle binary manager
