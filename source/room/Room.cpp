@@ -316,7 +316,7 @@ void Room::CreateTiles()
 			tilePos += (vec3(0.5f, 0.05f, 0.5f));
 			tilePos += vec3(x*1.0f, 0.0f, z*1.0f);
 			
-			m_pTileManager->CreateTile(tilePos);
+			//m_pTileManager->CreateTile(tilePos);
 
 			int numTiles = 3;
 			char tileFilename[64];
