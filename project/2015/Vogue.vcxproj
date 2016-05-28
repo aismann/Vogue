@@ -551,6 +551,7 @@
     <ClInclude Include="..\..\source\utils\Random.h" />
     <ClInclude Include="..\..\source\utils\TimeManager.h" />
     <ClInclude Include="..\..\source\VogueGame.h" />
+    <ClInclude Include="..\..\source\VogueGUI.h" />
     <ClInclude Include="..\..\source\VogueSettings.h" />
     <ClInclude Include="..\..\source\VogueWindow.h" />
   </ItemGroup>

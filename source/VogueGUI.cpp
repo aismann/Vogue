@@ -12,40 +12,85 @@
 #include "VogueGame.h"
 #include "utils/FileUtils.h"
 
-void VogueGame::CreateGUI()
+VogueGUI::VogueGUI(Renderer* pRenderer, OpenGLGUI* pGUI, int width, int height)
 {
-	m_GUICreated = true;
+	m_pRenderer = pRenderer;
+	m_pGUI = pGUI;
+
+	m_windowWidth = width;
+	m_windowHeight = height;
+
+	m_pRenderer->CreateFreeTypeFont("media/fonts/arial.ttf", 12, &m_defaultGUIFont);
 }
 
-void VogueGame::SetupGUI()
+VogueGUI::~VogueGUI()
 {
+	DestroyGUI();
 }
 
-void VogueGame::SkinGUI()
+// Creation
+void VogueGUI::CreateGUI()
 {
+	m_pMainWindow = new GUIWindow(m_pRenderer, m_defaultGUIFont, "Main");
+	m_pMainWindow->AllowMoving(true);
+	m_pMainWindow->AllowClosing(false);
+	m_pMainWindow->AllowMinimizing(true);
+	m_pMainWindow->AllowScrolling(true);
+	m_pMainWindow->SetRenderTitleBar(true);
+	m_pMainWindow->SetRenderWindowBackground(true);
+	m_pMainWindow->SetOutlineRender(true);
+	m_pMainWindow->SetDimensions(15, 35, 320, 140);
+	m_pMainWindow->SetApplicationDimensions(m_windowWidth, m_windowHeight);
 }
 
-void VogueGame::UnSkinGUI()
+// Destruction
+void VogueGUI::DestroyGUI()
 {
+	delete m_pMainWindow;
 }
 
-void VogueGame::DestroyGUI()
+// Setup
+void VogueGUI::SetupGUI()
 {
+	m_pGUI->AddWindow(m_pMainWindow);
 }
 
-void VogueGame::UpdateGUI(float dt)
+// Resize
+void VogueGUI::SignalResize(int width, int height)
 {
+	m_windowWidth = width;
+	m_windowHeight = height;
 }
 
-void VogueGame::GUITurnOffCursor()
+// Skinning
+void VogueGUI::SkinGUI()
 {
-	m_pGUI->ResetSelectionManager();
+
 }
 
-void VogueGame::ShowGUI()
+void VogueGUI::UnSkinGUI()
 {
+
 }
 
-void VogueGame::HideGUI()
+// GUI Functionality
+void VogueGUI::GUITurnOffCursor()
 {
+
+}
+
+void VogueGUI::ShowGUI()
+{
+
+}
+
+void VogueGUI::HideGUI()
+{
+
+}
+
+// Update
+void VogueGUI::UpdateGUI(float dt)
+{
+
 }

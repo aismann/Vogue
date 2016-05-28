@@ -10,6 +10,7 @@ set(SRCS
     "VogueRender.cpp"
     "VogueUpdate.cpp"
     "VogueGUI.cpp"
+	"VogueGUI.h"
     "VogueSettings.h"
     "VogueSettings.cpp")
 

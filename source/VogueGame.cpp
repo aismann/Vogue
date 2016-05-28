@@ -37,6 +37,13 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 {
 	m_pRenderer = NULL;
 	m_pGameCamera = NULL;
+	m_pVogueGUI = NULL;
+
+	m_pPlayer = NULL;
+	m_pTileManager = NULL;
+	m_pRoomManager = NULL;
+	m_pInstanceManager = NULL;
+	m_pQubicleBinaryManager = NULL;
 
 	m_GUICreated = false;
 
@@ -148,6 +155,9 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	shaderLoaded = m_pRenderer->LoadGLSLShader("media/shaders/fullscreen/blur_vertical.vertex", "media/shaders/fullscreen/blur_vertical.pixel", &m_blurVerticalShader);
 	shaderLoaded = m_pRenderer->LoadGLSLShader("media/shaders/fullscreen/blur_horizontal.vertex", "media/shaders/fullscreen/blur_horizontal.pixel", &m_blurHorizontalShader);
 
+	/* Create the GUI */
+	m_pVogueGUI = new VogueGUI(m_pRenderer, m_pGUI, m_windowWidth, m_windowHeight);
+
 	/* Create the qubicle binary file manager */
 	m_pQubicleBinaryManager = new QubicleBinaryManager(m_pRenderer);
 
@@ -221,9 +231,9 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	SetGameMode(m_gameMode);
 
 	// Create, setup and skin the GUI components
-	CreateGUI();
-	SetupGUI();
-	SkinGUI();
+	m_pVogueGUI->CreateGUI();
+	m_pVogueGUI->SetupGUI();
+	m_pVogueGUI->SkinGUI();
 
 	//SeedRandomNumberGenerator();
 
@@ -246,7 +256,7 @@ void VogueGame::Destroy()
 		delete m_pQubicleBinaryManager;
 
 		delete m_pGameCamera;
-		DestroyGUI();  // Destroy the GUI components before we delete the GUI manager object.
+		delete m_pVogueGUI;  // Destroy the GUI components before we delete the opengl GUI manager object.
 		delete m_pGUI;
 		delete m_pRenderer;
 
@@ -342,6 +352,11 @@ void VogueGame::ResizeWindow(int width, int height)
 		frameBufferResize = m_pRenderer->CreateFrameBuffer(m_FXAAFrameBuffer, true, true, true, true, m_windowWidth, m_windowHeight, 1.0f, "FXAA", &m_FXAAFrameBuffer);
 		frameBufferResize = m_pRenderer->CreateFrameBuffer(m_firstPassFullscreenBuffer, true, true, true, true, m_windowWidth, m_windowHeight, 1.0f, "FullScreen 1st Pass", &m_firstPassFullscreenBuffer);
 		frameBufferResize = m_pRenderer->CreateFrameBuffer(m_secondPassFullscreenBuffer, true, true, true, true, m_windowWidth, m_windowHeight, 1.0f, "FullScreen 2nd Pass", &m_secondPassFullscreenBuffer);
+	}
+
+	if (m_pVogueGUI)
+	{
+		m_pVogueGUI->SignalResize(m_windowWidth, m_windowHeight);
 	}
 }
 
@@ -441,4 +456,9 @@ Camera* VogueGame::GetGameCamera()
 VogueSettings* VogueGame::GetVogueSettings()
 {
 	return m_pVogueSettings;
+}
+
+VogueGUI* VogueGame::GetVogueGUI()
+{
+	return m_pVogueGUI;
 }

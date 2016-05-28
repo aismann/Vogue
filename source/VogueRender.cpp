@@ -150,6 +150,9 @@ void VogueGame::Render()
 		// Render 2d (on top of our deferred textures)
 		// ---------------------------------------
 		m_pRenderer->PushMatrix();
+			// Disable multisampling for 2d gui and text
+			m_pRenderer->DisableMultiSampling();
+
 			// Render the GUI
 			RenderGUI();
 

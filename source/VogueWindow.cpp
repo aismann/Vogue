@@ -207,7 +207,7 @@ void VogueWindow::TurnCursorOff(bool forceOff)
 	m_cursorOldY = m_cursorY;
 
 	// Signal to the GUI that we have turned off the cursor, reset buttons states, cursor pos, etc
-	m_pVogueGame->GUITurnOffCursor();
+	VogueGame::GetInstance()->GetVogueGUI()->GUITurnOffCursor();
 }
 
 void VogueWindow::TurnCursorOn(bool resetCursorPosition, bool forceOn)

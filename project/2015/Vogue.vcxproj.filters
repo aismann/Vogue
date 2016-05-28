@@ -1322,6 +1322,9 @@
     <ClInclude Include="..\..\source\Instance\InstanceManager.h">
       <Filter>source\Instance</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\VogueGUI.h">
+      <Filter>source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\source\glm\detail\func_common.inl">

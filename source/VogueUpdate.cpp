@@ -65,6 +65,16 @@ void VogueGame::Update()
 		}
 	}
 
+	// Update the GUI
+	int x = m_pVogueWindow->GetCursorX();
+	int y = m_pVogueWindow->GetCursorY();
+	m_pGUI->Update(m_deltaTime);
+	if (IsCursorOn())
+	{
+		m_pGUI->ImportMouseMotion(x, m_windowHeight - y);
+	}
+	UpdateGameGUI(m_deltaTime);
+
 	// Main components update
 	if (m_bPaused == false && m_initialStartWait == false)
 	{
@@ -134,4 +144,5 @@ void VogueGame::UpdateLights(float dt)
 
 void VogueGame::UpdateGameGUI(float dt)
 {
+	m_pVogueGUI->UpdateGUI(dt);
 }

@@ -23,6 +23,7 @@
 #include "Renderer/camera.h"
 #include "VogueWindow.h"
 #include "VogueSettings.h"
+#include "VogueGUI.h"
 
 #include "room/RoomManager.h"
 #include "room/TileManager.h"
@@ -64,7 +65,6 @@ public:
 
 	// Destruction
 	void Destroy();
-	void DestroyGUI();
 
 	// Blur
 	void SetGlobalBlurAmount(float blurAmount);
@@ -131,7 +131,6 @@ public:
 	void Update();
 	void UpdateNamePicking();
 	void UpdateLights(float dt);
-	void UpdateGUI(float dt);
 	void UpdateGameGUI(float dt);
 
 	// Rendering
@@ -146,19 +145,11 @@ public:
 	void RenderGUI();
 	void RenderDebugInformation();
 
-	// GUI
-	void CreateGUI();
-	void SetupGUI();
-	void SkinGUI();
-	void UnSkinGUI();
-	void GUITurnOffCursor();
-	void ShowGUI();
-	void HideGUI();
-
 	// Accessors
 	unsigned int GetDefaultViewport();
 	Camera* GetGameCamera();
 	VogueSettings* GetVogueSettings();
+	VogueGUI* GetVogueGUI();
 
 protected:
 	/* Protected methods */
@@ -337,6 +328,9 @@ private:
 
 	// Player
 	Player* m_pPlayer;
+
+	// GUI
+	VogueGUI* m_pVogueGUI;
 
 	// Singleton instance
 	static VogueGame *c_instance;
