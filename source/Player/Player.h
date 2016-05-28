@@ -74,4 +74,5 @@ private:
 
 	// Qubicle binary file
 	QubicleBinary* m_pPlayerModel;
+	QubicleBinary* m_pHairModel;
 };
