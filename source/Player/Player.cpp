@@ -17,9 +17,10 @@
 using namespace std;
 
 
-Player::Player(Renderer* pRenderer)
+Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 {
 	m_pRenderer = pRenderer;
+	m_pQubicleBinaryManager = pQubicleBinaryManager;
 
 	m_forward = vec3(0.0f, 0.0f, 1.0f);
 	m_right = vec3(1.0f, 0.0f, 0.0f);
@@ -27,6 +28,8 @@ Player::Player(Renderer* pRenderer)
 
 	m_position = vec3(0.0f, 0.0f, 0.0f);
 	m_gravityDirection = vec3(0.0f, -1.0f, 0.0f);
+
+	m_pPlayerModel = m_pQubicleBinaryManager->GetQubicleBinaryFile("media/gamedata/heads/base_head1.qb", false);
 }
 
 Player::~Player()
@@ -58,6 +61,16 @@ void Player::Update(float dt)
 // Render
 void Player::Render()
 {
+	m_pRenderer->PushMatrix();
+		m_pRenderer->TranslateWorldMatrix(m_position.x, m_position.y, m_position.z);
+
+		// Scale down
+		m_pRenderer->ScaleWorldMatrix(0.1f, 0.1f, 0.1f);
+
+		Colour OulineColour(1.0f, 1.0f, 0.0f, 1.0f);
+		m_pPlayerModel->Render(false, false, false, OulineColour);
+	m_pRenderer->PopMatrix();
+
 	RenderDebug();
 }
 

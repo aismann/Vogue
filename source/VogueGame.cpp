@@ -171,7 +171,7 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	m_pRoomManager = new RoomManager(m_pRenderer, m_pTileManager, m_pInstanceManager);
 	
 	/* Create the player */
-	m_pPlayer = new Player(m_pRenderer);
+	m_pPlayer = new Player(m_pRenderer, m_pQubicleBinaryManager);
 
 	// Keyboard movement
 	m_bKeyboardForward = false;

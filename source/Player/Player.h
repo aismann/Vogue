@@ -15,13 +15,14 @@
 
 #include "../Maths/3dmaths.h"
 #include "../Renderer/Renderer.h"
+#include "../models/modelloader.h"
 
 
 class Player
 {
 public:
 	/* Public methods */
-	Player(Renderer* pRenderer);
+	Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager);
 	~Player();
 
 	// Rendering Helpers
@@ -49,6 +50,7 @@ protected:
 private:
 	/* Private members */
 	Renderer* m_pRenderer;
+	QubicleBinaryManager* m_pQubicleBinaryManager;
 
 	// Player position and movement variables
 	vec3 m_position;
@@ -69,4 +71,7 @@ private:
 
 	// Players world matrix
 	Matrix4x4 m_worldMatrix;
+
+	// Qubicle binary file
+	QubicleBinary* m_pPlayerModel;
 };
