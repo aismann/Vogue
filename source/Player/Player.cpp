@@ -30,8 +30,8 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	m_gravityDirection = vec3(0.0f, -1.0f, 0.0f);
 
 	m_pPlayerModel = m_pQubicleBinaryManager->GetQubicleBinaryFile("media/gamedata/heads/base_head1.qb", false);
-	m_pHairModel = m_pQubicleBinaryManager->GetQubicleBinaryFile("media/gamedata/hair/male_hair1.qb", false);
 
+	m_pHairModel = m_pQubicleBinaryManager->GetQubicleBinaryFile("media/gamedata/hair/male_hair1.qb", false);
 	QubicleMatrix* pHairMatrix = m_pHairModel->GetQubicleMatrix("hair");
 	m_pPlayerModel->AddQubicleMatrix(pHairMatrix, false);
 }
