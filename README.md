@@ -14,6 +14,7 @@ A Voxel Roguelike.
 * Secret rooms.
 * Random weapons and items.
 * Different playable characters.
+* Procedural and custom character creation.
 
 ## Setup
 *Coming soon!*
