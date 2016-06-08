@@ -110,7 +110,7 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	m_pRenderer->LoadTexture("media/textures/cursors/finger_cursor_zoom.tga", &lTextureWidth, &lTextureHeight, &lTextureWidth2, &lTextureHeight2, &m_customCursorZoomBuffer);
 
 	/* Create lights */
-	m_defaultLightPosition = vec3(-2.0f, 2.0f, 0.0f);
+	m_defaultLightPosition = vec3(-3.0f, 3.0f, 3.0f);
 	m_defaultLightView = vec3(0.0f, 0.0f, 0.0f);
 	vec3 lightDirection = m_defaultLightView - m_defaultLightPosition;
 	m_pRenderer->CreateLight(Colour(1.0f, 1.0f, 1.0f, 1.0f), Colour(1.0f, 1.0f, 1.0f, 1.0f), Colour(0.0f, 0.0f, 0.0f, 1.0f),
