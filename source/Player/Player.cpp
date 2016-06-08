@@ -12,8 +12,12 @@
 #include "Player.h"
 #include "../utils/Random.h"
 
-#include <vector>
+#include <fstream>
+#include <ostream>
+#include <iostream>
+#include <string>
 #include <algorithm>
+#include <vector>
 using namespace std;
 
 
@@ -31,14 +35,54 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 
 	m_pPlayerModel = m_pQubicleBinaryManager->GetQubicleBinaryFile("media/gamedata/heads/base_head1.qb", false);
 
-	m_pHairModel = m_pQubicleBinaryManager->GetQubicleBinaryFile("media/gamedata/hair/male_hair1.qb", false);
-	QubicleMatrix* pHairMatrix = m_pHairModel->GetQubicleMatrix("hair");
-	m_pPlayerModel->AddQubicleMatrix(pHairMatrix, false);
+	LoadDefaultsFile();
 }
 
 Player::~Player()
 {
 	m_pPlayerModel->SetNullLinkage(m_pHairModel);
+}
+
+void Player::LoadDefaultsFile()
+{
+	static int fileNumber = 1;
+	static int MAX_NUM_HAIRS = 6;
+	if (fileNumber > MAX_NUM_HAIRS)
+	{
+		fileNumber = 1;
+	}
+
+	string qubicleFile = "media/gamedata/hair/male_hair" + to_string(fileNumber) + ".qb";
+	string defaultFile = "media/gamedata/hair/male_hair" + to_string(fileNumber) + ".default";
+	fileNumber++;
+
+	m_pHairModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), false);
+	QubicleMatrix* pHairMatrix = m_pHairModel->GetQubicleMatrix("hair");
+	m_pPlayerModel->AddQubicleMatrix(pHairMatrix, false);
+
+	ifstream importFile;
+	importFile.open(defaultFile.c_str(), ios::in);
+	float scale;
+	float offsetX;
+	float offsetY;
+	float offsetZ;
+
+	if (importFile.is_open())
+	{
+		string tempString;
+
+		importFile >> tempString >> scale;
+		importFile >> tempString >> offsetX;
+		importFile >> tempString >> offsetY;
+		importFile >> tempString >> offsetZ;
+
+		pHairMatrix->m_scale = scale;
+		pHairMatrix->m_offsetX = offsetX;
+		pHairMatrix->m_offsetY = offsetY;
+		pHairMatrix->m_offsetZ = offsetZ;
+
+		importFile.close();
+	}
 }
 
 // Rendering Helpers

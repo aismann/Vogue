@@ -25,6 +25,8 @@ public:
 	Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager);
 	~Player();
 
+	void LoadDefaultsFile();
+
 	// Rendering Helpers
 	void CalculateWorldTransformMatrix();
 

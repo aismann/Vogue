@@ -192,7 +192,8 @@ void VogueGame::KeyReleased(int key, int scancode, int mods)
 
 		case GLFW_KEY_I:
 		{
-			m_pRoomManager->CreateConnectedRoom();
+			//m_pRoomManager->CreateConnectedRoom();
+			m_pPlayer->LoadDefaultsFile();
 			break;
 		}
 		case GLFW_KEY_L:

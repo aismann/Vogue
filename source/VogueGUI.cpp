@@ -91,6 +91,10 @@ void VogueGUI::SetupGUI()
 	m_pMainWindow->AddComponent(m_pDebugRenderCheckBox);
 	m_pMainWindow->AddComponent(m_pInstanceRenderCheckBox);
 
+	m_pDeferredCheckBox->SetToggled(true);
+	m_pSSAOCheckBox->SetToggled(true);
+	m_pMSAACheckBox->SetToggled(true);
+
 	m_pGUI->AddWindow(m_pMainWindow);
 }
 

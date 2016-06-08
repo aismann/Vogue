@@ -1,4 +1,4 @@
-defaultScale: 1
+defaultScale: 1.01
 defaultXOffset: 0
-defaultYOffset: 0
-defaultZOffset: 0
+defaultYOffset: 2
+defaultZOffset: 0.5
