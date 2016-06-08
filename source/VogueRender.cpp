@@ -100,7 +100,7 @@ void VogueGame::Render()
 				m_pRenderer->StartRenderingToFrameBuffer(m_SSAOFrameBuffer);
 			}
 
-			m_pRenderer->SetClearColour(0.0f, 0.0f, 0.0f, 1.0f);
+			m_pRenderer->SetClearColour(0.75f, 0.75f, 0.95f, 1.0f);
 			m_pRenderer->ClearScene(true, true, true);
 
 			// Render the lights (DEBUG)
@@ -111,7 +111,7 @@ void VogueGame::Render()
 			m_pRenderer->PopMatrix();
 
 			// Rooms
-			m_pRoomManager->Render();
+			//m_pRoomManager->Render();
 
 			// Tile
 			m_pTileManager->Render();

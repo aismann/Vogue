@@ -44,7 +44,7 @@ Player::~Player()
 }
 
 static int fileNumber = 1;
-static int const MAX_NUM_HAIRS = 13;
+static int const MAX_NUM_HAIRS = 20;
 
 void Player::LoadDefaultsFile()
 {
