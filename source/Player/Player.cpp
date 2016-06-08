@@ -43,22 +43,29 @@ Player::~Player()
 	m_pPlayerModel->SetNullLinkage(m_pHairModel);
 }
 
+static int fileNumber = 1;
+static int const MAX_NUM_HAIRS = 13;
+
 void Player::LoadDefaultsFile()
 {
-	static int fileNumber = 1;
-	static int MAX_NUM_HAIRS = 6;
+	fileNumber++;
 	if (fileNumber > MAX_NUM_HAIRS)
 	{
 		fileNumber = 1;
 	}
 
 	string qubicleFile = "media/gamedata/hair/male_hair" + to_string(fileNumber) + ".qb";
-	string defaultFile = "media/gamedata/hair/male_hair" + to_string(fileNumber) + ".default";
-	fileNumber++;
 
 	m_pHairModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), false);
 	QubicleMatrix* pHairMatrix = m_pHairModel->GetQubicleMatrix("hair");
 	m_pPlayerModel->AddQubicleMatrix(pHairMatrix, false);
+
+	UpdateDefaults();
+}
+
+void Player::UpdateDefaults()
+{
+	string defaultFile = "media/gamedata/hair/male_hair" + to_string(fileNumber) + ".default";
 
 	ifstream importFile;
 	importFile.open(defaultFile.c_str(), ios::in);
@@ -75,6 +82,8 @@ void Player::LoadDefaultsFile()
 		importFile >> tempString >> offsetX;
 		importFile >> tempString >> offsetY;
 		importFile >> tempString >> offsetZ;
+
+		QubicleMatrix* pHairMatrix = m_pHairModel->GetQubicleMatrix("hair");
 
 		pHairMatrix->m_scale = scale;
 		pHairMatrix->m_offsetX = offsetX;

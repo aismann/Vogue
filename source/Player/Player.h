@@ -26,6 +26,7 @@ public:
 	~Player();
 
 	void LoadDefaultsFile();
+	void UpdateDefaults();
 
 	// Rendering Helpers
 	void CalculateWorldTransformMatrix();
