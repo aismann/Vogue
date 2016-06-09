@@ -27,6 +27,7 @@ public:
 
 	void LoadDefaultsFile();
 	void UpdateDefaults();
+	void ModifySkinColor();
 
 	// Rendering Helpers
 	void CalculateWorldTransformMatrix();
@@ -77,5 +78,6 @@ private:
 
 	// Qubicle binary file
 	QubicleBinary* m_pPlayerModel;
+	QubicleBinary* m_pHeadModel;
 	QubicleBinary* m_pHairModel;
 };

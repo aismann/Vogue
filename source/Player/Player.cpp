@@ -33,13 +33,18 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	m_position = vec3(0.0f, 0.0f, 0.0f);
 	m_gravityDirection = vec3(0.0f, -1.0f, 0.0f);
 
-	m_pPlayerModel = m_pQubicleBinaryManager->GetQubicleBinaryFile("media/gamedata/heads/base_head1.qb", false);
+	m_pPlayerModel = new QubicleBinary(m_pRenderer);
+
+	m_pHeadModel = m_pQubicleBinaryManager->GetQubicleBinaryFile("media/gamedata/heads/base_head1.qb", false);
+	QubicleMatrix* pHeadMatrix = m_pHeadModel->GetQubicleMatrix("head");
+	m_pPlayerModel->AddQubicleMatrix(pHeadMatrix, false);
 
 	LoadDefaultsFile();
 }
 
 Player::~Player()
 {
+	m_pPlayerModel->SetNullLinkage(m_pHeadModel);
 	m_pPlayerModel->SetNullLinkage(m_pHairModel);
 }
 
@@ -92,6 +97,22 @@ void Player::UpdateDefaults()
 
 		importFile.close();
 	}
+}
+
+void Player::ModifySkinColor()
+{
+	string qubicleFile = "media/gamedata/heads/base_head1.qb";
+
+	m_pPlayerModel->SetNullLinkage(m_pHeadModel);
+
+	QubicleBinary* pHeadModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
+	QubicleMatrix* pHeadMatrix = pHeadModel->GetQubicleMatrix("head");
+	m_pPlayerModel->AddQubicleMatrix(pHeadMatrix, false);
+
+	float randomR = GetRandomNumber(0, 1, 2);
+	float randomG = GetRandomNumber(0, 1, 2);
+	float randomB = GetRandomNumber(0, 1, 2);
+	m_pPlayerModel->ConvertMeshColour(randomR, randomG, randomB, 0.7686274509803922f, 0.6509803921568627f, 0.4156862745098039f);
 }
 
 // Rendering Helpers
