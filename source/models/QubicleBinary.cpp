@@ -15,6 +15,10 @@
 #include "VoxelCharacter.h"
 #include "../utils/FileUtils.h"
 
+#include <vector>
+#include <algorithm>
+using namespace std;
+
 const float QubicleBinary::BLOCK_RENDER_SIZE = 0.5f;
 
 
