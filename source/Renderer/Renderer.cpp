@@ -2046,6 +2046,35 @@ void Renderer::ModifyMeshColour(float r, float g, float b, OpenGLTriangleMesh* p
 	m_vertexArraysMutex.unlock();
 }
 
+void Renderer::ConvertMeshColour(float r, float g, float b, float matchR, float matchG, float matchB, OpenGLTriangleMesh* pMesh)
+{
+	m_vertexArraysMutex.lock();
+	VertexArray* pArray = m_vertexArrays[pMesh->m_staticMeshId];
+
+	GLsizei totalStride = GetStride(pArray->type) / 4;
+	int rIndex = totalStride - 4;
+	int gIndex = totalStride - 3;
+	int bIndex = totalStride - 2;
+
+	for (int i = 0; i < pArray->nVerts; i++)
+	{
+		float diffR = fabs(pArray->pVA[rIndex] - matchR);
+		float diffG = fabs(pArray->pVA[gIndex] - matchG);
+		float diffB = fabs(pArray->pVA[bIndex] - matchB);
+		if (diffR < 0.005f && diffG < 0.005f && diffB < 0.005f)
+		{
+			pArray->pVA[rIndex] = r;
+			pArray->pVA[gIndex] = g;
+			pArray->pVA[bIndex] = b;
+		}
+
+		rIndex += totalStride;
+		gIndex += totalStride;
+		bIndex += totalStride;
+	}
+	m_vertexArraysMutex.unlock();
+}
+
 void Renderer::FinishMesh(unsigned int textureID, unsigned int materialID, OpenGLTriangleMesh* pMesh)
 {
 	unsigned int numTriangles = (int)pMesh->m_triangles.size();

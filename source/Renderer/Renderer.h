@@ -337,6 +337,7 @@ public:
 	unsigned int AddTriangleToMesh(unsigned int vertexId1, unsigned int vertexId2, unsigned int vertexId3, OpenGLTriangleMesh* pMesh);
 	void ModifyMeshAlpha(float alpha, OpenGLTriangleMesh* pMesh);
 	void ModifyMeshColour(float r, float g, float b, OpenGLTriangleMesh* pMesh);
+	void ConvertMeshColour(float r, float g, float b, float matchR, float matchG, float matchB, OpenGLTriangleMesh* pMesh);
 	void FinishMesh(unsigned int textureID, unsigned int materialID, OpenGLTriangleMesh* pMesh);
 	void RenderMesh(OpenGLTriangleMesh* pMesh);
 	void RenderMesh_NoColour(OpenGLTriangleMesh* pMesh);
