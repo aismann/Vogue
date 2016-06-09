@@ -139,6 +139,7 @@ public:
 
 	void SetMeshAlpha(float alpha);
 	void SetMeshSingleColour(float r, float g, float b);
+	void ConvertMeshColour(float r, float g, float b, float matchR, float matchG, float matchB);
 
 	void CreateMesh(bool lDoFaceMerging);
 	void RebuildMesh(bool lDoFaceMerging);

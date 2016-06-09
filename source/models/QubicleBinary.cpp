@@ -49,14 +49,25 @@ QubicleBinary::~QubicleBinary()
 
 void QubicleBinary::SetNullLinkage(QubicleBinary *pBinary)
 {
+	QubicleMatrixList pFoundList;
 	for (int i = 0; i < (int)m_vpMatrices.size(); i++)
 	{
 		for (int j = 0; j < pBinary->GetNumMatrices(); j++)
 		{
 			if (m_vpMatrices[i] == pBinary->GetQubicleMatrix(j))
 			{
-				m_vpMatrices[i] = NULL;
+				pFoundList.push_back(m_vpMatrices[i]);
 			}
+		}
+	}
+
+	for (int i = 0; i < (int)pFoundList.size(); i++)
+	{
+		QubicleMatrixList::iterator iter = find(m_vpMatrices.begin(), m_vpMatrices.end(), pFoundList[i]);
+		if (iter != m_vpMatrices.end())
+		{
+			m_numMatrices--;
+			m_vpMatrices.erase(iter);
 		}
 	}
 }
@@ -465,6 +476,13 @@ void QubicleBinary::SetMeshSingleColour(float r, float g, float b)
 	}
 }
 
+void QubicleBinary::ConvertMeshColour(float r, float g, float b, float matchR, float matchG, float matchB)
+{
+	for (unsigned int i = 0; i < m_vpMatrices.size(); i++)
+	{
+		m_pRenderer->ConvertMeshColour(r, g, b, matchR, matchG, matchB, m_vpMatrices[i]->m_pMesh);
+	}
+}
 
 bool IsMergedXNegative(int *merged, int x, int y, int z, int width, int height) { return (merged[x + y*width + z*width*height] & MergedSide_X_Negative) == MergedSide_X_Negative; }
 bool IsMergedXPositive(int *merged, int x, int y, int z, int width, int height) { return (merged[x + y*width + z*width*height] & MergedSide_X_Positive) == MergedSide_X_Positive; }
