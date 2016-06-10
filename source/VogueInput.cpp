@@ -190,33 +190,28 @@ void VogueGame::KeyReleased(int key, int scancode, int mods)
 			break;
 		}
 
-		case GLFW_KEY_O:
-		{
-			m_pPlayer->ModifySkinColor();
-			break;
-		}
 		case GLFW_KEY_I:
 		{
-			//m_pRoomManager->CreateConnectedRoom();
-			m_pPlayer->LoadDefaultsFile();
+			m_pPlayer->ModifyHair();
+			m_pPlayer->UpdateDefaults();
 			break;
 		}
-		case GLFW_KEY_L:
+		case GLFW_KEY_O:
 		{
-			while (m_pRoomManager->GetNumConnectionRoomsPossible() > 0)
-			{
-				m_pRoomManager->CreateConnectedRoom();
-			}
-
-			m_pRoomManager->CreateItemRoom();
-			m_pRoomManager->CreateItemRoom();
-			m_pRoomManager->CreateBossRoom();
-
+			m_pPlayer->ModifyNose();
+			m_pPlayer->UpdateDefaults();
+			m_pPlayer->SetSkinColor();
 			break;
 		}
 		case GLFW_KEY_P:
 		{
-			m_pRoomManager->GenerateNewLayout();
+			m_pPlayer->ModifySkinColor();
+			m_pPlayer->UpdateDefaults();
+			m_pPlayer->SetSkinColor();
+			break;
+		}
+		case GLFW_KEY_L:
+		{
 			break;
 		}
 	}

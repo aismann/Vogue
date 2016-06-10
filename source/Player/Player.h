@@ -25,9 +25,12 @@ public:
 	Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager);
 	~Player();
 
-	void LoadDefaultsFile();
+	void ModifyHead();
+	void ModifyHair();
+	void ModifyNose();
 	void UpdateDefaults();
 	void ModifySkinColor();
+	void SetSkinColor();
 
 	// Rendering Helpers
 	void CalculateWorldTransformMatrix();
@@ -76,8 +79,17 @@ private:
 	// Players world matrix
 	Matrix4x4 m_worldMatrix;
 
+	// Body parts indices
+	int m_headNum;
+	int m_hairNum;
+	int m_noseNum;
+	float m_skinRed;
+	float m_skinBlue;
+	float m_skinGreen;
+
 	// Qubicle binary file
 	QubicleBinary* m_pPlayerModel;
 	QubicleBinary* m_pHeadModel;
 	QubicleBinary* m_pHairModel;
+	QubicleBinary* m_pNoseModel;
 };
