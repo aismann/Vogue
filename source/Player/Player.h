@@ -26,12 +26,22 @@ enum eColourModifiers
 	eColourModifiers_NUM
 };
 
+enum ePlayerSex
+{
+	ePlayerSex_Male = 0,
+	ePlayerSex_Female,
+	ePlayerSex_Both
+};
+
 class Player
 {
 public:
 	/* Public methods */
 	Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager);
 	~Player();
+
+	void LoadSkinColours();
+	void LoadHairColours();
 
 	void ModifyHead();
 	void ModifyHair();
@@ -41,10 +51,9 @@ public:
 
 	void UpdateDefaults();
 
-	void LoadSkinColours();
-	void LoadHairColours();
 	void ModifySkinColour();
 	void ModifyHairColour();
+	void SwapHairColours();
 	void SetColourModifiers();
 
 	// Rendering Helpers
@@ -102,6 +111,7 @@ private:
 	int m_skinColourNum;
 	int m_hairColourNum;
 
+	// Max number of each body part
 	int MAX_NUM_HEADS;
 	int MAX_NUM_HAIRS;
 	int MAX_NUM_NOSES;
@@ -109,9 +119,16 @@ private:
 	int MAX_NUM_SKIN_COLOURS;
 	int MAX_NUM_HAIR_COLOURS;
 
+	// Colours
 	Colour* m_pSkinColours;
 	Colour* m_pHair1Colours;
 	Colour* m_pHair2Colours;
+
+	// Swap modifier for hair colours
+	bool m_hairColourSwap;
+
+	// Player sex
+	ePlayerSex m_playerSex;
 
 	// Colour modifiers
 	float m_colourIdentifierRed[eColourModifiers_NUM];

@@ -47,6 +47,10 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	m_skinColourNum = 0;
 	m_hairColourNum = 0;
 
+	m_playerSex = ePlayerSex_Both;
+
+	m_hairColourSwap = false;
+
 	MAX_NUM_HEADS = 1;
 	MAX_NUM_HAIRS = 21;
 	MAX_NUM_NOSES = 5;
@@ -82,6 +86,59 @@ Player::~Player()
 	m_pPlayerModel->SetNullLinkage(m_pHairModel);
 	m_pPlayerModel->SetNullLinkage(m_pNoseModel);
 	m_pPlayerModel->SetNullLinkage(m_pEarsModel);
+}
+
+void Player::LoadSkinColours()
+{
+	ifstream importFile;
+	importFile.open("media/gamedata/colours/skin_colours.txt", ios::in);
+
+	if (importFile.is_open())
+	{
+		string tempString;
+		importFile >> tempString >> MAX_NUM_SKIN_COLOURS;
+
+		m_pSkinColours = new Colour[MAX_NUM_SKIN_COLOURS];
+		for (int i = 0; i < MAX_NUM_SKIN_COLOURS; i++)
+		{
+			float r, g, b;
+			importFile >> tempString >> r >> g >> b;
+
+			m_pSkinColours[i].SetRed(r);
+			m_pSkinColours[i].SetGreen(g);
+			m_pSkinColours[i].SetBlue(b);
+		}
+	}
+}
+
+void Player::LoadHairColours()
+{
+	ifstream importFile;
+	importFile.open("media/gamedata/colours/hair_colours.txt", ios::in);
+
+	if (importFile.is_open())
+	{
+		string tempString;
+		importFile >> tempString >> MAX_NUM_HAIR_COLOURS;
+
+		m_pHair1Colours = new Colour[MAX_NUM_HAIR_COLOURS];
+		m_pHair2Colours = new Colour[MAX_NUM_HAIR_COLOURS];
+		for (int i = 0; i < MAX_NUM_HAIR_COLOURS; i++)
+		{
+			float r, g, b;
+			importFile >> tempString >> r >> g >> b;
+
+			m_pHair1Colours[i].SetRed(r);
+			m_pHair1Colours[i].SetGreen(g);
+			m_pHair1Colours[i].SetBlue(b);
+
+			importFile >> tempString >> r >> g >> b;
+
+			m_pHair2Colours[i].SetRed(r);
+			m_pHair2Colours[i].SetGreen(g);
+			m_pHair2Colours[i].SetBlue(b);
+		}
+	}
 }
 
 void Player::ModifyHead()
@@ -216,59 +273,6 @@ void Player::UpdateDefaults()
 	}
 }
 
-void Player::LoadSkinColours()
-{
-	ifstream importFile;
-	importFile.open("media/gamedata/colours/skin_colours.txt", ios::in);
-
-	if (importFile.is_open())
-	{
-		string tempString;
-		importFile >> tempString >> MAX_NUM_SKIN_COLOURS;
-
-		m_pSkinColours = new Colour[MAX_NUM_SKIN_COLOURS];
-		for (int i = 0; i < MAX_NUM_SKIN_COLOURS; i++)
-		{
-			float r, g, b;
-			importFile >> tempString >> r >> g >> b;
-
-			m_pSkinColours[i].SetRed(r);
-			m_pSkinColours[i].SetGreen(g);
-			m_pSkinColours[i].SetBlue(b);
-		}
-	}
-}
-
-void Player::LoadHairColours()
-{
-	ifstream importFile;
-	importFile.open("media/gamedata/colours/hair_colours.txt", ios::in);
-
-	if (importFile.is_open())
-	{
-		string tempString;
-		importFile >> tempString >> MAX_NUM_HAIR_COLOURS;
-
-		m_pHair1Colours = new Colour[MAX_NUM_HAIR_COLOURS];
-		m_pHair2Colours = new Colour[MAX_NUM_HAIR_COLOURS];
-		for (int i = 0; i < MAX_NUM_HAIR_COLOURS; i++)
-		{
-			float r, g, b;
-			importFile >> tempString >> r >> g >> b;
-
-			m_pHair1Colours[i].SetRed(r);
-			m_pHair1Colours[i].SetGreen(g);
-			m_pHair1Colours[i].SetBlue(b);
-
-			importFile >> tempString >> r >> g >> b;
-
-			m_pHair2Colours[i].SetRed(r);
-			m_pHair2Colours[i].SetGreen(g);
-			m_pHair2Colours[i].SetBlue(b);
-		}
-	}
-}
-
 void Player::ModifySkinColour()
 {
 	m_pPlayerModel->SetNullLinkage(m_pHeadModel);
@@ -316,12 +320,24 @@ void Player::ModifyHairColour()
 		m_hairColourNum = 0;
 	}
 
-	m_colourModifierRed[eColourModifiers_Hair1] = m_pHair1Colours[m_hairColourNum].GetRed();
-	m_colourModifierGreen[eColourModifiers_Hair1] = m_pHair1Colours[m_hairColourNum].GetGreen();
-	m_colourModifierBlue[eColourModifiers_Hair1] = m_pHair1Colours[m_hairColourNum].GetBlue();
-	m_colourModifierRed[eColourModifiers_Hair2] = m_pHair2Colours[m_hairColourNum].GetRed();
-	m_colourModifierGreen[eColourModifiers_Hair2] = m_pHair2Colours[m_hairColourNum].GetGreen();
-	m_colourModifierBlue[eColourModifiers_Hair2] = m_pHair2Colours[m_hairColourNum].GetBlue();
+	int colour1 = eColourModifiers_Hair1;
+	int colour2 = eColourModifiers_Hair2;
+	if (m_hairColourSwap == true)
+	{
+		colour1 = eColourModifiers_Hair2;
+		colour2 = eColourModifiers_Hair1;
+	}
+	m_colourModifierRed[colour1] = m_pHair1Colours[m_hairColourNum].GetRed();
+	m_colourModifierGreen[colour1] = m_pHair1Colours[m_hairColourNum].GetGreen();
+	m_colourModifierBlue[colour1] = m_pHair1Colours[m_hairColourNum].GetBlue();
+	m_colourModifierRed[colour2] = m_pHair2Colours[m_hairColourNum].GetRed();
+	m_colourModifierGreen[colour2] = m_pHair2Colours[m_hairColourNum].GetGreen();
+	m_colourModifierBlue[colour2] = m_pHair2Colours[m_hairColourNum].GetBlue();
+}
+
+void Player::SwapHairColours()
+{
+	m_hairColourSwap = !m_hairColourSwap;
 }
 
 void Player::SetColourModifiers()
