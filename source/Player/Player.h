@@ -28,6 +28,7 @@ public:
 	void ModifyHead();
 	void ModifyHair();
 	void ModifyNose();
+	void ModifyEars();
 	void UpdateDefaults();
 	void ModifySkinColor();
 	void SetSkinColor();
@@ -83,6 +84,7 @@ private:
 	int m_headNum;
 	int m_hairNum;
 	int m_noseNum;
+	int m_earsNum;
 	float m_skinRed;
 	float m_skinBlue;
 	float m_skinGreen;
@@ -92,4 +94,5 @@ private:
 	QubicleBinary* m_pHeadModel;
 	QubicleBinary* m_pHairModel;
 	QubicleBinary* m_pNoseModel;
+	QubicleBinary* m_pEarsModel;
 };

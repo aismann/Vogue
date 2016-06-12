@@ -37,6 +37,7 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	m_headNum = 0;
 	m_hairNum = 0;
 	m_noseNum = 0;
+	m_noseNum = 0;
 	m_skinRed = 0.7686274509803922f;
 	m_skinBlue = 0.6509803921568627f;
 	m_skinGreen = 0.4156862745098039f;
@@ -46,6 +47,7 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	ModifyHead();
 	ModifyHair();
 	ModifyNose();
+	ModifyEars();
 	UpdateDefaults();
 }
 
@@ -54,11 +56,13 @@ Player::~Player()
 	m_pPlayerModel->SetNullLinkage(m_pHeadModel);
 	m_pPlayerModel->SetNullLinkage(m_pHairModel);
 	m_pPlayerModel->SetNullLinkage(m_pNoseModel);
+	m_pPlayerModel->SetNullLinkage(m_pEarsModel);
 }
 
 static int const MAX_NUM_HEADS = 1;
-static int const MAX_NUM_HAIRS = 20;
-static int const MAX_NUM_NOSES = 4;
+static int const MAX_NUM_HAIRS = 21;
+static int const MAX_NUM_NOSES = 5;
+static int const MAX_NUM_EARS = 4;
 
 void Player::ModifyHead()
 {
@@ -100,6 +104,20 @@ void Player::ModifyNose()
 	m_pNoseModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
 	QubicleMatrix* pNoseMatrix = m_pNoseModel->GetQubicleMatrix("nose");
 	m_pPlayerModel->AddQubicleMatrix(pNoseMatrix, false);
+}
+
+void Player::ModifyEars()
+{
+	m_earsNum++;
+	if (m_earsNum > MAX_NUM_EARS)
+	{
+		m_earsNum = 1;
+	}
+
+	string qubicleFile = "media/gamedata/ears/ears" + to_string(m_earsNum) + ".qb";
+	m_pEarsModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
+	QubicleMatrix* pEarsMatrix = m_pEarsModel->GetQubicleMatrix("ears");
+	m_pPlayerModel->AddQubicleMatrix(pEarsMatrix, false);
 }
 
 void Player::UpdateDefaults()
@@ -157,6 +175,7 @@ void Player::ModifySkinColor()
 {
 	m_pPlayerModel->SetNullLinkage(m_pHeadModel);
 	m_pPlayerModel->SetNullLinkage(m_pNoseModel);
+	m_pPlayerModel->SetNullLinkage(m_pEarsModel);
 
 	string qubicleFile = "media/gamedata/head/base_head" + to_string(m_headNum) + ".qb";
 	QubicleBinary* pHeadModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
@@ -167,6 +186,11 @@ void Player::ModifySkinColor()
 	QubicleBinary* pNoseModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
 	QubicleMatrix* pNoseMatrix = pNoseModel->GetQubicleMatrix("nose");
 	m_pPlayerModel->AddQubicleMatrix(pNoseMatrix, false);
+
+	qubicleFile = "media/gamedata/ears/ears" + to_string(m_earsNum) + ".qb";
+	m_pEarsModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
+	QubicleMatrix* pEarsMatrix = m_pEarsModel->GetQubicleMatrix("ears");
+	m_pPlayerModel->AddQubicleMatrix(pEarsMatrix, false);
 
 	m_skinRed = GetRandomNumber(0, 1, 2);
 	m_skinBlue = GetRandomNumber(0, 1, 2);

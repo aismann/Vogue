@@ -190,15 +190,22 @@ void VogueGame::KeyReleased(int key, int scancode, int mods)
 			break;
 		}
 
-		case GLFW_KEY_I:
+		case GLFW_KEY_U:
 		{
 			m_pPlayer->ModifyHair();
 			m_pPlayer->UpdateDefaults();
 			break;
 		}
-		case GLFW_KEY_O:
+		case GLFW_KEY_I:
 		{
 			m_pPlayer->ModifyNose();
+			m_pPlayer->UpdateDefaults();
+			m_pPlayer->SetSkinColor();
+			break;
+		}
+		case GLFW_KEY_O:
+		{
+			m_pPlayer->ModifyEars();
 			m_pPlayer->UpdateDefaults();
 			m_pPlayer->SetSkinColor();
 			break;
