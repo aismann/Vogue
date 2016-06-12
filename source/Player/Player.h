@@ -18,6 +18,14 @@
 #include "../models/modelloader.h"
 
 
+enum eColourModifiers
+{
+	eColourModifiers_Skin = 0,
+	eColourModifiers_Hair1,
+	eColourModifiers_Hair2,
+	eColourModifiers_NUM
+};
+
 class Player
 {
 public:
@@ -30,9 +38,12 @@ public:
 	void ModifyNose();
 	void ModifyEars();
 	void RandomizeParts();
+
 	void UpdateDefaults();
-	void ModifySkinColor();
-	void SetSkinColor();
+
+	void ModifySkinColour();
+	void ModifyHairColour();
+	void SetColourModifiers();
 
 	// Rendering Helpers
 	void CalculateWorldTransformMatrix();
@@ -86,9 +97,14 @@ private:
 	int m_hairNum;
 	int m_noseNum;
 	int m_earsNum;
-	float m_skinRed;
-	float m_skinBlue;
-	float m_skinGreen;
+
+	// Colour modifiers
+	float m_colourIdentifierRed[eColourModifiers_NUM];
+	float m_colourIdentifierBlue[eColourModifiers_NUM];
+	float m_colourIdentifierGreen[eColourModifiers_NUM];
+	float m_colourModifierRed[eColourModifiers_NUM];
+	float m_colourModifierBlue[eColourModifiers_NUM];
+	float m_colourModifierGreen[eColourModifiers_NUM];
 
 	// Qubicle binary file
 	QubicleBinary* m_pPlayerModel;

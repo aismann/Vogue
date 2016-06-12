@@ -190,38 +190,46 @@ void VogueGame::KeyReleased(int key, int scancode, int mods)
 			break;
 		}
 
+		case GLFW_KEY_L:
+		{
+			m_pPlayer->RandomizeParts();
+			m_pPlayer->UpdateDefaults();
+			m_pPlayer->SetColourModifiers();
+			break;
+		}
 		case GLFW_KEY_U:
 		{
 			m_pPlayer->ModifyHair();
 			m_pPlayer->UpdateDefaults();
+			m_pPlayer->SetColourModifiers();
 			break;
 		}
 		case GLFW_KEY_I:
 		{
 			m_pPlayer->ModifyNose();
 			m_pPlayer->UpdateDefaults();
-			m_pPlayer->SetSkinColor();
+			m_pPlayer->SetColourModifiers();
 			break;
 		}
 		case GLFW_KEY_O:
 		{
 			m_pPlayer->ModifyEars();
 			m_pPlayer->UpdateDefaults();
-			m_pPlayer->SetSkinColor();
+			m_pPlayer->SetColourModifiers();
 			break;
 		}
-		case GLFW_KEY_P:
+		case GLFW_KEY_N:
 		{
-			m_pPlayer->ModifySkinColor();
+			m_pPlayer->ModifySkinColour();
 			m_pPlayer->UpdateDefaults();
-			m_pPlayer->SetSkinColor();
+			m_pPlayer->SetColourModifiers();
 			break;
 		}
-		case GLFW_KEY_L:
+		case GLFW_KEY_M:
 		{
-			m_pPlayer->RandomizeParts();
+			m_pPlayer->ModifyHairColour();
 			m_pPlayer->UpdateDefaults();
-			m_pPlayer->SetSkinColor();
+			m_pPlayer->SetColourModifiers();
 			break;
 		}
 	}

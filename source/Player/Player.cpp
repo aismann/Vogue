@@ -38,9 +38,28 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	m_hairNum = 0;
 	m_noseNum = 0;
 	m_noseNum = 0;
-	m_skinRed = 0.7686274509803922f;
-	m_skinBlue = 0.6509803921568627f;
-	m_skinGreen = 0.4156862745098039f;
+
+	// Colour modifiers
+	m_colourIdentifierRed[eColourModifiers_Skin] = 0.7686274509803922f;
+	m_colourIdentifierGreen[eColourModifiers_Skin] = 0.6509803921568627f;
+	m_colourIdentifierBlue[eColourModifiers_Skin] = 0.4156862745098039f;
+	m_colourIdentifierRed[eColourModifiers_Hair1] = 0.0f;
+	m_colourIdentifierGreen[eColourModifiers_Hair1] = 1.0f;
+	m_colourIdentifierBlue[eColourModifiers_Hair1] = 0.0f;
+	m_colourIdentifierRed[eColourModifiers_Hair2] = 0.0f;
+	m_colourIdentifierGreen[eColourModifiers_Hair2] = 0.0f;
+	m_colourIdentifierBlue[eColourModifiers_Hair2] = 1.0f;
+
+	// Default colours
+	m_colourModifierRed[eColourModifiers_Skin] = 0.7686274509803922f;
+	m_colourModifierGreen[eColourModifiers_Skin] = 0.6509803921568627f;
+	m_colourModifierBlue[eColourModifiers_Skin] = 0.4156862745098039f;
+	m_colourModifierRed[eColourModifiers_Hair1] = 0.2470588235294118f;
+	m_colourModifierGreen[eColourModifiers_Hair1] = 0.1450980392156863f;
+	m_colourModifierBlue[eColourModifiers_Hair1] = 0.0f;
+	m_colourModifierRed[eColourModifiers_Hair2] = 0.3490196078431373f;
+	m_colourModifierGreen[eColourModifiers_Hair2] = 0.207843137254902f;
+	m_colourModifierBlue[eColourModifiers_Hair2] = 0.007843137254902f;
 
 	m_pHeadModel = NULL;
 	m_pHairModel = NULL;
@@ -53,6 +72,7 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	ModifyNose();
 	ModifyEars();
 	UpdateDefaults();
+	SetColourModifiers();
 }
 
 Player::~Player()
@@ -93,7 +113,7 @@ void Player::ModifyHair()
 
 	m_pPlayerModel->SetNullLinkage(m_pHairModel);
 	string qubicleFile = "media/gamedata/hair/male_hair" + to_string(m_hairNum) + ".qb";
-	m_pHairModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), false);
+	m_pHairModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
 	QubicleMatrix* pHairMatrix = m_pHairModel->GetQubicleMatrix("hair");
 	m_pPlayerModel->AddQubicleMatrix(pHairMatrix, false);
 }
@@ -196,7 +216,7 @@ void Player::UpdateDefaults()
 	}
 }
 
-void Player::ModifySkinColor()
+void Player::ModifySkinColour()
 {
 	m_pPlayerModel->SetNullLinkage(m_pHeadModel);
 	m_pPlayerModel->SetNullLinkage(m_pNoseModel);
@@ -217,14 +237,34 @@ void Player::ModifySkinColor()
 	QubicleMatrix* pEarsMatrix = m_pEarsModel->GetQubicleMatrix("ears");
 	m_pPlayerModel->AddQubicleMatrix(pEarsMatrix, false);
 
-	m_skinRed = GetRandomNumber(0, 1, 2);
-	m_skinBlue = GetRandomNumber(0, 1, 2);
-	m_skinGreen = GetRandomNumber(0, 1, 2);
+	m_colourModifierRed[eColourModifiers_Skin] = GetRandomNumber(0, 1, 2);
+	m_colourModifierGreen[eColourModifiers_Skin] = GetRandomNumber(0, 1, 2);
+	m_colourModifierBlue[eColourModifiers_Skin] = GetRandomNumber(0, 1, 2);
 }
 
-void Player::SetSkinColor()
+void Player::ModifyHairColour()
 {
-	m_pPlayerModel->ConvertMeshColour(m_skinRed, m_skinBlue, m_skinGreen, 0.7686274509803922f, 0.6509803921568627f, 0.4156862745098039f);
+	m_pPlayerModel->SetNullLinkage(m_pHairModel);
+
+	string qubicleFile = "media/gamedata/hair/male_hair" + to_string(m_hairNum) + ".qb";
+	m_pHairModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
+	QubicleMatrix* pHairMatrix = m_pHairModel->GetQubicleMatrix("hair");
+	m_pPlayerModel->AddQubicleMatrix(pHairMatrix, false);
+
+	m_colourModifierRed[eColourModifiers_Hair1] = GetRandomNumber(0, 1, 2);
+	m_colourModifierGreen[eColourModifiers_Hair1] = GetRandomNumber(0, 1, 2);
+	m_colourModifierBlue[eColourModifiers_Hair1] = GetRandomNumber(0, 1, 2);
+	m_colourModifierRed[eColourModifiers_Hair2] = GetRandomNumber(0, 1, 2);
+	m_colourModifierGreen[eColourModifiers_Hair2] = GetRandomNumber(0, 1, 2);
+	m_colourModifierBlue[eColourModifiers_Hair2] = GetRandomNumber(0, 1, 2);
+}
+
+void Player::SetColourModifiers()
+{
+	for (int i = 0; i < eColourModifiers_NUM; i++)
+	{
+		m_pPlayerModel->ConvertMeshColour(m_colourModifierRed[i], m_colourModifierGreen[i], m_colourModifierBlue[i], m_colourIdentifierRed[i], m_colourIdentifierGreen[i], m_colourIdentifierBlue[i]);
+	}
 }
 
 // Rendering Helpers
