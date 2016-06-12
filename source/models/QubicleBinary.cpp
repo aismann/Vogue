@@ -53,6 +53,11 @@ QubicleBinary::~QubicleBinary()
 
 void QubicleBinary::SetNullLinkage(QubicleBinary *pBinary)
 {
+	if (pBinary == NULL)
+	{
+		return;
+	}
+
 	QubicleMatrixList pFoundList;
 	for (int i = 0; i < (int)m_vpMatrices.size(); i++)
 	{
