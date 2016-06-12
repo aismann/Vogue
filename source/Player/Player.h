@@ -47,6 +47,10 @@ public:
 	void ModifyHair();
 	void ModifyNose();
 	void ModifyEars();
+	void ReplaceHead();
+	void ReplaceHair();
+	void ReplaceNose();
+	void ReplaceEars();
 	void RandomizeParts();
 
 	void UpdateDefaults();

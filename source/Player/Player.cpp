@@ -149,11 +149,7 @@ void Player::ModifyHead()
 		m_headNum = 1;
 	}
 
-	m_pPlayerModel->SetNullLinkage(m_pHeadModel);
-	string qubicleFile = "media/gamedata/head/base_head" + to_string(m_headNum) + ".qb";
-	m_pHeadModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
-	QubicleMatrix* pHeadMatrix = m_pHeadModel->GetQubicleMatrix("head");
-	m_pPlayerModel->AddQubicleMatrix(pHeadMatrix, false);
+	ReplaceHead();
 }
 
 void Player::ModifyHair()
@@ -164,11 +160,7 @@ void Player::ModifyHair()
 		m_hairNum = 1;
 	}
 
-	m_pPlayerModel->SetNullLinkage(m_pHairModel);
-	string qubicleFile = "media/gamedata/hair/male_hair" + to_string(m_hairNum) + ".qb";
-	m_pHairModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
-	QubicleMatrix* pHairMatrix = m_pHairModel->GetQubicleMatrix("hair");
-	m_pPlayerModel->AddQubicleMatrix(pHairMatrix, false);
+	ReplaceHair();
 }
 
 void Player::ModifyNose()
@@ -179,11 +171,7 @@ void Player::ModifyNose()
 		m_noseNum = 1;
 	}
 
-	m_pPlayerModel->SetNullLinkage(m_pNoseModel);
-	string qubicleFile = "media/gamedata/nose/nose" + to_string(m_noseNum) + ".qb";
-	m_pNoseModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
-	QubicleMatrix* pNoseMatrix = m_pNoseModel->GetQubicleMatrix("nose");
-	m_pPlayerModel->AddQubicleMatrix(pNoseMatrix, false);
+	ReplaceNose();
 }
 
 void Player::ModifyEars()
@@ -194,6 +182,42 @@ void Player::ModifyEars()
 		m_earsNum = 1;
 	}
 
+	ReplaceEars();
+}
+
+void Player::ReplaceHead()
+{
+	// Replace the head model on the player model
+	m_pPlayerModel->SetNullLinkage(m_pHeadModel);
+	string qubicleFile = "media/gamedata/head/base_head" + to_string(m_headNum) + ".qb";
+	m_pHeadModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
+	QubicleMatrix* pHeadMatrix = m_pHeadModel->GetQubicleMatrix("head");
+	m_pPlayerModel->AddQubicleMatrix(pHeadMatrix, false);
+}
+
+void Player::ReplaceHair()
+{
+	// Replace the hair model on the player
+	m_pPlayerModel->SetNullLinkage(m_pHairModel);
+	string qubicleFile = "media/gamedata/hair/male_hair" + to_string(m_hairNum) + ".qb";
+	m_pHairModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
+	QubicleMatrix* pHairMatrix = m_pHairModel->GetQubicleMatrix("hair");
+	m_pPlayerModel->AddQubicleMatrix(pHairMatrix, false);
+}
+
+void Player::ReplaceNose()
+{
+	// Replace the nose model on the player
+	m_pPlayerModel->SetNullLinkage(m_pNoseModel);
+	string qubicleFile = "media/gamedata/nose/nose" + to_string(m_noseNum) + ".qb";
+	m_pNoseModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
+	QubicleMatrix* pNoseMatrix = m_pNoseModel->GetQubicleMatrix("nose");
+	m_pPlayerModel->AddQubicleMatrix(pNoseMatrix, false);
+}
+
+void Player::ReplaceEars()
+{
+	// Replace the ears model on the player
 	m_pPlayerModel->SetNullLinkage(m_pEarsModel);
 	string qubicleFile = "media/gamedata/ears/ears" + to_string(m_earsNum) + ".qb";
 	m_pEarsModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
@@ -275,51 +299,43 @@ void Player::UpdateDefaults()
 
 void Player::ModifySkinColour()
 {
-	m_pPlayerModel->SetNullLinkage(m_pHeadModel);
-	m_pPlayerModel->SetNullLinkage(m_pNoseModel);
-	m_pPlayerModel->SetNullLinkage(m_pEarsModel);
-
-	string qubicleFile = "media/gamedata/head/base_head" + to_string(m_headNum) + ".qb";
-	QubicleBinary* pHeadModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
-	QubicleMatrix* pHeadMatrix = pHeadModel->GetQubicleMatrix("head");
-	m_pPlayerModel->AddQubicleMatrix(pHeadMatrix, false);
-
-	qubicleFile = "media/gamedata/nose/nose" + to_string(m_noseNum) + ".qb";
-	QubicleBinary* pNoseModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
-	QubicleMatrix* pNoseMatrix = pNoseModel->GetQubicleMatrix("nose");
-	m_pPlayerModel->AddQubicleMatrix(pNoseMatrix, false);
-
-	qubicleFile = "media/gamedata/ears/ears" + to_string(m_earsNum) + ".qb";
-	m_pEarsModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
-	QubicleMatrix* pEarsMatrix = m_pEarsModel->GetQubicleMatrix("ears");
-	m_pPlayerModel->AddQubicleMatrix(pEarsMatrix, false);
+	ReplaceHead();
+	ReplaceNose();
+	ReplaceEars();
 
 	m_skinColourNum++;
 	if (m_skinColourNum > MAX_NUM_SKIN_COLOURS-1)
 	{
 		m_skinColourNum = 0;
 	}
-
-	m_colourModifierRed[eColourModifiers_Skin] = m_pSkinColours[m_skinColourNum].GetRed();
-	m_colourModifierGreen[eColourModifiers_Skin] = m_pSkinColours[m_skinColourNum].GetGreen();
-	m_colourModifierBlue[eColourModifiers_Skin] = m_pSkinColours[m_skinColourNum].GetBlue();
 }
 
 void Player::ModifyHairColour()
 {
-	m_pPlayerModel->SetNullLinkage(m_pHairModel);
-
-	string qubicleFile = "media/gamedata/hair/male_hair" + to_string(m_hairNum) + ".qb";
-	m_pHairModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
-	QubicleMatrix* pHairMatrix = m_pHairModel->GetQubicleMatrix("hair");
-	m_pPlayerModel->AddQubicleMatrix(pHairMatrix, false);
+	ReplaceHair();
 
 	m_hairColourNum++;
 	if (m_hairColourNum > MAX_NUM_HAIR_COLOURS-1)
 	{
 		m_hairColourNum = 0;
 	}
+}
 
+void Player::SwapHairColours()
+{
+	ReplaceHair();
+
+	m_hairColourSwap = !m_hairColourSwap;
+}
+
+void Player::SetColourModifiers()
+{
+	// SKin colour
+	m_colourModifierRed[eColourModifiers_Skin] = m_pSkinColours[m_skinColourNum].GetRed();
+	m_colourModifierGreen[eColourModifiers_Skin] = m_pSkinColours[m_skinColourNum].GetGreen();
+	m_colourModifierBlue[eColourModifiers_Skin] = m_pSkinColours[m_skinColourNum].GetBlue();
+
+	// Hair colours
 	int colour1 = eColourModifiers_Hair1;
 	int colour2 = eColourModifiers_Hair2;
 	if (m_hairColourSwap == true)
@@ -333,15 +349,7 @@ void Player::ModifyHairColour()
 	m_colourModifierRed[colour2] = m_pHair2Colours[m_hairColourNum].GetRed();
 	m_colourModifierGreen[colour2] = m_pHair2Colours[m_hairColourNum].GetGreen();
 	m_colourModifierBlue[colour2] = m_pHair2Colours[m_hairColourNum].GetBlue();
-}
 
-void Player::SwapHairColours()
-{
-	m_hairColourSwap = !m_hairColourSwap;
-}
-
-void Player::SetColourModifiers()
-{
 	for (int i = 0; i < eColourModifiers_NUM; i++)
 	{
 		m_pPlayerModel->ConvertMeshColour(m_colourModifierRed[i], m_colourModifierGreen[i], m_colourModifierBlue[i], m_colourIdentifierRed[i], m_colourIdentifierGreen[i], m_colourIdentifierBlue[i]);
