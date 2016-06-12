@@ -1598,7 +1598,7 @@ void QubicleBinary::RenderWithAnimator(MS3DAnimator** pSkeleton, VoxelCharacter*
 					}
 					else
 					{
-						m_pRenderer->SetRenderMode(RM_SOLID);
+						m_pRenderer->SetRenderMode(RM_SHADED);
 					}
 
 					// Store the model matrix
@@ -1834,7 +1834,7 @@ void QubicleBinary::RenderSingleMatrix(MS3DAnimator** pSkeleton, VoxelCharacter*
 				}
 				else
 				{
-					m_pRenderer->SetRenderMode(RM_SOLID);
+					m_pRenderer->SetRenderMode(RM_SHADED);
 				}
 
 				// Texture manipulation (for shadow rendering)
@@ -1950,6 +1950,8 @@ void QubicleBinary::RenderFace(MS3DAnimator* pSkeleton, VoxelCharacter* pVoxelCh
 				m_pRenderer->MultiplyWorldMatrix(lookingMat);
 
 				int eyesMatrixIndex = pVoxelCharacter->GetEyesMatrixIndex();
+
+				m_pRenderer->SetRenderMode(RM_SOLID);
 
 				if(useScale)
 				{
