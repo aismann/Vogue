@@ -67,6 +67,9 @@ void VogueGame::Render()
 			// Set the default projection mode
 			m_pRenderer->SetProjectionMode(PM_PERSPECTIVE, m_defaultViewport);
 
+			// Enable vector normalization, for scaling and lighting
+			m_pRenderer->EnableVectorNormalize();
+
 			// Set back culling as default
 			m_pRenderer->SetCullMode(CM_BACK);
 
@@ -80,9 +83,12 @@ void VogueGame::Render()
 			m_pGameCamera->Look();
 
 			// Enable the lights
-			m_pRenderer->PushMatrix();
-				m_pRenderer->EnableLight(m_defaultLight, 0);
-			m_pRenderer->PopMatrix();
+			if (m_dynamicLighting)
+			{
+				m_pRenderer->PushMatrix();
+					m_pRenderer->EnableLight(m_defaultLight, 0);
+				m_pRenderer->PopMatrix();
+			}
 
 			// Multisampling MSAA
 			if (m_multiSampling)
@@ -104,11 +110,14 @@ void VogueGame::Render()
 			m_pRenderer->ClearScene(true, true, true);
 
 			// Render the lights (DEBUG)
-			m_pRenderer->PushMatrix();
-				m_pRenderer->SetCullMode(CM_BACK);
-				m_pRenderer->SetRenderMode(RM_SOLID);
-				m_pRenderer->RenderLight(m_defaultLight);
-			m_pRenderer->PopMatrix();
+			if (m_dynamicLighting)
+			{
+				m_pRenderer->PushMatrix();
+					m_pRenderer->SetCullMode(CM_BACK);
+					m_pRenderer->SetRenderMode(RM_SOLID);
+					m_pRenderer->RenderLight(m_defaultLight);
+				m_pRenderer->PopMatrix();
+			}
 
 			// Rooms
 			//m_pRoomManager->Render();

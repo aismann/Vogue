@@ -114,7 +114,7 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	m_defaultLightView = vec3(0.0f, 0.0f, 0.0f);
 	vec3 lightDirection = m_defaultLightView - m_defaultLightPosition;
 	m_pRenderer->CreateLight(Colour(1.0f, 1.0f, 1.0f, 1.0f), Colour(1.0f, 1.0f, 1.0f, 1.0f), Colour(0.0f, 0.0f, 0.0f, 1.0f),
-							 m_defaultLightPosition, lightDirection, 0.0f, 0.0f, 2.0f, 3.1f, 0.005f, true, false, &m_defaultLight);
+							 m_defaultLightPosition, lightDirection, 0.0f, 0.0f, 1.0f, 0.5f, 0.0025f, true, false, &m_defaultLight);
 
 	/* Create materials */
 	m_pRenderer->CreateMaterial(Colour(1.0f, 1.0f, 1.0f, 1.0f), Colour(1.0f, 1.0f, 1.0f, 1.0f), Colour(1.0f, 1.0f, 1.0f, 1.0f), Colour(0.0f, 0.0f, 0.0f, 1.0f), 64, &m_defaultMaterial);
