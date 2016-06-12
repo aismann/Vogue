@@ -233,6 +233,7 @@ void Player::RandomizeParts()
 	m_earsNum = GetRandomNumber(0, MAX_NUM_EARS);
 	m_skinColourNum = GetRandomNumber(0, MAX_NUM_SKIN_COLOURS-1);
 	m_hairColourNum = GetRandomNumber(0, MAX_NUM_HAIR_COLOURS-1);
+	m_hairColourSwap = (bool)GetRandomNumber(0, 1);
 	ModifyHead();
 	ModifyHair();
 	ModifyNose();
