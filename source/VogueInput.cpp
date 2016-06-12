@@ -219,9 +219,6 @@ void VogueGame::KeyReleased(int key, int scancode, int mods)
 		}
 		case GLFW_KEY_L:
 		{
-			m_pPlayer->RandomizeParts();
-			m_pPlayer->UpdateDefaults();
-			m_pPlayer->SetSkinColor();
 			break;
 		}
 	}

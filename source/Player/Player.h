@@ -29,7 +29,6 @@ public:
 	void ModifyHair();
 	void ModifyNose();
 	void ModifyEars();
-	void RandomizeParts();
 	void UpdateDefaults();
 	void ModifySkinColor();
 	void SetSkinColor();

@@ -42,10 +42,6 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	m_skinBlue = 0.6509803921568627f;
 	m_skinGreen = 0.4156862745098039f;
 
-	m_pHeadModel = NULL;
-	m_pHairModel = NULL;
-	m_pNoseModel = NULL;
-	m_pEarsModel = NULL;
 	m_pPlayerModel = new QubicleBinary(m_pRenderer);
 
 	ModifyHead();
@@ -76,9 +72,8 @@ void Player::ModifyHead()
 		m_headNum = 1;
 	}
 
-	m_pPlayerModel->SetNullLinkage(m_pHeadModel);
 	string qubicleFile = "media/gamedata/head/base_head" + to_string(m_headNum) + ".qb";
-	m_pHeadModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
+	m_pHeadModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), false);
 	QubicleMatrix* pHeadMatrix = m_pHeadModel->GetQubicleMatrix("head");
 	m_pPlayerModel->AddQubicleMatrix(pHeadMatrix, false);
 }
@@ -91,7 +86,6 @@ void Player::ModifyHair()
 		m_hairNum = 1;
 	}
 
-	m_pPlayerModel->SetNullLinkage(m_pHairModel);
 	string qubicleFile = "media/gamedata/hair/male_hair" + to_string(m_hairNum) + ".qb";
 	m_pHairModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), false);
 	QubicleMatrix* pHairMatrix = m_pHairModel->GetQubicleMatrix("hair");
@@ -106,7 +100,6 @@ void Player::ModifyNose()
 		m_noseNum = 1;
 	}
 
-	m_pPlayerModel->SetNullLinkage(m_pNoseModel);
 	string qubicleFile = "media/gamedata/nose/nose" + to_string(m_noseNum) + ".qb";
 	m_pNoseModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
 	QubicleMatrix* pNoseMatrix = m_pNoseModel->GetQubicleMatrix("nose");
@@ -121,30 +114,17 @@ void Player::ModifyEars()
 		m_earsNum = 1;
 	}
 
-	m_pPlayerModel->SetNullLinkage(m_pEarsModel);
 	string qubicleFile = "media/gamedata/ears/ears" + to_string(m_earsNum) + ".qb";
 	m_pEarsModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
 	QubicleMatrix* pEarsMatrix = m_pEarsModel->GetQubicleMatrix("ears");
 	m_pPlayerModel->AddQubicleMatrix(pEarsMatrix, false);
 }
 
-void Player::RandomizeParts()
-{
-	m_headNum = GetRandomNumber(0, MAX_NUM_HEADS);
-	m_hairNum = GetRandomNumber(0, MAX_NUM_HAIRS);
-	m_noseNum = GetRandomNumber(0, MAX_NUM_NOSES);
-	m_earsNum = GetRandomNumber(0, MAX_NUM_EARS);
-	ModifyHead();
-	ModifyHair();
-	ModifyNose();
-	ModifyEars();
-}
-
 void Player::UpdateDefaults()
 {
 	string defaultFile = "";
 	QubicleMatrix* pMatrix = NULL;
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		if (i == 0)
 		{
@@ -160,11 +140,6 @@ void Player::UpdateDefaults()
 		{
 			defaultFile = "media/gamedata/nose/nose" + to_string(m_noseNum) + ".default";
 			pMatrix = m_pNoseModel->GetQubicleMatrix("nose");
-		}
-		if (i == 3)
-		{
-			defaultFile = "media/gamedata/ears/ears" + to_string(m_noseNum) + ".default";
-			pMatrix = m_pEarsModel->GetQubicleMatrix("ears");
 		}
 
 		if (pMatrix != NULL)
