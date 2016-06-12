@@ -41,6 +41,8 @@ public:
 
 	void UpdateDefaults();
 
+	void LoadSkinColours();
+	void LoadHairColours();
 	void ModifySkinColour();
 	void ModifyHairColour();
 	void SetColourModifiers();
@@ -97,6 +99,19 @@ private:
 	int m_hairNum;
 	int m_noseNum;
 	int m_earsNum;
+	int m_skinColourNum;
+	int m_hairColourNum;
+
+	int MAX_NUM_HEADS;
+	int MAX_NUM_HAIRS;
+	int MAX_NUM_NOSES;
+	int MAX_NUM_EARS;
+	int MAX_NUM_SKIN_COLOURS;
+	int MAX_NUM_HAIR_COLOURS;
+
+	Colour* m_pSkinColours;
+	Colour* m_pHair1Colours;
+	Colour* m_pHair2Colours;
 
 	// Colour modifiers
 	float m_colourIdentifierRed[eColourModifiers_NUM];

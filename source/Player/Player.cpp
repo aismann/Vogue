@@ -33,44 +33,45 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	m_position = vec3(0.0f, 0.0f, 0.0f);
 	m_gravityDirection = vec3(0.0f, -1.0f, 0.0f);
 
-	// Body parts indices
-	m_headNum = 0;
-	m_hairNum = 0;
-	m_noseNum = 0;
-	m_noseNum = 0;
-
-	// Colour modifiers
-	m_colourIdentifierRed[eColourModifiers_Skin] = 0.7686274509803922f;
-	m_colourIdentifierGreen[eColourModifiers_Skin] = 0.6509803921568627f;
-	m_colourIdentifierBlue[eColourModifiers_Skin] = 0.4156862745098039f;
-	m_colourIdentifierRed[eColourModifiers_Hair1] = 0.0f;
-	m_colourIdentifierGreen[eColourModifiers_Hair1] = 1.0f;
-	m_colourIdentifierBlue[eColourModifiers_Hair1] = 0.0f;
-	m_colourIdentifierRed[eColourModifiers_Hair2] = 0.0f;
-	m_colourIdentifierGreen[eColourModifiers_Hair2] = 0.0f;
-	m_colourIdentifierBlue[eColourModifiers_Hair2] = 1.0f;
-
-	// Default colours
-	m_colourModifierRed[eColourModifiers_Skin] = 0.7686274509803922f;
-	m_colourModifierGreen[eColourModifiers_Skin] = 0.6509803921568627f;
-	m_colourModifierBlue[eColourModifiers_Skin] = 0.4156862745098039f;
-	m_colourModifierRed[eColourModifiers_Hair1] = 0.2470588235294118f;
-	m_colourModifierGreen[eColourModifiers_Hair1] = 0.1450980392156863f;
-	m_colourModifierBlue[eColourModifiers_Hair1] = 0.0f;
-	m_colourModifierRed[eColourModifiers_Hair2] = 0.3490196078431373f;
-	m_colourModifierGreen[eColourModifiers_Hair2] = 0.207843137254902f;
-	m_colourModifierBlue[eColourModifiers_Hair2] = 0.007843137254902f;
-
 	m_pHeadModel = NULL;
 	m_pHairModel = NULL;
 	m_pNoseModel = NULL;
 	m_pEarsModel = NULL;
 	m_pPlayerModel = new QubicleBinary(m_pRenderer);
 
+	// Body parts indices
+	m_headNum = 0;
+	m_hairNum = 0;
+	m_noseNum = 0;
+	m_noseNum = 0;
+	m_skinColourNum = 0;
+	m_hairColourNum = 0;
+
+	MAX_NUM_HEADS = 1;
+	MAX_NUM_HAIRS = 21;
+	MAX_NUM_NOSES = 5;
+	MAX_NUM_EARS = 4;
+
+	LoadSkinColours();
+	LoadHairColours();
+
+	// Colour modifiers
+	m_colourIdentifierRed[eColourModifiers_Skin]	= 0.76862f;
+	m_colourIdentifierGreen[eColourModifiers_Skin]	= 0.65098f;
+	m_colourIdentifierBlue[eColourModifiers_Skin]	= 0.41568f;
+	m_colourIdentifierRed[eColourModifiers_Hair1]	= 0.00000f;
+	m_colourIdentifierGreen[eColourModifiers_Hair1]	= 1.00000f;
+	m_colourIdentifierBlue[eColourModifiers_Hair1]	= 0.00000f;
+	m_colourIdentifierRed[eColourModifiers_Hair2]	= 0.00000f;
+	m_colourIdentifierGreen[eColourModifiers_Hair2]	= 0.00000f;
+	m_colourIdentifierBlue[eColourModifiers_Hair2]	= 1.00000f;
+
 	ModifyHead();
 	ModifyHair();
 	ModifyNose();
 	ModifyEars();
+	ModifySkinColour();
+	ModifyHairColour();
 	UpdateDefaults();
 	SetColourModifiers();
 }
@@ -82,11 +83,6 @@ Player::~Player()
 	m_pPlayerModel->SetNullLinkage(m_pNoseModel);
 	m_pPlayerModel->SetNullLinkage(m_pEarsModel);
 }
-
-static int const MAX_NUM_HEADS = 1;
-static int const MAX_NUM_HAIRS = 21;
-static int const MAX_NUM_NOSES = 5;
-static int const MAX_NUM_EARS = 4;
 
 void Player::ModifyHead()
 {
@@ -154,10 +150,14 @@ void Player::RandomizeParts()
 	m_hairNum = GetRandomNumber(0, MAX_NUM_HAIRS);
 	m_noseNum = GetRandomNumber(0, MAX_NUM_NOSES);
 	m_earsNum = GetRandomNumber(0, MAX_NUM_EARS);
+	m_skinColourNum = GetRandomNumber(0, MAX_NUM_SKIN_COLOURS-1);
+	m_hairColourNum = GetRandomNumber(0, MAX_NUM_HAIR_COLOURS-1);
 	ModifyHead();
 	ModifyHair();
 	ModifyNose();
 	ModifyEars();
+	ModifySkinColour();
+	ModifyHairColour();
 }
 
 void Player::UpdateDefaults()
@@ -216,6 +216,59 @@ void Player::UpdateDefaults()
 	}
 }
 
+void Player::LoadSkinColours()
+{
+	ifstream importFile;
+	importFile.open("media/gamedata/colours/skin_colours.txt", ios::in);
+
+	if (importFile.is_open())
+	{
+		string tempString;
+		importFile >> tempString >> MAX_NUM_SKIN_COLOURS;
+
+		m_pSkinColours = new Colour[MAX_NUM_SKIN_COLOURS];
+		for (int i = 0; i < MAX_NUM_SKIN_COLOURS; i++)
+		{
+			float r, g, b;
+			importFile >> tempString >> r >> g >> b;
+
+			m_pSkinColours[i].SetRed(r);
+			m_pSkinColours[i].SetGreen(g);
+			m_pSkinColours[i].SetBlue(b);
+		}
+	}
+}
+
+void Player::LoadHairColours()
+{
+	ifstream importFile;
+	importFile.open("media/gamedata/colours/hair_colours.txt", ios::in);
+
+	if (importFile.is_open())
+	{
+		string tempString;
+		importFile >> tempString >> MAX_NUM_HAIR_COLOURS;
+
+		m_pHair1Colours = new Colour[MAX_NUM_HAIR_COLOURS];
+		m_pHair2Colours = new Colour[MAX_NUM_HAIR_COLOURS];
+		for (int i = 0; i < MAX_NUM_HAIR_COLOURS; i++)
+		{
+			float r, g, b;
+			importFile >> tempString >> r >> g >> b;
+
+			m_pHair1Colours[i].SetRed(r);
+			m_pHair1Colours[i].SetGreen(g);
+			m_pHair1Colours[i].SetBlue(b);
+
+			importFile >> tempString >> r >> g >> b;
+
+			m_pHair2Colours[i].SetRed(r);
+			m_pHair2Colours[i].SetGreen(g);
+			m_pHair2Colours[i].SetBlue(b);
+		}
+	}
+}
+
 void Player::ModifySkinColour()
 {
 	m_pPlayerModel->SetNullLinkage(m_pHeadModel);
@@ -237,9 +290,15 @@ void Player::ModifySkinColour()
 	QubicleMatrix* pEarsMatrix = m_pEarsModel->GetQubicleMatrix("ears");
 	m_pPlayerModel->AddQubicleMatrix(pEarsMatrix, false);
 
-	m_colourModifierRed[eColourModifiers_Skin] = GetRandomNumber(0, 1, 2);
-	m_colourModifierGreen[eColourModifiers_Skin] = GetRandomNumber(0, 1, 2);
-	m_colourModifierBlue[eColourModifiers_Skin] = GetRandomNumber(0, 1, 2);
+	m_skinColourNum++;
+	if (m_skinColourNum > MAX_NUM_SKIN_COLOURS-1)
+	{
+		m_skinColourNum = 0;
+	}
+
+	m_colourModifierRed[eColourModifiers_Skin] = m_pSkinColours[m_skinColourNum].GetRed();
+	m_colourModifierGreen[eColourModifiers_Skin] = m_pSkinColours[m_skinColourNum].GetGreen();
+	m_colourModifierBlue[eColourModifiers_Skin] = m_pSkinColours[m_skinColourNum].GetBlue();
 }
 
 void Player::ModifyHairColour()
@@ -251,12 +310,18 @@ void Player::ModifyHairColour()
 	QubicleMatrix* pHairMatrix = m_pHairModel->GetQubicleMatrix("hair");
 	m_pPlayerModel->AddQubicleMatrix(pHairMatrix, false);
 
-	m_colourModifierRed[eColourModifiers_Hair1] = GetRandomNumber(0, 1, 2);
-	m_colourModifierGreen[eColourModifiers_Hair1] = GetRandomNumber(0, 1, 2);
-	m_colourModifierBlue[eColourModifiers_Hair1] = GetRandomNumber(0, 1, 2);
-	m_colourModifierRed[eColourModifiers_Hair2] = GetRandomNumber(0, 1, 2);
-	m_colourModifierGreen[eColourModifiers_Hair2] = GetRandomNumber(0, 1, 2);
-	m_colourModifierBlue[eColourModifiers_Hair2] = GetRandomNumber(0, 1, 2);
+	m_hairColourNum++;
+	if (m_hairColourNum > MAX_NUM_HAIR_COLOURS-1)
+	{
+		m_hairColourNum = 0;
+	}
+
+	m_colourModifierRed[eColourModifiers_Hair1] = m_pHair1Colours[m_hairColourNum].GetRed();
+	m_colourModifierGreen[eColourModifiers_Hair1] = m_pHair1Colours[m_hairColourNum].GetGreen();
+	m_colourModifierBlue[eColourModifiers_Hair1] = m_pHair1Colours[m_hairColourNum].GetBlue();
+	m_colourModifierRed[eColourModifiers_Hair2] = m_pHair2Colours[m_hairColourNum].GetRed();
+	m_colourModifierGreen[eColourModifiers_Hair2] = m_pHair2Colours[m_hairColourNum].GetGreen();
+	m_colourModifierBlue[eColourModifiers_Hair2] = m_pHair2Colours[m_hairColourNum].GetBlue();
 }
 
 void Player::SetColourModifiers()
