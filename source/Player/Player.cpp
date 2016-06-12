@@ -97,7 +97,7 @@ void Player::ModifyNose()
 	}
 
 	string qubicleFile = "media/gamedata/nose/nose" + to_string(m_noseNum) + ".qb";
-	m_pNoseModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), false);
+	m_pNoseModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
 	QubicleMatrix* pNoseMatrix = m_pNoseModel->GetQubicleMatrix("nose");
 	m_pPlayerModel->AddQubicleMatrix(pNoseMatrix, false);
 }
