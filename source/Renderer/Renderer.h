@@ -242,6 +242,10 @@ public:
 	void EnableMultiSampling();
 	void DisableMultiSampling();
 
+	// Vector normalize
+	void EnableVectorNormalize();
+	void DisableVectorNormalize();
+
 	// Depth testing
 	void EnableDepthTest(DepthTest lTestFunction);
 	void DisableDepthTest();
