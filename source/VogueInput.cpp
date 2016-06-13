@@ -218,6 +218,11 @@ void VogueGame::KeyReleased(int key, int scancode, int mods)
 			m_pPlayer->SetColourModifiers();
 			break;
 		}
+		case GLFW_KEY_K:
+		{
+			m_pPlayer->ModifyEyes();
+			break;
+		}
 		case GLFW_KEY_B:
 		{
 			m_pPlayer->ModifySkinColour();

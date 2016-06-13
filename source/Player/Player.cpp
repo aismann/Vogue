@@ -69,6 +69,7 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	m_hairNum = 0;
 	m_noseNum = 0;
 	m_noseNum = 0;
+	m_eyesNum = 0;
 	m_skinColourNum = 0;
 	m_hairColourNum = 0;
 
@@ -80,9 +81,11 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	MAX_NUM_HAIRS = 21;
 	MAX_NUM_NOSES = 5;
 	MAX_NUM_EARS = 4;
+	MAX_NUM_EYES = 7;
 
 	LoadSkinColours();
 	LoadHairColours();
+	LoadEyesNames();
 
 	// Colour modifiers
 	m_colourIdentifierRed[eColourModifiers_Skin]	= 0.76862f;
@@ -99,6 +102,7 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	ModifyHair();
 	ModifyNose();
 	ModifyEars();
+	ModifyEyes();
 	ModifySkinColour();
 	ModifyHairColour();
 	UpdateDefaults();
@@ -168,6 +172,18 @@ void Player::LoadHairColours()
 	}
 }
 
+void Player::LoadEyesNames()
+{
+	m_pEyesNames = new string[MAX_NUM_EYES];
+	m_pEyesNames[0] = "eyes_brown";
+	m_pEyesNames[1] = "eyes_blue";
+	m_pEyesNames[2] = "eyes_gray";
+	m_pEyesNames[3] = "eyes_green";
+	m_pEyesNames[4] = "eyes_orange";
+	m_pEyesNames[5] = "eyes_purple";
+	m_pEyesNames[6] = "eyes_red";
+}
+
 void Player::ModifyHead()
 {
 	m_headNum++;
@@ -210,6 +226,17 @@ void Player::ModifyEars()
 	}
 
 	ReplaceEars();
+}
+
+void Player::ModifyEyes()
+{
+	m_eyesNum++;
+	if (m_eyesNum > MAX_NUM_EYES-1)
+	{
+		m_eyesNum = 0;
+	}
+
+	ReplaceEyes();
 }
 
 void Player::ReplaceHead()
@@ -260,6 +287,11 @@ void Player::ReplaceEars()
 	m_pVoxelCharacter->SetupFacesBones(); // Need to resetup since the head matrix index will have changed
 }
 
+void Player::ReplaceEyes()
+{
+	m_pVoxelCharacter->ModifyEyesTextures("media/gamedata/models", "human", m_pEyesNames[m_eyesNum].c_str());
+}
+
 void Player::RandomizeParts()
 {
 	m_headNum = GetRandomNumber(0, MAX_NUM_HEADS);
@@ -273,6 +305,7 @@ void Player::RandomizeParts()
 	ModifyHair();
 	ModifyNose();
 	ModifyEars();
+	ModifyEyes();
 	ModifySkinColour();
 	ModifyHairColour();
 }

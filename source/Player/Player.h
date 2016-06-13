@@ -42,15 +42,18 @@ public:
 
 	void LoadSkinColours();
 	void LoadHairColours();
+	void LoadEyesNames();
 
 	void ModifyHead();
 	void ModifyHair();
 	void ModifyNose();
 	void ModifyEars();
+	void ModifyEyes();
 	void ReplaceHead();
 	void ReplaceHair();
 	void ReplaceNose();
 	void ReplaceEars();
+	void ReplaceEyes();
 	void RandomizeParts();
 
 	void UpdateDefaults();
@@ -113,6 +116,7 @@ private:
 	int m_hairNum;
 	int m_noseNum;
 	int m_earsNum;
+	int m_eyesNum;
 	int m_skinColourNum;
 	int m_hairColourNum;
 
@@ -121,6 +125,7 @@ private:
 	int MAX_NUM_HAIRS;
 	int MAX_NUM_NOSES;
 	int MAX_NUM_EARS;
+	int MAX_NUM_EYES;
 	int MAX_NUM_SKIN_COLOURS;
 	int MAX_NUM_HAIR_COLOURS;
 
@@ -128,6 +133,9 @@ private:
 	Colour* m_pSkinColours;
 	Colour* m_pHair1Colours;
 	Colour* m_pHair2Colours;
+
+	// Eyes names
+	string* m_pEyesNames;
 
 	// Swap modifier for hair colours
 	bool m_hairColourSwap;
