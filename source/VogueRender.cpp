@@ -138,6 +138,11 @@ void VogueGame::Render()
 			}
 		m_pRenderer->PopMatrix();
 
+		// ---------------------------------------
+		// Render transparency
+		// ---------------------------------------
+		RenderTransparency();
+
 		// Render our deferred textures from the frame buffers
 		if (m_deferredRendering)
 		{
@@ -175,6 +180,29 @@ void VogueGame::Render()
 
 	// Pass render call to the window class, allow to swap buffers
 	m_pVogueWindow->Render();
+}
+
+void VogueGame::RenderTransparency()
+{
+	m_pRenderer->PushMatrix();
+		m_pRenderer->SetProjectionMode(PM_PERSPECTIVE, m_defaultViewport);
+		m_pRenderer->SetCullMode(CM_BACK);
+
+		// Set the lookat camera
+		m_pGameCamera->Look();
+
+		if (m_deferredRendering)
+		{
+			m_pRenderer->StartRenderingToFrameBuffer(m_transparencyFrameBuffer);
+		}
+
+		m_pPlayer->RenderFace();
+
+		if (m_deferredRendering)
+		{
+			m_pRenderer->StopRenderingToFrameBuffer(m_transparencyFrameBuffer);
+		}
+	m_pRenderer->PopMatrix();
 }
 
 void VogueGame::RenderSSAOTexture()

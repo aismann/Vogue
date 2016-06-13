@@ -830,6 +830,14 @@ void VoxelCharacter::SetMeshSingleColour(float r, float g, float b)
 	}
 }
 
+void VoxelCharacter::ConvertMeshColour(float r, float g, float b, float matchR, float matchG, float matchB)
+{
+	if (m_pVoxelModel)
+	{
+		m_pVoxelModel->ConvertMeshColour(r, g, b, matchR, matchG, matchB);
+	}
+}
+
 void VoxelCharacter::SetBreathingAnimationEnabled(bool enable)
 {
 	m_bBreathingAnimationEnabled = enable;

@@ -68,6 +68,7 @@ public:
 
 	// Render
     void Render();
+	void RenderFace();
 	void RenderDebug();
 
 protected:
@@ -143,9 +144,11 @@ private:
 	float m_colourModifierGreen[eColourModifiers_NUM];
 
 	// Qubicle binary file
-	QubicleBinary* m_pPlayerModel;
 	QubicleBinary* m_pHeadModel;
 	QubicleBinary* m_pHairModel;
 	QubicleBinary* m_pNoseModel;
 	QubicleBinary* m_pEarsModel;
+
+	// Voxel character
+	VoxelCharacter* m_pVoxelCharacter;
 };

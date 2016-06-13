@@ -225,14 +225,14 @@ void VogueGame::KeyReleased(int key, int scancode, int mods)
 			m_pPlayer->SetColourModifiers();
 			break;
 		}
-		case GLFW_KEY_N:
+		case GLFW_KEY_M:
 		{
 			m_pPlayer->SwapHairColours();
 			m_pPlayer->UpdateDefaults();
 			m_pPlayer->SetColourModifiers();
 			break;
 		}
-		case GLFW_KEY_M:
+		case GLFW_KEY_N:
 		{
 			m_pPlayer->ModifyHairColour();
 			m_pPlayer->UpdateDefaults();

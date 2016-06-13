@@ -118,6 +118,7 @@ public:
 	void SetRenderLeftWeapon(bool render);
 	void SetMeshAlpha(float alpha, bool force = false);
 	void SetMeshSingleColour(float r, float g, float b);
+	void ConvertMeshColour(float r, float g, float b, float matchR, float matchG, float matchB);
 
 	// Breathing animation
 	void SetBreathingAnimationEnabled(bool enable);

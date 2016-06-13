@@ -37,7 +37,32 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	m_pHairModel = NULL;
 	m_pNoseModel = NULL;
 	m_pEarsModel = NULL;
-	m_pPlayerModel = new QubicleBinary(m_pRenderer);
+
+	m_pVoxelCharacter = new VoxelCharacter(m_pRenderer, m_pQubicleBinaryManager);
+	m_pVoxelCharacter->UnloadCharacter();
+	m_pVoxelCharacter->Reset();
+
+	char characterBaseFolder[128];
+	char qbFilename[128];
+	char ms3dFilename[128];
+	char animListFilename[128];
+	char facesFilename[128];
+	char characterFilename[128];
+	sprintf(characterBaseFolder, "media/gamedata/models");
+	sprintf(qbFilename, "media/gamedata/models/%s/%s.qb", "human", "base_human1");
+	sprintf(ms3dFilename, "media/gamedata/models/%s/%s.ms3d", "human", "human");
+	sprintf(animListFilename, "media/gamedata/models/%s/%s.animlist", "human", "human");
+	sprintf(facesFilename, "media/gamedata/models/%s/%s.faces", "human", "base_human1");
+	sprintf(characterFilename, "media/gamedata/models/%s/%s.character", "human", "base_human1");
+
+	m_pVoxelCharacter->LoadVoxelCharacter("human", qbFilename, ms3dFilename, animListFilename, facesFilename, characterFilename, characterBaseFolder, false);
+	m_pVoxelCharacter->SetBreathingAnimationEnabled(false);
+	m_pVoxelCharacter->SetWinkAnimationEnabled(true);
+	m_pVoxelCharacter->SetTalkingAnimationEnabled(false);
+	m_pVoxelCharacter->SetRandomMouthSelection(false);
+	m_pVoxelCharacter->SetRandomLookDirection(false);
+	m_pVoxelCharacter->SetWireFrameRender(false);
+	m_pVoxelCharacter->SetCharacterScale(0.08f);
 
 	// Body parts indices
 	m_headNum = 0;
@@ -82,10 +107,12 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 
 Player::~Player()
 {
-	m_pPlayerModel->SetNullLinkage(m_pHeadModel);
-	m_pPlayerModel->SetNullLinkage(m_pHairModel);
-	m_pPlayerModel->SetNullLinkage(m_pNoseModel);
-	m_pPlayerModel->SetNullLinkage(m_pEarsModel);
+	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pHeadModel);
+	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pHairModel);
+	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pNoseModel);
+	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pEarsModel);
+
+	delete m_pVoxelCharacter;
 }
 
 void Player::LoadSkinColours()
@@ -188,41 +215,49 @@ void Player::ModifyEars()
 void Player::ReplaceHead()
 {
 	// Replace the head model on the player model
-	m_pPlayerModel->SetNullLinkage(m_pHeadModel);
+	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pHeadModel);
 	string qubicleFile = "media/gamedata/head/base_head" + to_string(m_headNum) + ".qb";
 	m_pHeadModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
-	QubicleMatrix* pHeadMatrix = m_pHeadModel->GetQubicleMatrix("head");
-	m_pPlayerModel->AddQubicleMatrix(pHeadMatrix, false);
+	QubicleMatrix* pHeadMatrix = m_pHeadModel->GetQubicleMatrix("Head");
+	pHeadMatrix->m_boneIndex = m_pVoxelCharacter->GetHeadBoneIndex();
+	m_pVoxelCharacter->AddQubicleMatrix(pHeadMatrix, false);
+	m_pVoxelCharacter->SetupFacesBones(); // Need to resetup since the head matrix index will have changed
 }
 
 void Player::ReplaceHair()
 {
 	// Replace the hair model on the player
-	m_pPlayerModel->SetNullLinkage(m_pHairModel);
+	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pHairModel);
 	string qubicleFile = "media/gamedata/hair/male_hair" + to_string(m_hairNum) + ".qb";
 	m_pHairModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
 	QubicleMatrix* pHairMatrix = m_pHairModel->GetQubicleMatrix("hair");
-	m_pPlayerModel->AddQubicleMatrix(pHairMatrix, false);
+	pHairMatrix->m_boneIndex = m_pVoxelCharacter->GetHeadBoneIndex();
+	m_pVoxelCharacter->AddQubicleMatrix(pHairMatrix, false);
+	m_pVoxelCharacter->SetupFacesBones(); // Need to resetup since the head matrix index will have changed
 }
 
 void Player::ReplaceNose()
 {
 	// Replace the nose model on the player
-	m_pPlayerModel->SetNullLinkage(m_pNoseModel);
+	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pNoseModel);
 	string qubicleFile = "media/gamedata/nose/nose" + to_string(m_noseNum) + ".qb";
 	m_pNoseModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
 	QubicleMatrix* pNoseMatrix = m_pNoseModel->GetQubicleMatrix("nose");
-	m_pPlayerModel->AddQubicleMatrix(pNoseMatrix, false);
+	pNoseMatrix->m_boneIndex = m_pVoxelCharacter->GetHeadBoneIndex();
+	m_pVoxelCharacter->AddQubicleMatrix(pNoseMatrix, false);
+	m_pVoxelCharacter->SetupFacesBones(); // Need to resetup since the head matrix index will have changed
 }
 
 void Player::ReplaceEars()
 {
 	// Replace the ears model on the player
-	m_pPlayerModel->SetNullLinkage(m_pEarsModel);
+	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pEarsModel);
 	string qubicleFile = "media/gamedata/ears/ears" + to_string(m_earsNum) + ".qb";
 	m_pEarsModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
 	QubicleMatrix* pEarsMatrix = m_pEarsModel->GetQubicleMatrix("ears");
-	m_pPlayerModel->AddQubicleMatrix(pEarsMatrix, false);
+	pEarsMatrix->m_boneIndex = m_pVoxelCharacter->GetHeadBoneIndex();
+	m_pVoxelCharacter->AddQubicleMatrix(pEarsMatrix, false);
+	m_pVoxelCharacter->SetupFacesBones(); // Need to resetup since the head matrix index will have changed
 }
 
 void Player::RandomizeParts()
@@ -353,7 +388,7 @@ void Player::SetColourModifiers()
 
 	for (int i = 0; i < eColourModifiers_NUM; i++)
 	{
-		m_pPlayerModel->ConvertMeshColour(m_colourModifierRed[i], m_colourModifierGreen[i], m_colourModifierBlue[i], m_colourIdentifierRed[i], m_colourIdentifierGreen[i], m_colourIdentifierBlue[i]);
+		m_pVoxelCharacter->ConvertMeshColour(m_colourModifierRed[i], m_colourModifierGreen[i], m_colourModifierBlue[i], m_colourIdentifierRed[i], m_colourIdentifierGreen[i], m_colourIdentifierBlue[i]);
 	}
 }
 
@@ -377,22 +412,31 @@ void Player::CalculateWorldTransformMatrix()
 // Update
 void Player::Update(float dt)
 {
+	// Update the voxel model
+	float animationSpeeds[AnimationSections_NUMSECTIONS] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
+	m_pVoxelCharacter->Update(dt, animationSpeeds);
 }
 
 // Render
 void Player::Render()
 {
+	Colour OulineColour(1.0f, 1.0f, 0.0f, 1.0f);
+
 	m_pRenderer->PushMatrix();
-		m_pRenderer->TranslateWorldMatrix(m_position.x, m_position.y, m_position.z);
+		m_pRenderer->MultiplyWorldMatrix(m_worldMatrix);
 
-		// Scale down
-		m_pRenderer->ScaleWorldMatrix(0.1f, 0.1f, 0.1f);
-
-		Colour OulineColour(1.0f, 1.0f, 0.0f, 1.0f);
-		m_pPlayerModel->Render(false, false, false, OulineColour);
+		m_pVoxelCharacter->Render(false, false, false, OulineColour, false);
+		m_pVoxelCharacter->RenderWeapons(false, false, false, OulineColour);
 	m_pRenderer->PopMatrix();
+}
 
-	RenderDebug();
+void Player::RenderFace()
+{
+	m_pRenderer->PushMatrix();
+		m_pRenderer->MultiplyWorldMatrix(m_worldMatrix);
+
+		m_pVoxelCharacter->RenderFace();
+	m_pRenderer->PopMatrix();
 }
 
 void Player::RenderDebug()
