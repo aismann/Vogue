@@ -384,6 +384,7 @@ void Player::RandomizeParts()
 	m_hairNum = GetRandomNumber(0, MAX_NUM_HAIRS);
 	m_noseNum = GetRandomNumber(0, MAX_NUM_NOSES);
 	m_earsNum = GetRandomNumber(0, MAX_NUM_EARS);
+	m_eyesNum = GetRandomNumber(0, MAX_NUM_EYES);
 	m_bodyNum = GetRandomNumber(0, MAX_NUM_BODY);
 	m_rightHandNum = GetRandomNumber(0, MAX_NUM_RIGHT_HAND);
 	m_leftHandNum = GetRandomNumber(0, MAX_NUM_LEFT_HAND);
@@ -394,6 +395,7 @@ void Player::RandomizeParts()
 	ModifyHair();
 	ModifyNose();
 	ModifyEars();
+	ModifyEyes();
 	ModifyBody();
 	ModifyRightHand();
 	ModifyLeftHand();
