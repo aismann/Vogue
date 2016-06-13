@@ -77,7 +77,7 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	// Body parts indices
 	m_headNum = 0;
 	m_hairNum = 0;
-	m_noseNum = 0;
+	m_earsNum = 0;
 	m_noseNum = 0;
 	m_eyesNum = 0;
 	m_bodyNum = 0;
@@ -97,7 +97,7 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 
 	MAX_NUM_HEADS = 1;
 	MAX_NUM_HAIRS = 22;
-	MAX_NUM_NOSES = 5;
+	MAX_NUM_NOSES = 6;
 	MAX_NUM_EARS = 4;
 	MAX_NUM_EYES = 7;
 	MAX_NUM_BODY = 2;
