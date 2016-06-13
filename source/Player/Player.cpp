@@ -37,6 +37,7 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 
 	m_pHeadModel = NULL;
 	m_pHairModel = NULL;
+	m_pFacialHairModel = NULL;
 	m_pNoseModel = NULL;
 	m_pEarsModel = NULL;
 	m_pBodyModel = NULL;
@@ -66,17 +67,18 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	sprintf(characterFilename, "media/gamedata/models/%s/%s.character", "human", "base_human1");
 
 	m_pVoxelCharacter->LoadVoxelCharacter("human", qbFilename, ms3dFilename, animListFilename, facesFilename, characterFilename, characterBaseFolder, false);
-	m_pVoxelCharacter->SetBreathingAnimationEnabled(true);
+	m_pVoxelCharacter->SetBreathingAnimationEnabled(false);
 	m_pVoxelCharacter->SetWinkAnimationEnabled(true);
 	m_pVoxelCharacter->SetTalkingAnimationEnabled(false);
 	m_pVoxelCharacter->SetRandomMouthSelection(false);
-	m_pVoxelCharacter->SetRandomLookDirection(true);
+	m_pVoxelCharacter->SetRandomLookDirection(false);
 	m_pVoxelCharacter->SetWireFrameRender(false);
 	m_pVoxelCharacter->SetCharacterScale(0.08f);
 
 	// Body parts indices
 	m_headNum = 0;
 	m_hairNum = 0;
+	m_facialHairNum = 0;
 	m_earsNum = 0;
 	m_noseNum = 0;
 	m_eyesNum = 0;
@@ -97,6 +99,7 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 
 	MAX_NUM_HEADS = 1;
 	MAX_NUM_HAIRS = 22;
+	MAX_NUM_FACIAL_HAIRS = 5;
 	MAX_NUM_NOSES = 6;
 	MAX_NUM_EARS = 4;
 	MAX_NUM_EYES = 7;
@@ -126,6 +129,7 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 
 	ModifyHead();
 	ModifyHair();
+	ModifyFacialHair();
 	ModifyNose();
 	ModifyEars();
 	ModifyEyes();
@@ -147,6 +151,7 @@ Player::~Player()
 {
 	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pHeadModel);
 	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pHairModel);
+	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pFacialHairModel);
 	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pNoseModel);
 	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pEarsModel);
 	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pBodyModel);
@@ -246,6 +251,17 @@ void Player::ModifyHair()
 	}
 
 	ReplaceHair();
+}
+
+void Player::ModifyFacialHair()
+{
+	m_facialHairNum++;
+	if (m_facialHairNum > MAX_NUM_FACIAL_HAIRS)
+	{
+		m_facialHairNum = 1;
+	}
+
+	ReplaceFacialHair();
 }
 
 void Player::ModifyNose()
@@ -392,6 +408,18 @@ void Player::ReplaceHair()
 	m_pVoxelCharacter->SetupFacesBones(); // Need to resetup since the model matrix indiceswill have changed
 }
 
+void Player::ReplaceFacialHair()
+{
+	// Replace the facial hair model on the player
+	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pFacialHairModel);
+	string qubicleFile = "media/gamedata/facial_hair/facial_hair" + to_string(m_facialHairNum) + ".qb";
+	m_pFacialHairModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
+	QubicleMatrix* pFacialHairMatrix = m_pFacialHairModel->GetQubicleMatrix("Facial_Hair");
+	pFacialHairMatrix->m_boneIndex = m_pVoxelCharacter->GetHeadBoneIndex();
+	m_pVoxelCharacter->AddQubicleMatrix(pFacialHairMatrix, false);
+	m_pVoxelCharacter->SetupFacesBones(); // Need to resetup since the model matrix indiceswill have changed
+}
+
 void Player::ReplaceNose()
 {
 	// Replace the nose model on the player
@@ -521,6 +549,7 @@ void Player::RandomizeParts()
 {
 	m_headNum = GetRandomNumber(0, MAX_NUM_HEADS);
 	m_hairNum = GetRandomNumber(0, MAX_NUM_HAIRS);
+	m_facialHairNum = GetRandomNumber(0, MAX_NUM_FACIAL_HAIRS);
 	m_noseNum = GetRandomNumber(0, MAX_NUM_NOSES);
 	m_earsNum = GetRandomNumber(0, MAX_NUM_EARS);
 	m_eyesNum = GetRandomNumber(0, MAX_NUM_EYES);
@@ -538,6 +567,7 @@ void Player::RandomizeParts()
 
 	ModifyHead();
 	ModifyHair();
+	ModifyFacialHair();
 	ModifyNose();
 	ModifyEars();
 	ModifyEyes();
@@ -556,7 +586,7 @@ void Player::UpdateDefaults()
 {
 	string defaultFile = "";
 	QubicleMatrix* pMatrix = NULL;
-	for (int i = 0; i < 12; i++)
+	for (int i = 0; i < 13; i++)
 	{
 		if (i == 0)
 		{
@@ -570,50 +600,55 @@ void Player::UpdateDefaults()
 		}
 		if (i == 2)
 		{
+			defaultFile = "media/gamedata/facial_hair/facial_hair" + to_string(m_facialHairNum) + ".default";
+			pMatrix = m_pFacialHairModel->GetQubicleMatrix("Facial_Hair");
+		}
+		if (i == 3)
+		{
 			defaultFile = "media/gamedata/nose/nose" + to_string(m_noseNum) + ".default";
 			pMatrix = m_pNoseModel->GetQubicleMatrix("nose");
 		}
-		if (i == 3)
+		if (i == 4)
 		{
 			defaultFile = "media/gamedata/ears/ears" + to_string(m_noseNum) + ".default";
 			pMatrix = m_pEarsModel->GetQubicleMatrix("ears");
 		}
-		if (i == 4)
+		if (i == 5)
 		{
 			defaultFile = "media/gamedata/body/male_body" + to_string(m_bodyNum) + ".default";
 			pMatrix = m_pBodyModel->GetQubicleMatrix("Body");
 		}
-		if (i == 5)
+		if (i == 6)
 		{
 			defaultFile = "media/gamedata/legs/male_legs" + to_string(m_legsNum) + ".default";
 			pMatrix = m_pLegsModel->GetQubicleMatrix("Legs");
 		}
-		if (i == 6)
+		if (i == 7)
 		{
 			defaultFile = "media/gamedata/right_hand/right_hand" + to_string(m_rightHandNum) + ".default";
 			pMatrix = m_pRightHandModel->GetQubicleMatrix("Right_Hand");
 		}
-		if (i == 7)
+		if (i == 8)
 		{
 			defaultFile = "media/gamedata/left_hand/left_hand" + to_string(m_leftHandNum) + ".default";
 			pMatrix = m_pLeftHandModel->GetQubicleMatrix("Left_Hand");
 		}
-		if (i == 8)
+		if (i == 9)
 		{
 			defaultFile = "media/gamedata/right_shoulder/right_shoulder" + to_string(m_rightShoulderNum) + ".default";
 			pMatrix = m_pRightShoulderModel->GetQubicleMatrix("Right_Shoulder");
 		}
-		if (i == 9)
+		if (i == 10)
 		{
 			defaultFile = "media/gamedata/left_shoulder/left_shoulder" + to_string(m_leftShoulderNum) + ".default";
 			pMatrix = m_pLeftShoulderModel->GetQubicleMatrix("Left_Shoulder");
 		}
-		if (i == 10)
+		if (i == 11)
 		{
 			defaultFile = "media/gamedata/right_foot/right_foot" + to_string(m_rightFootNum) + ".default";
 			pMatrix = m_pRightFootModel->GetQubicleMatrix("Right_Foot");
 		}
-		if (i == 11)
+		if (i == 12)
 		{
 			defaultFile = "media/gamedata/left_foot/left_foot" + to_string(m_leftFootNum) + ".default";
 			pMatrix = m_pLeftFootModel->GetQubicleMatrix("Left_Foot");
@@ -673,6 +708,7 @@ void Player::ModifySkinColour()
 void Player::ModifyHairColour()
 {
 	ReplaceHair();
+	ReplaceFacialHair();
 
 	m_hairColourNum++;
 	if (m_hairColourNum > MAX_NUM_HAIR_COLOURS-1)
@@ -684,6 +720,7 @@ void Player::ModifyHairColour()
 void Player::SwapHairColours()
 {
 	ReplaceHair();
+	ReplaceFacialHair();
 
 	m_hairColourSwap = !m_hairColourSwap;
 }

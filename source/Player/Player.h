@@ -46,6 +46,7 @@ public:
 
 	void ModifyHead();
 	void ModifyHair();
+	void ModifyFacialHair();
 	void ModifyNose();
 	void ModifyEars();
 	void ModifyEyes();
@@ -59,6 +60,7 @@ public:
 	void ModifyLeftFoot();
 	void ReplaceHead();
 	void ReplaceHair();
+	void ReplaceFacialHair();
 	void ReplaceNose();
 	void ReplaceEars();
 	void ReplaceEyes();
@@ -132,6 +134,7 @@ private:
 	// Body parts indices
 	int m_headNum;
 	int m_hairNum;
+	int m_facialHairNum;
 	int m_noseNum;
 	int m_earsNum;
 	int m_eyesNum;
@@ -149,6 +152,7 @@ private:
 	// Max number of each body part
 	int MAX_NUM_HEADS;
 	int MAX_NUM_HAIRS;
+	int MAX_NUM_FACIAL_HAIRS;
 	int MAX_NUM_NOSES;
 	int MAX_NUM_EARS;
 	int MAX_NUM_EYES;
@@ -188,6 +192,7 @@ private:
 	// Qubicle binary file
 	QubicleBinary* m_pHeadModel;
 	QubicleBinary* m_pHairModel;
+	QubicleBinary* m_pFacialHairModel;
 	QubicleBinary* m_pNoseModel;
 	QubicleBinary* m_pEarsModel;
 	QubicleBinary* m_pBodyModel;
