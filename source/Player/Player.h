@@ -52,6 +52,8 @@ public:
 	void ModifyBody();
 	void ModifyRightHand();
 	void ModifyLeftHand();
+	void ModifyRightShoulder();
+	void ModifyLeftShoulder();
 	void ReplaceHead();
 	void ReplaceHair();
 	void ReplaceNose();
@@ -60,10 +62,14 @@ public:
 	void ReplaceBody();
 	void ReplaceRightHand();
 	void ReplaceLeftHand();
+	void ReplaceRightShoulder();
+	void ReplaceLeftShoulder();
 	void RandomizeParts();
 
+	// Default scale and offsets
 	void UpdateDefaults();
 
+	// Colour modifiers
 	void ModifySkinColour();
 	void ModifyHairColour();
 	void SwapHairColours();
@@ -126,6 +132,8 @@ private:
 	int m_bodyNum;
 	int m_rightHandNum;
 	int m_leftHandNum;
+	int m_rightShoulderNum;
+	int m_leftShoulderNum;
 	int m_skinColourNum;
 	int m_hairColourNum;
 
@@ -138,6 +146,8 @@ private:
 	int MAX_NUM_BODY;
 	int MAX_NUM_RIGHT_HAND;
 	int MAX_NUM_LEFT_HAND;
+	int MAX_NUM_RIGHT_SHOULDER;
+	int MAX_NUM_LEFT_SHOULDER;
 	int MAX_NUM_SKIN_COLOURS;
 	int MAX_NUM_HAIR_COLOURS;
 
@@ -171,6 +181,8 @@ private:
 	QubicleBinary* m_pBodyModel;
 	QubicleBinary* m_pRightHandModel;
 	QubicleBinary* m_pLeftHandModel;
+	QubicleBinary* m_pRightShoulderModel;
+	QubicleBinary* m_pLeftShoulderModel;
 
 	// Voxel character
 	VoxelCharacter* m_pVoxelCharacter;

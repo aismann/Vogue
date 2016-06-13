@@ -42,6 +42,8 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	m_pBodyModel = NULL;
 	m_pRightHandModel = NULL;
 	m_pLeftHandModel = NULL;
+	m_pRightShoulderModel = NULL;
+	m_pLeftShoulderModel = NULL;
 
 	m_pVoxelCharacter = new VoxelCharacter(m_pRenderer, m_pQubicleBinaryManager);
 	m_pVoxelCharacter->UnloadCharacter();
@@ -78,6 +80,8 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	m_bodyNum = 0;
 	m_rightHandNum = 0;
 	m_leftHandNum = 0;
+	m_rightShoulderNum = 0;
+	m_leftShoulderNum = 0;
 	m_skinColourNum = 0;
 	m_hairColourNum = 0;
 
@@ -93,6 +97,8 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	MAX_NUM_BODY = 2;
 	MAX_NUM_RIGHT_HAND = 1;
 	MAX_NUM_LEFT_HAND = 1;
+	MAX_NUM_RIGHT_SHOULDER = 2;
+	MAX_NUM_LEFT_SHOULDER = 2;
 
 	LoadSkinColours();
 	LoadHairColours();
@@ -117,6 +123,8 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	ModifyBody();
 	ModifyRightHand();
 	ModifyLeftHand();
+	ModifyRightShoulder();
+	ModifyLeftShoulder();
 	ModifySkinColour();
 	ModifyHairColour();
 	UpdateDefaults();
@@ -132,6 +140,8 @@ Player::~Player()
 	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pBodyModel);
 	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pRightHandModel);
 	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pLeftHandModel);
+	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pRightShoulderModel);
+	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pLeftShoulderModel);
 
 	delete m_pVoxelCharacter;
 }
@@ -289,6 +299,28 @@ void Player::ModifyLeftHand()
 	ReplaceLeftHand();
 }
 
+void Player::ModifyRightShoulder()
+{
+	m_rightShoulderNum++;
+	if (m_rightShoulderNum > MAX_NUM_RIGHT_SHOULDER)
+	{
+		m_rightShoulderNum = 1;
+	}
+
+	ReplaceRightShoulder();
+}
+
+void Player::ModifyLeftShoulder()
+{
+	m_leftShoulderNum++;
+	if (m_leftShoulderNum > MAX_NUM_LEFT_SHOULDER)
+	{
+		m_leftShoulderNum = 1;
+	}
+
+	ReplaceLeftShoulder();
+}
+
 void Player::ReplaceHead()
 {
 	// Replace the head model on the player model
@@ -378,6 +410,30 @@ void Player::ReplaceLeftHand()
 	m_pVoxelCharacter->SetupFacesBones(); // Need to resetup since the model matrix indiceswill have changed
 }
 
+void Player::ReplaceRightShoulder()
+{
+	// Replace the right shoulder model on the player
+	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pRightShoulderModel);
+	string qubicleFile = "media/gamedata/right_shoulder/right_shoulder" + to_string(m_rightShoulderNum) + ".qb";
+	m_pRightShoulderModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
+	QubicleMatrix* pRightShoulderMatrix = m_pRightShoulderModel->GetQubicleMatrix("Right_Shoulder");
+	pRightShoulderMatrix->m_boneIndex = m_pVoxelCharacter->GetRightShoulderBoneIndex();
+	m_pVoxelCharacter->AddQubicleMatrix(pRightShoulderMatrix, false);
+	m_pVoxelCharacter->SetupFacesBones(); // Need to resetup since the model matrix indiceswill have changed
+}
+
+void Player::ReplaceLeftShoulder()
+{
+	// Replace the left shoulder model on the player
+	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pLeftShoulderModel);
+	string qubicleFile = "media/gamedata/left_shoulder/left_shoulder" + to_string(m_leftShoulderNum) + ".qb";
+	m_pLeftShoulderModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
+	QubicleMatrix* pLeftShoulderMatrix = m_pLeftShoulderModel->GetQubicleMatrix("Left_Shoulder");
+	pLeftShoulderMatrix->m_boneIndex = m_pVoxelCharacter->GetLeftShoulderBoneIndex();
+	m_pVoxelCharacter->AddQubicleMatrix(pLeftShoulderMatrix, false);
+	m_pVoxelCharacter->SetupFacesBones(); // Need to resetup since the model matrix indiceswill have changed
+}
+
 void Player::RandomizeParts()
 {
 	m_headNum = GetRandomNumber(0, MAX_NUM_HEADS);
@@ -388,9 +444,12 @@ void Player::RandomizeParts()
 	m_bodyNum = GetRandomNumber(0, MAX_NUM_BODY);
 	m_rightHandNum = GetRandomNumber(0, MAX_NUM_RIGHT_HAND);
 	m_leftHandNum = GetRandomNumber(0, MAX_NUM_LEFT_HAND);
+	m_rightShoulderNum = GetRandomNumber(0, MAX_NUM_RIGHT_SHOULDER);
+	m_leftShoulderNum = GetRandomNumber(0, MAX_NUM_LEFT_SHOULDER);
 	m_skinColourNum = GetRandomNumber(0, MAX_NUM_SKIN_COLOURS-1);
 	m_hairColourNum = GetRandomNumber(0, MAX_NUM_HAIR_COLOURS-1);
 	m_hairColourSwap = (bool)GetRandomNumber(0, 1);
+
 	ModifyHead();
 	ModifyHair();
 	ModifyNose();
@@ -399,15 +458,16 @@ void Player::RandomizeParts()
 	ModifyBody();
 	ModifyRightHand();
 	ModifyLeftHand();
-	ModifySkinColour();
-	ModifyHairColour();
+	ModifyRightShoulder();
+	ModifyLeftShoulder();
 }
 
+// Default scale and offsets
 void Player::UpdateDefaults()
 {
 	string defaultFile = "";
 	QubicleMatrix* pMatrix = NULL;
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 9; i++)
 	{
 		if (i == 0)
 		{
@@ -444,6 +504,16 @@ void Player::UpdateDefaults()
 			defaultFile = "media/gamedata/left_hand/left_hand" + to_string(m_leftHandNum) + ".default";
 			pMatrix = m_pLeftHandModel->GetQubicleMatrix("Left_Hand");
 		}
+		if (i == 7)
+		{
+			defaultFile = "media/gamedata/right_shoulder/right_shoulder" + to_string(m_rightShoulderNum) + ".default";
+			pMatrix = m_pRightShoulderModel->GetQubicleMatrix("Right_Shoulder");
+		}
+		if (i == 8)
+		{
+			defaultFile = "media/gamedata/left_shoulder/left_shoulder" + to_string(m_leftShoulderNum) + ".default";
+			pMatrix = m_pLeftShoulderModel->GetQubicleMatrix("Left_Shoulder");
+		}
 
 		if (pMatrix != NULL)
 		{
@@ -474,6 +544,7 @@ void Player::UpdateDefaults()
 	}
 }
 
+// Colour modifiers
 void Player::ModifySkinColour()
 {
 	ReplaceHead();
@@ -482,6 +553,8 @@ void Player::ModifySkinColour()
 	ReplaceBody();
 	ReplaceRightHand();
 	ReplaceLeftHand();
+	ReplaceRightShoulder();
+	ReplaceLeftShoulder();
 
 	m_skinColourNum++;
 	if (m_skinColourNum > MAX_NUM_SKIN_COLOURS-1)
