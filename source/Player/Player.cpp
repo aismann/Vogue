@@ -93,12 +93,13 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	m_skinColourNum = 0;
 	m_hairColourNum = 0;
 
-	m_playerSex = ePlayerSex_Both;
+	m_playerSex = ePlayerSex_Female;
 
 	m_hairColourSwap = false;
 
 	MAX_NUM_HEADS = 1;
-	MAX_NUM_HAIRS = 22;
+	MAX_NUM_HAIRS_MALE = 22;
+	MAX_NUM_HAIRS_FEMALE = 10;
 	MAX_NUM_FACIAL_HAIRS = 9;
 	MAX_NUM_NOSES = 6;
 	MAX_NUM_EARS = 4;
@@ -245,9 +246,19 @@ void Player::ModifyHead()
 void Player::ModifyHair()
 {
 	m_hairNum++;
-	if (m_hairNum > MAX_NUM_HAIRS)
+	if(m_playerSex == ePlayerSex_Male)
 	{
-		m_hairNum = 1;
+		if (m_hairNum > MAX_NUM_HAIRS_MALE)
+		{
+			m_hairNum = 1;
+		}
+	}
+	else
+	{
+		if (m_hairNum > MAX_NUM_HAIRS_FEMALE)
+		{
+			m_hairNum = 1;
+		}
 	}
 
 	ReplaceHair();
@@ -257,6 +268,11 @@ void Player::ModifyFacialHair()
 {
 	m_facialHairNum++;
 	if (m_facialHairNum > MAX_NUM_FACIAL_HAIRS)
+	{
+		m_facialHairNum = 1;
+	}
+
+	if (m_playerSex == ePlayerSex_Female) // Force females to have no facial hair
 	{
 		m_facialHairNum = 1;
 	}
@@ -400,7 +416,15 @@ void Player::ReplaceHair()
 {
 	// Replace the hair model on the player
 	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pHairModel);
-	string qubicleFile = "media/gamedata/hair/male_hair" + to_string(m_hairNum) + ".qb";
+	string qubicleFile;
+	if (m_playerSex == ePlayerSex_Male)
+	{
+		qubicleFile = "media/gamedata/hair/male_hair" + to_string(m_hairNum) + ".qb";
+	}
+	else
+	{
+		qubicleFile = "media/gamedata/hair/female_hair" + to_string(m_hairNum) + ".qb";
+	}
 	m_pHairModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
 	QubicleMatrix* pHairMatrix = m_pHairModel->GetQubicleMatrix("hair");
 	pHairMatrix->m_boneIndex = m_pVoxelCharacter->GetHeadBoneIndex();
@@ -548,7 +572,7 @@ void Player::ReplaceLeftFoot()
 void Player::RandomizeParts()
 {
 	m_headNum = GetRandomNumber(0, MAX_NUM_HEADS);
-	m_hairNum = GetRandomNumber(0, MAX_NUM_HAIRS);
+	m_hairNum = GetRandomNumber(0, (m_playerSex == ePlayerSex_Male) ? MAX_NUM_HAIRS_MALE : MAX_NUM_HAIRS_FEMALE);
 	m_facialHairNum = GetRandomNumber(0, MAX_NUM_FACIAL_HAIRS);
 	m_noseNum = GetRandomNumber(0, MAX_NUM_NOSES);
 	m_earsNum = GetRandomNumber(0, MAX_NUM_EARS);
@@ -595,7 +619,14 @@ void Player::UpdateDefaults()
 		}
 		if (i == 1)
 		{
-			defaultFile = "media/gamedata/hair/male_hair" + to_string(m_hairNum) + ".default";
+			if (m_playerSex == ePlayerSex_Male)
+			{
+				defaultFile = "media/gamedata/hair/male_hair" + to_string(m_hairNum) + ".default";
+			}
+			else
+			{
+				defaultFile = "media/gamedata/hair/female_hair" + to_string(m_hairNum) + ".default";
+			}
 			pMatrix = m_pHairModel->GetQubicleMatrix("hair");
 		}
 		if (i == 2)

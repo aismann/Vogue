@@ -29,8 +29,7 @@ enum eColourModifiers
 enum ePlayerSex
 {
 	ePlayerSex_Male = 0,
-	ePlayerSex_Female,
-	ePlayerSex_Both
+	ePlayerSex_Female
 };
 
 class Player
@@ -151,7 +150,8 @@ private:
 
 	// Max number of each body part
 	int MAX_NUM_HEADS;
-	int MAX_NUM_HAIRS;
+	int MAX_NUM_HAIRS_MALE;
+	int MAX_NUM_HAIRS_FEMALE;
 	int MAX_NUM_FACIAL_HAIRS;
 	int MAX_NUM_NOSES;
 	int MAX_NUM_EARS;
