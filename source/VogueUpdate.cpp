@@ -156,5 +156,6 @@ void VogueGame::UpdateGameGUI(float dt)
 	m_wireframeRender = m_pVogueGUI->m_pWireframeCheckBox->GetToggled();
 	m_instanceRender = m_pVogueGUI->m_pInstanceRenderCheckBox->GetToggled();
 
+	m_pPlayer->SetWireFrameRender(m_wireframeRender);
 	m_pInstanceManager->SetWireFrameRender(m_wireframeRender);
 }

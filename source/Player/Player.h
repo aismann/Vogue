@@ -85,6 +85,9 @@ public:
 	// Rendering Helpers
 	void CalculateWorldTransformMatrix();
 
+	// Rendering modes
+	void SetWireFrameRender(bool wireframe);
+
 	// Update
 	void Update(float dt);
 

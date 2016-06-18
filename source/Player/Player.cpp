@@ -843,6 +843,12 @@ void Player::CalculateWorldTransformMatrix()
 	m_worldMatrix.SetValues(lMatrix);
 }
 
+// Rendering modes
+void Player::SetWireFrameRender(bool wireframe)
+{
+	m_pVoxelCharacter->SetWireFrameRender(wireframe);
+}
+
 // Update
 void Player::Update(float dt)
 {
