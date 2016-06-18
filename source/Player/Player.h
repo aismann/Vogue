@@ -49,6 +49,7 @@ public:
 	void ModifyNose();
 	void ModifyEars();
 	void ModifyEyes();
+	void ModifyGlasses();
 	void ModifyBody();
 	void ModifyLegs();
 	void ModifyRightHand();
@@ -63,6 +64,7 @@ public:
 	void ReplaceNose();
 	void ReplaceEars();
 	void ReplaceEyes();
+	void ReplaceGlasses();
 	void ReplaceBody();
 	void ReplaceLegs();
 	void ReplaceRightHand();
@@ -140,6 +142,7 @@ private:
 	int m_noseNum;
 	int m_earsNum;
 	int m_eyesNum;
+	int m_glassesNum;
 	int m_bodyNum;
 	int m_legsNum;
 	int m_rightHandNum;
@@ -159,6 +162,7 @@ private:
 	int MAX_NUM_NOSES;
 	int MAX_NUM_EARS;
 	int MAX_NUM_EYES;
+	int MAX_NUM_GLASSES;
 	int MAX_NUM_BODY_MALE;
 	int MAX_NUM_BODY_FEMALE;
 	int MAX_NUM_LEGS_MALE;
@@ -203,6 +207,7 @@ private:
 	QubicleBinary* m_pFacialHairModel;
 	QubicleBinary* m_pNoseModel;
 	QubicleBinary* m_pEarsModel;
+	QubicleBinary* m_pGlassesModel;
 	QubicleBinary* m_pBodyModel;
 	QubicleBinary* m_pLegsModel;
 	QubicleBinary* m_pRightHandModel;
