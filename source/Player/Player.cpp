@@ -106,8 +106,10 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	MAX_NUM_NOSES = 6;
 	MAX_NUM_EARS = 4;
 	MAX_NUM_EYES = 7;
-	MAX_NUM_BODY = 2;
-	MAX_NUM_LEGS = 2;
+	MAX_NUM_BODY_MALE = 2;
+	MAX_NUM_BODY_FEMALE = 1;
+	MAX_NUM_LEGS_MALE = 2;
+	MAX_NUM_LEGS_FEMALE = 1;
 	MAX_NUM_RIGHT_HAND = 1;
 	MAX_NUM_LEFT_HAND = 1;
 	MAX_NUM_RIGHT_SHOULDER = 2;
@@ -248,19 +250,10 @@ void Player::ModifyHead()
 void Player::ModifyHair()
 {
 	m_hairNum++;
-	if(m_playerSex == ePlayerSex_Male)
+	int maxNum = (m_playerSex == ePlayerSex_Male) ? MAX_NUM_HAIRS_MALE : MAX_NUM_HAIRS_FEMALE;
+	if (m_hairNum > maxNum)
 	{
-		if (m_hairNum > MAX_NUM_HAIRS_MALE)
-		{
-			m_hairNum = 1;
-		}
-	}
-	else
-	{
-		if (m_hairNum > MAX_NUM_HAIRS_FEMALE)
-		{
-			m_hairNum = 1;
-		}
+		m_hairNum = 1;
 	}
 
 	ReplaceHair();
@@ -318,7 +311,8 @@ void Player::ModifyEyes()
 void Player::ModifyBody()
 {
 	m_bodyNum++;
-	if (m_bodyNum > MAX_NUM_BODY)
+	int maxNum = (m_playerSex == ePlayerSex_Male) ? MAX_NUM_BODY_MALE : MAX_NUM_BODY_FEMALE;
+	if (m_bodyNum > maxNum)
 	{
 		m_bodyNum = 1;
 	}
@@ -329,7 +323,8 @@ void Player::ModifyBody()
 void Player::ModifyLegs()
 {
 	m_legsNum++;
-	if (m_legsNum > MAX_NUM_LEGS)
+	int maxNum = (m_playerSex == ePlayerSex_Male) ? MAX_NUM_LEGS_MALE : MAX_NUM_LEGS_FEMALE;
+	if (m_legsNum > maxNum)
 	{
 		m_legsNum = 1;
 	}
@@ -479,7 +474,15 @@ void Player::ReplaceBody()
 {
 	// Replace the body model on the player
 	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pBodyModel);
-	string qubicleFile = "media/gamedata/body/male_body" + to_string(m_bodyNum) + ".qb";
+	string qubicleFile;
+	if (m_playerSex == ePlayerSex_Male)
+	{
+		qubicleFile = "media/gamedata/body/male_body" + to_string(m_bodyNum) + ".qb";
+	}
+	else
+	{
+		qubicleFile = "media/gamedata/body/female_body" + to_string(m_bodyNum) + ".qb";
+	}
 	m_pBodyModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
 	QubicleMatrix* pBodyMatrix = m_pBodyModel->GetQubicleMatrix("Body");
 	pBodyMatrix->m_boneIndex = m_pVoxelCharacter->GetBodyBoneIndex();
@@ -491,7 +494,15 @@ void Player::ReplaceLegs()
 {
 	// Replace the legs model on the player
 	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pLegsModel);
-	string qubicleFile = "media/gamedata/legs/male_legs" + to_string(m_legsNum) + ".qb";
+	string qubicleFile;
+	if (m_playerSex == ePlayerSex_Male)
+	{
+		qubicleFile = "media/gamedata/legs/male_legs" + to_string(m_legsNum) + ".qb";
+	}
+	else
+	{
+		qubicleFile = "media/gamedata/legs/female_legs" + to_string(m_legsNum) + ".qb";
+	}
 	m_pLegsModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
 	QubicleMatrix* pLegsMatrix = m_pLegsModel->GetQubicleMatrix("Legs");
 	pLegsMatrix->m_boneIndex = m_pVoxelCharacter->GetLegsBoneIndex();
@@ -581,8 +592,8 @@ void Player::RandomizeParts()
 	m_noseNum = GetRandomNumber(0, MAX_NUM_NOSES);
 	m_earsNum = GetRandomNumber(0, MAX_NUM_EARS);
 	m_eyesNum = GetRandomNumber(0, MAX_NUM_EYES);
-	m_bodyNum = GetRandomNumber(0, MAX_NUM_BODY);
-	m_legsNum = GetRandomNumber(0, MAX_NUM_LEGS);
+	m_bodyNum = GetRandomNumber(0, (m_playerSex == ePlayerSex_Male) ? MAX_NUM_BODY_MALE : MAX_NUM_BODY_FEMALE);
+	m_legsNum = GetRandomNumber(0, (m_playerSex == ePlayerSex_Male) ? MAX_NUM_LEGS_MALE : MAX_NUM_LEGS_FEMALE);
 	m_rightHandNum = GetRandomNumber(0, MAX_NUM_RIGHT_HAND);
 	m_leftHandNum = GetRandomNumber(0, MAX_NUM_LEFT_HAND);
 	m_rightShoulderNum = GetRandomNumber(0, MAX_NUM_RIGHT_SHOULDER);
@@ -657,12 +668,26 @@ void Player::UpdateDefaults()
 		}
 		if (i == 5)
 		{
-			defaultFile = "media/gamedata/body/male_body" + to_string(m_bodyNum) + ".default";
+			if (m_playerSex == ePlayerSex_Male)
+			{
+				defaultFile = "media/gamedata/body/male_body" + to_string(m_bodyNum) + ".default";
+			}
+			else
+			{
+				defaultFile = "media/gamedata/body/female_body" + to_string(m_bodyNum) + ".default";
+			}
 			pMatrix = m_pBodyModel->GetQubicleMatrix("Body");
 		}
 		if (i == 6)
 		{
-			defaultFile = "media/gamedata/legs/male_legs" + to_string(m_legsNum) + ".default";
+			if (m_playerSex == ePlayerSex_Male)
+			{
+				defaultFile = "media/gamedata/legs/male_legs" + to_string(m_legsNum) + ".default";
+			}
+			else
+			{
+				defaultFile = "media/gamedata/legs/female_legs" + to_string(m_legsNum) + ".default";
+			}
 			pMatrix = m_pLegsModel->GetQubicleMatrix("Legs");
 		}
 		if (i == 7)
