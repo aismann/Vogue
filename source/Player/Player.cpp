@@ -571,6 +571,8 @@ void Player::ReplaceLeftFoot()
 
 void Player::RandomizeParts()
 {
+	m_playerSex = (ePlayerSex)GetRandomNumber(0, ePlayerSex_Female);
+
 	m_headNum = GetRandomNumber(0, MAX_NUM_HEADS);
 	m_hairNum = GetRandomNumber(0, (m_playerSex == ePlayerSex_Male) ? MAX_NUM_HAIRS_MALE : MAX_NUM_HAIRS_FEMALE);
 	m_facialHairNum = GetRandomNumber(0, MAX_NUM_FACIAL_HAIRS);
