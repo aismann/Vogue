@@ -97,6 +97,8 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 
 	m_hairColourSwap = false;
 
+	m_lockSymetricalSides = true;
+
 	MAX_NUM_HEADS = 2;
 	MAX_NUM_HAIRS_MALE = 22;
 	MAX_NUM_HAIRS_FEMALE = 10;
@@ -590,6 +592,13 @@ void Player::RandomizeParts()
 	m_skinColourNum = GetRandomNumber(0, MAX_NUM_SKIN_COLOURS-1);
 	m_hairColourNum = GetRandomNumber(0, MAX_NUM_HAIR_COLOURS-1);
 	m_hairColourSwap = (bool)GetRandomNumber(0, 1);
+
+	if (m_lockSymetricalSides)
+	{
+		m_leftHandNum = m_rightHandNum;
+		m_leftShoulderNum = m_rightShoulderNum;
+		m_leftFootNum = m_rightFootNum;
+	}
 
 	ModifyHead();
 	ModifyHair();

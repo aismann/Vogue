@@ -178,6 +178,9 @@ private:
 	// Swap modifier for hair colours
 	bool m_hairColourSwap;
 
+	// Flag to indicate if we will lock both left and right to use the same matching models
+	bool m_lockSymetricalSides;
+
 	// Player sex
 	ePlayerSex m_playerSex;
 
