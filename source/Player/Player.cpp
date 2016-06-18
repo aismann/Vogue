@@ -97,7 +97,7 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 
 	m_hairColourSwap = false;
 
-	MAX_NUM_HEADS = 1;
+	MAX_NUM_HEADS = 2;
 	MAX_NUM_HAIRS_MALE = 22;
 	MAX_NUM_HAIRS_FEMALE = 10;
 	MAX_NUM_FACIAL_HAIRS = 9;
