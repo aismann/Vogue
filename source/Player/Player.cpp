@@ -112,8 +112,8 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	MAX_NUM_LEFT_HAND = 1;
 	MAX_NUM_RIGHT_SHOULDER = 2;
 	MAX_NUM_LEFT_SHOULDER = 2;
-	MAX_NUM_RIGHT_FOOT = 2;
-	MAX_NUM_LEFT_FOOT = 2;
+	MAX_NUM_RIGHT_FOOT = 5;
+	MAX_NUM_LEFT_FOOT = 5;
 
 	LoadSkinColours();
 	LoadHairColours();
