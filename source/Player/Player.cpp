@@ -93,7 +93,7 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	m_skinColourNum = 0;
 	m_hairColourNum = 0;
 
-	m_playerSex = ePlayerSex_Female;
+	m_playerSex = ePlayerSex_Male;
 
 	m_hairColourSwap = false;
 
