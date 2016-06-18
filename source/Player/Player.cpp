@@ -122,15 +122,15 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	LoadEyesNames();
 
 	// Colour modifiers
-	m_colourIdentifierRed[eColourModifiers_Skin]	= 0.76862f;
-	m_colourIdentifierGreen[eColourModifiers_Skin]	= 0.65098f;
-	m_colourIdentifierBlue[eColourModifiers_Skin]	= 0.41568f;
-	m_colourIdentifierRed[eColourModifiers_Hair1]	= 0.00000f;
-	m_colourIdentifierGreen[eColourModifiers_Hair1]	= 1.00000f;
-	m_colourIdentifierBlue[eColourModifiers_Hair1]	= 0.00000f;
-	m_colourIdentifierRed[eColourModifiers_Hair2]	= 0.00000f;
-	m_colourIdentifierGreen[eColourModifiers_Hair2]	= 0.00000f;
-	m_colourIdentifierBlue[eColourModifiers_Hair2]	= 1.00000f;
+	m_colourIdentifierRed[eColourModifiers_Skin]	= 196;
+	m_colourIdentifierGreen[eColourModifiers_Skin]	= 166;
+	m_colourIdentifierBlue[eColourModifiers_Skin]	= 106;
+	m_colourIdentifierRed[eColourModifiers_Hair1]	= 0;
+	m_colourIdentifierGreen[eColourModifiers_Hair1]	= 255;
+	m_colourIdentifierBlue[eColourModifiers_Hair1]	= 0;
+	m_colourIdentifierRed[eColourModifiers_Hair2]	= 0;
+	m_colourIdentifierGreen[eColourModifiers_Hair2]	= 0;
+	m_colourIdentifierBlue[eColourModifiers_Hair2]	= 255;
 
 	ModifyHead();
 	ModifyHair();
@@ -184,12 +184,12 @@ void Player::LoadSkinColours()
 		m_pSkinColours = new Colour[MAX_NUM_SKIN_COLOURS];
 		for (int i = 0; i < MAX_NUM_SKIN_COLOURS; i++)
 		{
-			float r, g, b;
+			unsigned int r, g, b;
 			importFile >> tempString >> r >> g >> b;
 
-			m_pSkinColours[i].SetRed(r);
-			m_pSkinColours[i].SetGreen(g);
-			m_pSkinColours[i].SetBlue(b);
+			m_pSkinColours[i].SetRed(r / 255.0f);
+			m_pSkinColours[i].SetGreen(g / 255.0f);
+			m_pSkinColours[i].SetBlue(b / 255.0f);
 		}
 	}
 }
@@ -208,18 +208,18 @@ void Player::LoadHairColours()
 		m_pHair2Colours = new Colour[MAX_NUM_HAIR_COLOURS];
 		for (int i = 0; i < MAX_NUM_HAIR_COLOURS; i++)
 		{
-			float r, g, b;
+			unsigned int r, g, b;
 			importFile >> tempString >> r >> g >> b;
 
-			m_pHair1Colours[i].SetRed(r);
-			m_pHair1Colours[i].SetGreen(g);
-			m_pHair1Colours[i].SetBlue(b);
+			m_pHair1Colours[i].SetRed(r / 255.0f);
+			m_pHair1Colours[i].SetGreen(g / 255.0f);
+			m_pHair1Colours[i].SetBlue(b / 255.0f);
 
 			importFile >> tempString >> r >> g >> b;
 
-			m_pHair2Colours[i].SetRed(r);
-			m_pHair2Colours[i].SetGreen(g);
-			m_pHair2Colours[i].SetBlue(b);
+			m_pHair2Colours[i].SetRed(r / 255.0f);
+			m_pHair2Colours[i].SetGreen(g / 255.0f);
+			m_pHair2Colours[i].SetBlue(b / 255.0f);
 		}
 	}
 }
@@ -795,9 +795,9 @@ void Player::SwapHairColours()
 void Player::SetColourModifiers()
 {
 	// SKin colour
-	m_colourModifierRed[eColourModifiers_Skin] = m_pSkinColours[m_skinColourNum].GetRed();
-	m_colourModifierGreen[eColourModifiers_Skin] = m_pSkinColours[m_skinColourNum].GetGreen();
-	m_colourModifierBlue[eColourModifiers_Skin] = m_pSkinColours[m_skinColourNum].GetBlue();
+	m_colourModifierRed[eColourModifiers_Skin] = (int)(m_pSkinColours[m_skinColourNum].GetRed() * 255);
+	m_colourModifierGreen[eColourModifiers_Skin] = (int)(m_pSkinColours[m_skinColourNum].GetGreen() * 255);
+	m_colourModifierBlue[eColourModifiers_Skin] = (int)(m_pSkinColours[m_skinColourNum].GetBlue() * 255);
 
 	// Hair colours
 	int colour1 = eColourModifiers_Hair1;
@@ -807,16 +807,22 @@ void Player::SetColourModifiers()
 		colour1 = eColourModifiers_Hair2;
 		colour2 = eColourModifiers_Hair1;
 	}
-	m_colourModifierRed[colour1] = m_pHair1Colours[m_hairColourNum].GetRed();
-	m_colourModifierGreen[colour1] = m_pHair1Colours[m_hairColourNum].GetGreen();
-	m_colourModifierBlue[colour1] = m_pHair1Colours[m_hairColourNum].GetBlue();
-	m_colourModifierRed[colour2] = m_pHair2Colours[m_hairColourNum].GetRed();
-	m_colourModifierGreen[colour2] = m_pHair2Colours[m_hairColourNum].GetGreen();
-	m_colourModifierBlue[colour2] = m_pHair2Colours[m_hairColourNum].GetBlue();
+	m_colourModifierRed[colour1] = (int)(m_pHair1Colours[m_hairColourNum].GetRed() * 255);
+	m_colourModifierGreen[colour1] = (int)(m_pHair1Colours[m_hairColourNum].GetGreen() * 255);
+	m_colourModifierBlue[colour1] = (int)(m_pHair1Colours[m_hairColourNum].GetBlue() * 255);
+	m_colourModifierRed[colour2] = (int)(m_pHair2Colours[m_hairColourNum].GetRed() * 255);
+	m_colourModifierGreen[colour2] = (int)(m_pHair2Colours[m_hairColourNum].GetGreen() * 255);
+	m_colourModifierBlue[colour2] = (int)(m_pHair2Colours[m_hairColourNum].GetBlue() * 255);
 
 	for (int i = 0; i < eColourModifiers_NUM; i++)
 	{
-		m_pVoxelCharacter->ConvertMeshColour(m_colourModifierRed[i], m_colourModifierGreen[i], m_colourModifierBlue[i], m_colourIdentifierRed[i], m_colourIdentifierGreen[i], m_colourIdentifierBlue[i]);
+		float mR = m_colourModifierRed[i] / 255.0f;
+		float mG = m_colourModifierGreen[i] / 255.0f;
+		float mB = m_colourModifierBlue[i] / 255.0f;
+		float iR = m_colourIdentifierRed[i] / 255.0f;
+		float iG = m_colourIdentifierGreen[i] / 255.0f;
+		float iB = m_colourIdentifierBlue[i] / 255.0f;
+		m_pVoxelCharacter->ConvertMeshColour(mR, mG, mB, iR, iG, iB);
 	}
 }
 

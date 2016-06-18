@@ -187,12 +187,12 @@ private:
 	ePlayerSex m_playerSex;
 
 	// Colour modifiers
-	float m_colourIdentifierRed[eColourModifiers_NUM];
-	float m_colourIdentifierBlue[eColourModifiers_NUM];
-	float m_colourIdentifierGreen[eColourModifiers_NUM];
-	float m_colourModifierRed[eColourModifiers_NUM];
-	float m_colourModifierBlue[eColourModifiers_NUM];
-	float m_colourModifierGreen[eColourModifiers_NUM];
+	unsigned int m_colourIdentifierRed[eColourModifiers_NUM];
+	unsigned int m_colourIdentifierBlue[eColourModifiers_NUM];
+	unsigned int m_colourIdentifierGreen[eColourModifiers_NUM];
+	unsigned int m_colourModifierRed[eColourModifiers_NUM];
+	unsigned int m_colourModifierBlue[eColourModifiers_NUM];
+	unsigned int m_colourModifierGreen[eColourModifiers_NUM];
 
 	// Qubicle binary file
 	QubicleBinary* m_pHeadModel;
