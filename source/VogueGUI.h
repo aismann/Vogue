@@ -10,7 +10,7 @@
 // ******************************************************************************
 
 #include "VogueGame.h"
-#include "Player\Player.h"
+#include "Player/Player.h"
 
 
 class VogueGUI
