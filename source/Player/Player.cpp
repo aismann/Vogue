@@ -13,6 +13,7 @@
 
 #include "Player.h"
 #include "../utils/Random.h"
+#include "../VogueGame.h"
 
 #include <fstream>
 #include <ostream>
@@ -612,7 +613,7 @@ void Player::ReplaceLeftFoot()
 
 void Player::RandomizeParts()
 {
-	m_playerSex = (ePlayerSex)GetRandomNumber(0, ePlayerSex_Female);
+	m_playerSex = VogueGame::GetInstance()->GetVogueGUI()->GetPlayerSex();
 
 	m_headNum = GetRandomNumber(0, MAX_NUM_HEADS);
 	m_hairNum = GetRandomNumber(0, (m_playerSex == ePlayerSex_Male) ? MAX_NUM_HAIRS_MALE : MAX_NUM_HAIRS_FEMALE);

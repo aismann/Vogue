@@ -464,3 +464,8 @@ VogueGUI* VogueGame::GetVogueGUI()
 {
 	return m_pVogueGUI;
 }
+
+Player* VogueGame::GetPlayer()
+{
+	return m_pPlayer;
+}

@@ -151,6 +151,7 @@ public:
 	Camera* GetGameCamera();
 	VogueSettings* GetVogueSettings();
 	VogueGUI* GetVogueGUI();
+	Player* GetPlayer();
 
 protected:
 	/* Protected methods */

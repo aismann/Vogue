@@ -10,6 +10,7 @@
 // ******************************************************************************
 
 #include "VogueGame.h"
+#include "Player\Player.h"
 
 
 class VogueGUI
@@ -43,8 +44,13 @@ public:
 	// Update
 	void UpdateGUI(float dt);
 
+	// Game functionality
+	ePlayerSex GetPlayerSex();
+
 protected:
 	/* Protected methods */
+	static void _RandomizeButtonClicked(void *apData);
+	void RandomizeButtonClicked();
 
 private:
 	/* Private methods */
@@ -78,6 +84,12 @@ private:
 	CheckBox* m_pBlurCheckBox;
 	CheckBox* m_pDebugRenderCheckBox;
 	CheckBox* m_pInstanceRenderCheckBox;
+
+	OptionController* m_pGenderOptionController;
+	OptionBox* m_pGenderMaleOptionBox;
+	OptionBox* m_pGenderFemaleOptionBox;
+	OptionBox* m_pGenderBothOptionBox;
+	Button* m_pRandomizeButton;
 
 	// Friend class
 	friend class VogueGame;
