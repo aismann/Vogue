@@ -221,7 +221,7 @@ void VogueGUI::GenerateFromSeedButtonClicked()
 {
 	long seed = 0;
 	string seedText = m_pSeedTextbox->GetText();
-	transform(seedText.begin(), seedText.end(), seedText.begin(), tolower);
+	transform(seedText.begin(), seedText.end(), seedText.begin(), ::tolower);
 	for (int i = 0; i < seedText.length(); i++) {
 		char ch = seedText.at(i);
 		seed = seed + (long)ch;
