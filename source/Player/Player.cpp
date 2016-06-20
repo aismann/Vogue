@@ -464,7 +464,7 @@ void Player::ReplaceNose()
 	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pNoseModel);
 	string qubicleFile = "media/gamedata/nose/nose" + to_string(m_noseNum) + ".qb";
 	m_pNoseModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
-	QubicleMatrix* pNoseMatrix = m_pNoseModel->GetQubicleMatrix("nose");
+	QubicleMatrix* pNoseMatrix = m_pNoseModel->GetQubicleMatrix("Nose");
 	pNoseMatrix->m_boneIndex = m_pVoxelCharacter->GetHeadBoneIndex();
 	m_pVoxelCharacter->AddQubicleMatrix(pNoseMatrix, false);
 	m_pVoxelCharacter->SetupFacesBones(); // Need to resetup since the model matrix indiceswill have changed
@@ -692,7 +692,7 @@ void Player::UpdateDefaults()
 		if (i == 3)
 		{
 			defaultFile = "media/gamedata/nose/nose" + to_string(m_noseNum) + ".default";
-			pMatrix = m_pNoseModel->GetQubicleMatrix("nose");
+			pMatrix = m_pNoseModel->GetQubicleMatrix("Nose");
 		}
 		if (i == 4)
 		{
