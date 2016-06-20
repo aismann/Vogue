@@ -89,6 +89,9 @@ void VogueGame::Update()
 	// Update controls
 	UpdateControls(m_deltaTime);
 
+	// Update the dynamic camera zoom
+	UpdateCameraZoom(m_deltaTime);
+	
 	// Update the camera
 	UpdateCamera(m_deltaTime);
 

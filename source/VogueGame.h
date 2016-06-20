@@ -95,6 +95,7 @@ public:
 
 	// Camera controls
 	void UpdateCamera(float dt);
+	void UpdateCameraZoom(float dt);
 
 	// Input
 	void KeyPressed(int key, int scancode, int mods);

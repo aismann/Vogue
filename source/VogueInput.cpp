@@ -362,11 +362,18 @@ void VogueGame::MouseMiddleReleased()
 void VogueGame::MouseScroll(double x, double y)
 {
 	GameMode gameMode = GetGameMode();
+
+	if (IsCursorOn() == false || !m_pGUI->IsMouseInteractingWithGUIComponent(false))
+	{
+		m_maxCameraDistance += (float)(-y*0.5f);
+
+		WrapCameraZoomValue();
+	}
 }
 
 void VogueGame::WrapCameraZoomValue()
 {
-	float minAmount = 0.5f;
+	float minAmount = 1.5f;
 	float maxAmount = 15.0f;
 
 	// Camera rotation modes
