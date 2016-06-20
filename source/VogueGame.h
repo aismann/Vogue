@@ -138,6 +138,7 @@ public:
 	void BeginShaderRender();
 	void EndShaderRender();
 	void Render();
+	void RenderShadows();
 	void RenderTransparency();
 	void RenderSSAOTexture();
 	void RenderFXAATexture();

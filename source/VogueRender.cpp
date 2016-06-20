@@ -28,6 +28,13 @@ void VogueGame::BeginShaderRender()
 	if (m_shadows)
 	{
 		m_pRenderer->BeginGLSLShader(m_shadowShader);
+
+		pShader = m_pRenderer->GetShader(m_shadowShader);
+		GLuint shadowMapUniform = glGetUniformLocationARB(pShader->GetProgramObject(), "ShadowMap");
+		m_pRenderer->PrepareShaderTexture(7, shadowMapUniform);
+		m_pRenderer->BindRawTextureId(m_pRenderer->GetDepthTextureFromFrameBuffer(m_shadowFrameBuffer));
+		glUniform1iARB(glGetUniformLocationARB(pShader->GetProgramObject(), "renderShadow"), m_shadows);
+		glUniform1iARB(glGetUniformLocationARB(pShader->GetProgramObject(), "alwaysShadow"), false);
 	}
 	else
 	{
@@ -59,6 +66,12 @@ void VogueGame::Render()
 
 	// Begin rendering
 	m_pRenderer->BeginScene(true, true, true);
+
+		// Shadow rendering to the shadow frame buffer
+		if (m_shadows)
+		{
+			RenderShadows();
+		}
 
 		// ---------------------------------------
 		// Render 3d
@@ -119,17 +132,21 @@ void VogueGame::Render()
 				m_pRenderer->PopMatrix();
 			}
 
-			// Rooms
-			//m_pRoomManager->Render();
+			BeginShaderRender();
+			{
+				// Rooms
+				//m_pRoomManager->Render();
 
-			// Tile
-			m_pTileManager->Render();
+				// Tile
+				m_pTileManager->Render();
 
-			// Instanced objects
-			m_pInstanceManager->Render();
+				// Instanced objects
+				m_pInstanceManager->Render();
 
-			// Player
-			m_pPlayer->Render();
+				// Player
+				m_pPlayer->Render();
+			}
+			EndShaderRender();
 
 			// SSAO frame buffer rendering stop
 			if (m_deferredRendering)
@@ -180,6 +197,38 @@ void VogueGame::Render()
 
 	// Pass render call to the window class, allow to swap buffers
 	m_pVogueWindow->Render();
+}
+
+void VogueGame::RenderShadows()
+{
+	m_pRenderer->PushMatrix();
+		m_pRenderer->StartRenderingToFrameBuffer(m_shadowFrameBuffer);
+		m_pRenderer->SetColourMask(false, false, false, false);
+
+		float shadowRadius = 5.0f;
+		m_pRenderer->SetupOrthographicProjection(-shadowRadius, shadowRadius, -shadowRadius, shadowRadius, 0.01f, 1000.0f);
+		vec3 lightPos = m_defaultLightPosition + m_pPlayer->GetPosition(); // Make sure our light is always offset from the player
+		m_pRenderer->SetLookAtCamera(vec3(lightPos.x, lightPos.y, lightPos.z), m_pPlayer->GetPosition(), vec3(0.0f, 1.0f, 0.0f));
+
+		m_pRenderer->PushMatrix();
+			m_pRenderer->SetCullMode(CM_FRONT);
+
+			// Render the player
+			m_pPlayer->Render();
+
+			// Render the instanced objects
+			if(m_instanceRender)
+			{
+				m_pInstanceManager->Render();
+			}
+
+			m_pRenderer->SetTextureMatrix();
+			m_pRenderer->SetCullMode(CM_BACK);
+		m_pRenderer->PopMatrix();
+
+		m_pRenderer->SetColourMask(true, true, true, true);
+		m_pRenderer->StopRenderingToFrameBuffer(m_shadowFrameBuffer);
+	m_pRenderer->PopMatrix();
 }
 
 void VogueGame::RenderTransparency()
