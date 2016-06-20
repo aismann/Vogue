@@ -494,7 +494,7 @@ void VogueGame::RenderDebugInformation()
 		m_pGameCamera->GetZoomAmount());
 
 	char lDrawingBuff[256];
-	sprintf(lDrawingBuff, "Vertices: %i, Faces: %i", 0, 0); // TODO : Debug rendering Metrics
+	sprintf(lDrawingBuff, "Vertices: %i, Faces: %i", m_pRenderer->GetNumRenderedVertices(), m_pRenderer->GetNumRenderedFaces());
 
 	char lRoomsBuff[256];
 	sprintf(lRoomsBuff, "Rooms: %i, ConnectionList: %i, Item: %i (%i), Boss: %i (%i)", m_pRoomManager->GetNumRooms(), m_pRoomManager->GetNumConnectionRoomsPossible(),

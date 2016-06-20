@@ -376,6 +376,11 @@ public:
 	unsigned int GetNormalTextureFromFrameBuffer(unsigned int frameBufferId);
 	unsigned int GetDepthTextureFromFrameBuffer(unsigned int frameBufferId);
 
+	// Rendered information
+	void ResetRenderedStats();
+	int GetNumRenderedVertices();
+	int GetNumRenderedFaces();
+
 	// Shaders
 	bool LoadGLSLShader(const char* vertexFile, const char* fragmentFile, unsigned int *pID);
 	void BeginGLSLShader(unsigned int shaderID);
@@ -443,6 +448,10 @@ private:
 
 	// Frame buffers
 	vector<FrameBuffer*> m_vFrameBuffers;
+
+	// Rendered information
+	int m_numRenderedVertices;
+	int m_numRenderedFaces;
 
 	// Shaders
 	glShaderManager ShaderManager;

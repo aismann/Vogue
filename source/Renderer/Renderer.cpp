@@ -82,6 +82,10 @@ Renderer::Renderer(int width, int height, int depthBits, int stencilBits)
 	m_primativeMode = PM_TRIANGLES;
 	m_activeViewport = -1;
 
+	// Rendered information
+	m_numRenderedVertices = 0;
+	m_numRenderedFaces = 0;
+
 	InitOpenGLExtensions();
 }
 
@@ -486,6 +490,9 @@ bool Renderer::ClearScene(bool pixel, bool depth, bool stencil)
 bool Renderer::BeginScene(bool pixel, bool depth, bool stencil)
 {
 	ClearScene(pixel, depth, stencil);
+
+	// Reset the renderer stat counters
+	ResetRenderedStats();
 
 	// Reset the projection and modelview matrices to be identity
 	glMatrixMode(GL_PROJECTION);
@@ -1635,6 +1642,27 @@ bool Renderer::RenderStaticBuffer(unsigned int id)
 	bool rendered = false;
 	if (pVertexArray != NULL)
 	{
+		m_numRenderedVertices += pVertexArray->nVerts;
+		switch (m_primativeMode)
+		{
+		case GL_POINTS:
+		case GL_LINES:
+			m_numRenderedFaces += 0;
+			break;
+		case GL_TRIANGLES:
+			m_numRenderedFaces += (pVertexArray->nIndices / 3);
+			break;
+		case GL_TRIANGLE_STRIP:
+			m_numRenderedFaces += (pVertexArray->nIndices - 2);
+			break;
+		case GL_TRIANGLE_FAN:
+			m_numRenderedFaces += (pVertexArray->nIndices - 2);
+			break;
+		case GL_QUADS:
+			m_numRenderedFaces += (pVertexArray->nIndices / 4);
+			break;
+		}
+
 		if ((pVertexArray->type != VT_POSITION_DIFFUSE_ALPHA) && (pVertexArray->type != VT_POSITION_DIFFUSE))
 		{
 			if (pVertexArray->materialID != -1)
@@ -1725,6 +1753,27 @@ bool Renderer::RenderStaticBuffer_NoColour(unsigned int id)
 	bool rendered = false;
 	if (pVertexArray != NULL)
 	{
+		m_numRenderedVertices += pVertexArray->nVerts;
+		switch (m_primativeMode)
+		{
+		case GL_POINTS:
+		case GL_LINES:
+			m_numRenderedFaces += 0;
+			break;
+		case GL_TRIANGLES:
+			m_numRenderedFaces += (pVertexArray->nIndices / 3);
+			break;
+		case GL_TRIANGLE_STRIP:
+			m_numRenderedFaces += (pVertexArray->nIndices - 2);
+			break;
+		case GL_TRIANGLE_FAN:
+			m_numRenderedFaces += (pVertexArray->nIndices - 2);
+			break;
+		case GL_QUADS:
+			m_numRenderedFaces += (pVertexArray->nIndices / 4);
+			break;
+		}
+
 		if ((pVertexArray->type != VT_POSITION_DIFFUSE_ALPHA) && (pVertexArray->type != VT_POSITION_DIFFUSE))
 		{
 			if (pVertexArray->materialID != -1)
@@ -1815,6 +1864,27 @@ bool Renderer::RenderFromArray(VertexType type, unsigned int materialID, unsigne
 		{
 			BindTexture(textureID);
 		}
+	}
+
+	m_numRenderedVertices += nVerts;
+	switch (m_primativeMode)
+	{
+	case GL_POINTS:
+	case GL_LINES:
+		m_numRenderedFaces += 0;
+		break;
+	case GL_TRIANGLES:
+		m_numRenderedFaces += (nIndices / 3);
+		break;
+	case GL_TRIANGLE_STRIP:
+		m_numRenderedFaces += (nIndices - 2);
+		break;
+	case GL_TRIANGLE_FAN:
+		m_numRenderedFaces += (nIndices - 2);
+		break;
+	case GL_QUADS:
+		m_numRenderedFaces += (nIndices / 4);
+		break;
 	}
 
 	// Calculate the stride
@@ -2215,85 +2285,8 @@ void Renderer::EndMeshRender()
 bool Renderer::MeshStaticBufferRender(OpenGLTriangleMesh* pMesh)
 {
 	SetPrimativeMode(PM_TRIANGLES);
-	//SetRenderMode(RM_SOLID);
 
-	m_vertexArraysMutex.lock();
-
-	if (pMesh->m_staticMeshId >= m_vertexArrays.size())
-	{
-		m_vertexArraysMutex.unlock();
-		return false;  // We have supplied an invalid id		
-	}
-
-	VertexArray *pVertexArray = m_vertexArrays[pMesh->m_staticMeshId];
-
-	bool rendered = false;
-	if (pVertexArray != NULL)
-	{
-		if (pVertexArray->nVerts != 0)
-		{
-			if ((pVertexArray->type != VT_POSITION_DIFFUSE_ALPHA) && (pVertexArray->type != VT_POSITION_DIFFUSE))
-			{
-				if (pVertexArray->materialID != -1)
-				{
-					m_materials[pVertexArray->materialID]->Apply();
-				}
-			}
-
-			if (pVertexArray->type == VT_POSITION_NORMAL_UV || pVertexArray->type == VT_POSITION_NORMAL_UV_COLOUR)
-			{
-				if (pVertexArray->textureID != -1)
-				{
-					BindTexture(pVertexArray->textureID);
-				}
-			}
-
-			// Calculate the stride
-			GLsizei totalStride = GetStride(pVertexArray->type);
-
-			glVertexPointer(3, GL_FLOAT, totalStride, pVertexArray->pVA);
-
-			if (pVertexArray->type == VT_POSITION_NORMAL || pVertexArray->type == VT_POSITION_NORMAL_UV || pVertexArray->type == VT_POSITION_NORMAL_UV_COLOUR || pVertexArray->type == VT_POSITION_NORMAL_COLOUR)
-			{
-				glNormalPointer(GL_FLOAT, totalStride, &pVertexArray->pVA[3]);
-			}
-
-			if (pVertexArray->type == VT_POSITION_NORMAL_UV || pVertexArray->type == VT_POSITION_NORMAL_UV_COLOUR)
-			{
-				glTexCoordPointer(2, GL_FLOAT, 0, pVertexArray->pTextureCoordinates);
-			}
-
-			if (pVertexArray->type == VT_POSITION_DIFFUSE_ALPHA)
-			{
-				glColorPointer(4, GL_FLOAT, totalStride, &pVertexArray->pVA[3]);
-			}
-
-			if (pVertexArray->type == VT_POSITION_DIFFUSE)
-			{
-				glColorPointer(3, GL_FLOAT, totalStride, &pVertexArray->pVA[3]);
-			}
-
-			if (pVertexArray->type == VT_POSITION_NORMAL_UV_COLOUR || pVertexArray->type == VT_POSITION_NORMAL_COLOUR)
-			{
-				glColorPointer(4, GL_FLOAT, totalStride, &pVertexArray->pVA[6]);
-			}
-
-			if (pVertexArray->nIndices != 0)
-			{
-				glDrawElements(m_primativeMode, pVertexArray->nIndices, GL_UNSIGNED_INT, pVertexArray->pIndices);
-			}
-			else
-			{
-				glDrawArrays(m_primativeMode, 0, pVertexArray->nVerts);
-			}
-
-			rendered = true;
-		}
-	}
-
-	m_vertexArraysMutex.unlock();
-
-	return rendered;
+	return RenderStaticBuffer(pMesh->m_staticMeshId);
 }
 
 // Name rendering and name picking
@@ -2600,6 +2593,23 @@ unsigned int Renderer::GetNormalTextureFromFrameBuffer(unsigned int frameBufferI
 unsigned int Renderer::GetDepthTextureFromFrameBuffer(unsigned int frameBufferId)
 {
 	return m_vFrameBuffers[frameBufferId]->m_depthTexture;
+}
+
+// Rendered information
+void Renderer::ResetRenderedStats()
+{
+	m_numRenderedVertices = 0;
+	m_numRenderedFaces = 0;
+}
+
+int Renderer::GetNumRenderedVertices()
+{
+	return m_numRenderedVertices;
+}
+
+int Renderer::GetNumRenderedFaces()
+{
+	return m_numRenderedFaces;
 }
 
 // Shaders
