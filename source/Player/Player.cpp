@@ -107,7 +107,7 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	MAX_NUM_HAIRS_FEMALE = 10;
 	MAX_NUM_FACIAL_HAIRS = 9;
 	MAX_NUM_NOSES = 6;
-	MAX_NUM_EARS = 4;
+	MAX_NUM_EARS = 6;
 	MAX_NUM_EYES = 7;
 	MAX_NUM_GLASSES = 5;
 	MAX_NUM_BODY_MALE = 2;
