@@ -864,6 +864,12 @@ void Player::SetColourModifiers()
 	}
 }
 
+// Accessors
+vec3 Player::GetPosition()
+{
+	return m_position;
+}
+
 // Rendering Helpers
 void Player::CalculateWorldTransformMatrix()
 {

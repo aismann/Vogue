@@ -84,6 +84,9 @@ public:
 	void SwapHairColours();
 	void SetColourModifiers();
 
+	// Accessors
+	vec3 GetPosition();
+
 	// Rendering Helpers
 	void CalculateWorldTransformMatrix();
 
