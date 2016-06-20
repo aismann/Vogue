@@ -19,6 +19,7 @@
 
 inline void SeedRandomNumberGenerator()
 {
+	// NOTE : This only has precision in seconds because of time(), therefore shouldnt be called multiple timers per second else will return the same generators
 	srand ( (unsigned int)time(NULL) );
 }
 
