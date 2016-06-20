@@ -476,7 +476,7 @@ void Player::ReplaceEars()
 	m_pVoxelCharacter->GetQubicleModel()->SetNullLinkage(m_pEarsModel);
 	string qubicleFile = "media/gamedata/ears/ears" + to_string(m_earsNum) + ".qb";
 	m_pEarsModel = m_pQubicleBinaryManager->GetQubicleBinaryFile(qubicleFile.c_str(), true);
-	QubicleMatrix* pEarsMatrix = m_pEarsModel->GetQubicleMatrix("ears");
+	QubicleMatrix* pEarsMatrix = m_pEarsModel->GetQubicleMatrix("Ears");
 	pEarsMatrix->m_boneIndex = m_pVoxelCharacter->GetHeadBoneIndex();
 	m_pVoxelCharacter->AddQubicleMatrix(pEarsMatrix, false);
 	m_pVoxelCharacter->SetupFacesBones(); // Need to resetup since the model matrix indiceswill have changed
@@ -697,7 +697,7 @@ void Player::UpdateDefaults()
 		if (i == 4)
 		{
 			defaultFile = "media/gamedata/ears/ears" + to_string(m_noseNum) + ".default";
-			pMatrix = m_pEarsModel->GetQubicleMatrix("ears");
+			pMatrix = m_pEarsModel->GetQubicleMatrix("Ears");
 		}
 		if (i == 5)
 		{
