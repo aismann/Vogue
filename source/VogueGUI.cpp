@@ -182,6 +182,15 @@ void VogueGUI::HideGUI()
 // Update
 void VogueGUI::UpdateGUI(float dt)
 {
+	string seedText = m_pSeedTextbox->GetText();
+	if (seedText == "")
+	{
+		m_pGenerateFromSeedButton->SetDisabled(true);
+	}
+	else
+	{
+		m_pGenerateFromSeedButton->SetDisabled(false);
+	}
 }
 
 // Game functionality
