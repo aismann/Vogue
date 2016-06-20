@@ -219,12 +219,20 @@ void VogueGUI::_GenerateFromSeedButtonClicked(void *apData)
 
 void VogueGUI::GenerateFromSeedButtonClicked()
 {
-	long seed = 0;
+	// Remove any '@' characters from string
 	string seedText = m_pSeedTextbox->GetText();
+	seedText.erase(remove(seedText.begin(), seedText.end(), '@'), seedText.end());
+
+	// Convert to lowercase
 	transform(seedText.begin(), seedText.end(), seedText.begin(), ::tolower);
+
+	// Put but in the textbox
+	m_pSeedTextbox->SetText(seedText);
+
+	long seed = 0;
 	for (int i = 0; i < seedText.length(); i++) {
 		char ch = seedText.at(i);
-		seed = seed + (long)ch;
+		seed = seed + ((long)ch * i);
 	}
 
 	VogueGame::GetInstance()->GetPlayer()->RandomizeParts(seed);
