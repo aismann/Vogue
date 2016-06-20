@@ -237,10 +237,13 @@ void VogueGame::Create(VogueSettings* pVogueSettings)
 	m_pVogueGUI->SetupGUI();
 	m_pVogueGUI->SkinGUI();
 
-	//SeedRandomNumberGenerator();
+	// Seed the random number generator
+	SeedRandomNumberGenerator();
 
-	m_pRoomManager->GenerateNewLayout();
+	// Generate new room layouts
+	//m_pRoomManager->GenerateNewLayout();
 
+	// Set game and camera modes
 	SetGameMode(GameMode_Debug);
 	SetCameraMode(CameraMode_Debug);
 }

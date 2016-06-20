@@ -611,8 +611,10 @@ void Player::ReplaceLeftFoot()
 	m_pVoxelCharacter->SetupFacesBones(); // Need to resetup since the model matrix indiceswill have changed
 }
 
-void Player::RandomizeParts()
+void Player::RandomizeParts(long seed)
 {
+	SeedRandomNumberGeneratorInt(seed);
+
 	m_playerSex = VogueGame::GetInstance()->GetVogueGUI()->GetPlayerSex();
 
 	m_headNum = GetRandomNumber(0, MAX_NUM_HEADS);

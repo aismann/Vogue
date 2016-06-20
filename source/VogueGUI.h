@@ -49,6 +49,9 @@ public:
 
 protected:
 	/* Protected methods */
+	static void _GenerateFromSeedButtonClicked(void *apData);
+	void GenerateFromSeedButtonClicked();
+
 	static void _RandomizeButtonClicked(void *apData);
 	void RandomizeButtonClicked();
 
@@ -89,7 +92,9 @@ private:
 	OptionBox* m_pGenderMaleOptionBox;
 	OptionBox* m_pGenderFemaleOptionBox;
 	OptionBox* m_pGenderBothOptionBox;
+	Button* m_pGenerateFromSeedButton;
 	Button* m_pRandomizeButton;
+	TextBox* m_pSeedTextbox;
 
 	// Friend class
 	friend class VogueGame;

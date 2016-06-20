@@ -13,6 +13,11 @@
 #include "utils/FileUtils.h"
 #include "utils/Random.h"
 
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+
 
 VogueGUI::VogueGUI(Renderer* pRenderer, OpenGLGUI* pGUI, int width, int height)
 {
@@ -73,16 +78,26 @@ void VogueGUI::CreateGUI()
 	m_pGenderOptionController = new OptionController(m_pRenderer, m_defaultGUIFont, "Gender");
 	m_pGenderOptionController->SetDisplayLabel(true);
 	m_pGenderOptionController->SetDisplayBorder(true);
-	m_pGenderOptionController->SetDimensions(230, 55, 85, 70);
+	m_pGenderOptionController->SetDimensions(230, 65, 85, 70);
 	m_pGenderOptionController->Add(m_pGenderMaleOptionBox);
 	m_pGenderOptionController->Add(m_pGenderFemaleOptionBox);
 	m_pGenderOptionController->Add(m_pGenderBothOptionBox);
 	m_pGenderBothOptionBox->SetToggled(true);
 
+	m_pGenerateFromSeedButton = new Button(m_pRenderer, m_defaultGUIFont, "Generate");
+	m_pGenerateFromSeedButton->SetDimensions(235, 35, 75, 25);
+	m_pGenerateFromSeedButton->SetCallBackFunction(_GenerateFromSeedButtonClicked);
+	m_pGenerateFromSeedButton->SetCallBackData(this);
+
 	m_pRandomizeButton = new Button(m_pRenderer, m_defaultGUIFont, "Randomize");
-	m_pRandomizeButton->SetDimensions(235, 25, 75, 25);
+	m_pRandomizeButton->SetDimensions(235, 5, 75, 25);
 	m_pRandomizeButton->SetCallBackFunction(_RandomizeButtonClicked);
 	m_pRandomizeButton->SetCallBackData(this);
+
+	m_pSeedTextbox = new TextBox(m_pRenderer, m_defaultGUIFont, "", "Seed");
+	m_pSeedTextbox->SetPipHeight(15);
+	m_pSeedTextbox->SetDepth(2.0f);
+	m_pSeedTextbox->SetDimensions(215, 150, 100, 20);
 }
 
 // Destruction
@@ -103,7 +118,9 @@ void VogueGUI::DestroyGUI()
 	delete m_pGenderMaleOptionBox;
 	delete m_pGenderFemaleOptionBox;
 	delete m_pGenderBothOptionBox;
+	delete m_pGenerateFromSeedButton;
 	delete m_pRandomizeButton;
+	delete m_pSeedTextbox;
 }
 
 // Setup
@@ -120,7 +137,9 @@ void VogueGUI::SetupGUI()
 	m_pMainWindow->AddComponent(m_pInstanceRenderCheckBox);
 
 	m_pMainWindow->AddComponent(m_pGenderOptionController);
+	m_pMainWindow->AddComponent(m_pGenerateFromSeedButton);
 	m_pMainWindow->AddComponent(m_pRandomizeButton);
+	m_pMainWindow->AddComponent(m_pSeedTextbox);
 
 	m_pDeferredCheckBox->SetToggled(true);
 	m_pDynamicLightingCheckBox->SetToggled(true);
@@ -168,6 +187,8 @@ void VogueGUI::UpdateGUI(float dt)
 // Game functionality
 ePlayerSex VogueGUI::GetPlayerSex()
 {
+	ePlayerSex randomSex = (ePlayerSex)GetRandomNumber(0, ePlayerSex_Female);
+
 	if (m_pGenderMaleOptionBox->GetToggled())
 	{
 		return ePlayerSex_Male;
@@ -177,10 +198,31 @@ ePlayerSex VogueGUI::GetPlayerSex()
 		return ePlayerSex_Female;
 	}
 
-	return (ePlayerSex)GetRandomNumber(0, ePlayerSex_Female);
+	return randomSex;
 }
 
 // GUI callback functionality
+void VogueGUI::_GenerateFromSeedButtonClicked(void *apData)
+{
+	VogueGUI* lpVogueGUI = (VogueGUI*)apData;
+	lpVogueGUI->GenerateFromSeedButtonClicked();
+}
+
+void VogueGUI::GenerateFromSeedButtonClicked()
+{
+	long seed = 0;
+	string seedText = m_pSeedTextbox->GetText();
+	transform(seedText.begin(), seedText.end(), seedText.begin(), tolower);
+	for (int i = 0; i < seedText.length(); i++) {
+		char ch = seedText.at(i);
+		seed = seed + (long)ch;
+	}
+
+	VogueGame::GetInstance()->GetPlayer()->RandomizeParts(seed);
+	VogueGame::GetInstance()->GetPlayer()->UpdateDefaults();
+	VogueGame::GetInstance()->GetPlayer()->SetColourModifiers();
+}
+
 void VogueGUI::_RandomizeButtonClicked(void *apData)
 {
 	VogueGUI* lpVogueGUI = (VogueGUI*)apData;
@@ -189,7 +231,9 @@ void VogueGUI::_RandomizeButtonClicked(void *apData)
 
 void VogueGUI::RandomizeButtonClicked()
 {
-	VogueGame::GetInstance()->GetPlayer()->RandomizeParts();
+	long randomSeed = GetRandomNumber(0, INT_MAX);
+	VogueGame::GetInstance()->GetPlayer()->RandomizeParts(randomSeed);
 	VogueGame::GetInstance()->GetPlayer()->UpdateDefaults();
 	VogueGame::GetInstance()->GetPlayer()->SetColourModifiers();
+	
 }

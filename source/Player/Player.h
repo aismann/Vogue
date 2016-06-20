@@ -73,7 +73,7 @@ public:
 	void ReplaceLeftShoulder();
 	void ReplaceRightFoot();
 	void ReplaceLeftFoot();
-	void RandomizeParts();
+	void RandomizeParts(long seed);
 
 	// Default scale and offsets
 	void UpdateDefaults();

@@ -11,7 +11,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+using namespace std;
 
+#include "utils/Random.h"
 #include "VogueGame.h"
 
 
@@ -192,7 +195,8 @@ void VogueGame::KeyReleased(int key, int scancode, int mods)
 
 		case GLFW_KEY_L:
 		{
-			m_pPlayer->RandomizeParts();
+			long randomSeed = GetRandomNumber(0, INT_MAX);
+			m_pPlayer->RandomizeParts(randomSeed);
 			m_pPlayer->UpdateDefaults();
 			m_pPlayer->SetColourModifiers();
 			break;
