@@ -594,7 +594,7 @@ void TextBox::DrawSelf()
 		std::string l_PipSubString = l_DisplayText;
 		l_PipSubString = l_PipSubString.substr(0, m_PipeCharacterIndex);
 
-		int l_HeightSpace = 3;
+		int l_HeightSpace = 0;
 		int l_PipeWidth = 2;
 		int l_TextWidth = l_TextSpacer + m_pRenderer->GetFreeTypeTextWidth(m_GUIFont, "%s", l_PipSubString.c_str());
 		int l_pipeX1 = m_textIndent + l_TextWidth + l_xDiff + l_xDiff2;
