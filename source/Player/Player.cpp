@@ -617,21 +617,26 @@ void Player::RandomizeParts(long seed)
 
 	m_playerSex = VogueGame::GetInstance()->GetVogueGUI()->GetPlayerSex();
 
-	m_headNum = GetRandomNumber(0, MAX_NUM_HEADS);
-	m_hairNum = GetRandomNumber(0, (m_playerSex == ePlayerSex_Male) ? MAX_NUM_HAIRS_MALE : MAX_NUM_HAIRS_FEMALE);
-	m_facialHairNum = (GetRandomNumber(0, 100) < 50) ? 0 : GetRandomNumber(1, MAX_NUM_FACIAL_HAIRS);
-	m_noseNum = GetRandomNumber(0, MAX_NUM_NOSES);
-	m_earsNum = GetRandomNumber(0, MAX_NUM_EARS);
-	m_eyesNum = GetRandomNumber(0, MAX_NUM_EYES);
-	m_glassesNum = (GetRandomNumber(0, 100) < 75) ? 0 : GetRandomNumber(1, MAX_NUM_GLASSES);
-	m_bodyNum = GetRandomNumber(0, (m_playerSex == ePlayerSex_Male) ? MAX_NUM_BODY_MALE : MAX_NUM_BODY_FEMALE);
-	m_legsNum = GetRandomNumber(0, (m_playerSex == ePlayerSex_Male) ? MAX_NUM_LEGS_MALE : MAX_NUM_LEGS_FEMALE);
-	m_rightHandNum = GetRandomNumber(0, MAX_NUM_RIGHT_HAND);
-	m_leftHandNum = GetRandomNumber(0, MAX_NUM_LEFT_HAND);
-	m_rightShoulderNum = GetRandomNumber(0, MAX_NUM_RIGHT_SHOULDER);
-	m_leftShoulderNum = GetRandomNumber(0, MAX_NUM_LEFT_SHOULDER);
-	m_rightFootNum = GetRandomNumber(0, MAX_NUM_RIGHT_FOOT);
-	m_leftFootNum = GetRandomNumber(0, MAX_NUM_LEFT_FOOT);
+	int chanceForFacialHair = 40;
+	int chanceForGlasses = 20;
+
+	m_headNum = GetRandomNumber(0, MAX_NUM_HEADS-1);
+	m_hairNum = GetRandomNumber(0, (m_playerSex == ePlayerSex_Male) ? MAX_NUM_HAIRS_MALE-1 : MAX_NUM_HAIRS_FEMALE-1);
+	int randomHair = GetRandomNumber(2, MAX_NUM_FACIAL_HAIRS - 1);
+	m_facialHairNum = (GetRandomNumber(0, 100) >= chanceForFacialHair) ? 0 : randomHair;
+	m_noseNum = GetRandomNumber(0, MAX_NUM_NOSES-1);
+	m_earsNum = GetRandomNumber(0, MAX_NUM_EARS-1);
+	m_eyesNum = GetRandomNumber(0, MAX_NUM_EYES-1);
+	int randomGlasses = GetRandomNumber(2, MAX_NUM_GLASSES - 1);
+	m_glassesNum = (GetRandomNumber(0, 100) >= chanceForGlasses) ? 0 : randomGlasses;
+	m_bodyNum = GetRandomNumber(0, (m_playerSex == ePlayerSex_Male) ? MAX_NUM_BODY_MALE-1 : MAX_NUM_BODY_FEMALE-1);
+	m_legsNum = GetRandomNumber(0, (m_playerSex == ePlayerSex_Male) ? MAX_NUM_LEGS_MALE-1 : MAX_NUM_LEGS_FEMALE-1);
+	m_rightHandNum = GetRandomNumber(0, MAX_NUM_RIGHT_HAND-1);
+	m_leftHandNum = GetRandomNumber(0, MAX_NUM_LEFT_HAND-1);
+	m_rightShoulderNum = GetRandomNumber(0, MAX_NUM_RIGHT_SHOULDER-1);
+	m_leftShoulderNum = GetRandomNumber(0, MAX_NUM_LEFT_SHOULDER-1);
+	m_rightFootNum = GetRandomNumber(0, MAX_NUM_RIGHT_FOOT-1);
+	m_leftFootNum = GetRandomNumber(0, MAX_NUM_LEFT_FOOT-1);
 	m_skinColourNum = GetRandomNumber(0, MAX_NUM_SKIN_COLOURS-1);
 	m_hairColourNum = GetRandomNumber(0, MAX_NUM_HAIR_COLOURS-1);
 	m_hairColourSwap = (bool)GetRandomNumber(0, 1);
