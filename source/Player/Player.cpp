@@ -106,7 +106,7 @@ Player::Player(Renderer* pRenderer, QubicleBinaryManager* pQubicleBinaryManager)
 	MAX_NUM_HAIRS_MALE = 22;
 	MAX_NUM_HAIRS_FEMALE = 10;
 	MAX_NUM_FACIAL_HAIRS = 9;
-	MAX_NUM_NOSES = 6;
+	MAX_NUM_NOSES = 8;
 	MAX_NUM_EARS = 6;
 	MAX_NUM_EYES = 7;
 	MAX_NUM_GLASSES = 5;
@@ -619,11 +619,11 @@ void Player::RandomizeParts(long seed)
 
 	m_headNum = GetRandomNumber(0, MAX_NUM_HEADS);
 	m_hairNum = GetRandomNumber(0, (m_playerSex == ePlayerSex_Male) ? MAX_NUM_HAIRS_MALE : MAX_NUM_HAIRS_FEMALE);
-	m_facialHairNum = GetRandomNumber(0, MAX_NUM_FACIAL_HAIRS);
+	m_facialHairNum = (GetRandomNumber(0, 100) < 50) ? 0 : GetRandomNumber(1, MAX_NUM_FACIAL_HAIRS);
 	m_noseNum = GetRandomNumber(0, MAX_NUM_NOSES);
 	m_earsNum = GetRandomNumber(0, MAX_NUM_EARS);
 	m_eyesNum = GetRandomNumber(0, MAX_NUM_EYES);
-	m_glassesNum = GetRandomNumber(0, MAX_NUM_GLASSES);
+	m_glassesNum = (GetRandomNumber(0, 100) < 75) ? 0 : GetRandomNumber(1, MAX_NUM_GLASSES);
 	m_bodyNum = GetRandomNumber(0, (m_playerSex == ePlayerSex_Male) ? MAX_NUM_BODY_MALE : MAX_NUM_BODY_FEMALE);
 	m_legsNum = GetRandomNumber(0, (m_playerSex == ePlayerSex_Male) ? MAX_NUM_LEGS_MALE : MAX_NUM_LEGS_FEMALE);
 	m_rightHandNum = GetRandomNumber(0, MAX_NUM_RIGHT_HAND);
