@@ -19,6 +19,8 @@ A Voxel Roguelike.
 ## Setup
 *Coming soon!*
 
+*At the moment, only windows (VS2015) project is supported, however the code compiles under Linux GCC.*
+
 ## License
 This software is provided under the **GNU General Public License**, more information can be found in the [license file](https://github.com/AlwaysGeeky/Vogue/blob/master/LICENSE.md).
 
