@@ -77,6 +77,7 @@ private:
 	unsigned int m_defaultGUIFont;
 
 	// GUI components
+	// Debug
 	GUIWindow* m_pMainWindow;
 	CheckBox* m_pShadowsCheckBox;
 	CheckBox* m_pSSAOCheckBox;
@@ -88,6 +89,7 @@ private:
 	CheckBox* m_pDebugRenderCheckBox;
 	CheckBox* m_pInstanceRenderCheckBox;
 
+	// Params
 	OptionController* m_pGenderOptionController;
 	OptionBox* m_pGenderMaleOptionBox;
 	OptionBox* m_pGenderFemaleOptionBox;
@@ -95,6 +97,9 @@ private:
 	Button* m_pGenerateFromSeedButton;
 	Button* m_pRandomizeButton;
 	TextBox* m_pSeedTextbox;
+
+	// SKin
+	GUIWindow* m_pSkinWindow;
 
 	// Friend class
 	friend class VogueGame;

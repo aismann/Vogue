@@ -39,6 +39,7 @@ VogueGUI::~VogueGUI()
 // Creation
 void VogueGUI::CreateGUI()
 {
+	// Debug
 	m_pMainWindow = new GUIWindow(m_pRenderer, m_defaultGUIFont, "Main");
 	m_pMainWindow->AllowMoving(true);
 	m_pMainWindow->AllowClosing(false);
@@ -48,7 +49,6 @@ void VogueGUI::CreateGUI()
 	m_pMainWindow->SetRenderWindowBackground(true);
 	m_pMainWindow->SetOutlineRender(true);
 	m_pMainWindow->SetDimensions(15, 35, 320, 180);
-	m_pMainWindow->SetApplicationDimensions(m_windowWidth, m_windowHeight);
 
 	m_pWireframeCheckBox = new CheckBox(m_pRenderer, m_defaultGUIFont, "Wireframe");
 	m_pWireframeCheckBox->SetDimensions(10, 10, 14, 14);
@@ -69,6 +69,7 @@ void VogueGUI::CreateGUI()
 	m_pDebugRenderCheckBox = new CheckBox(m_pRenderer, m_defaultGUIFont, "DebugRender");
 	m_pDebugRenderCheckBox->SetDimensions(10, 154, 14, 14);
 
+	// Params
 	m_pGenderMaleOptionBox = new OptionBox(m_pRenderer, m_defaultGUIFont, "Male");
 	m_pGenderMaleOptionBox->SetDimensions(10, 50, 14, 14);
 	m_pGenderFemaleOptionBox = new OptionBox(m_pRenderer, m_defaultGUIFont, "Female");
@@ -98,6 +99,17 @@ void VogueGUI::CreateGUI()
 	m_pSeedTextbox->SetPipHeight(15);
 	m_pSeedTextbox->SetDepth(2.0f);
 	m_pSeedTextbox->SetDimensions(215, 150, 100, 20);
+
+	// Skin
+	m_pSkinWindow = new GUIWindow(m_pRenderer, m_defaultGUIFont, "Skin");
+	m_pSkinWindow->AllowMoving(true);
+	m_pSkinWindow->AllowClosing(false);
+	m_pSkinWindow->AllowMinimizing(true);
+	m_pSkinWindow->AllowScrolling(true);
+	m_pSkinWindow->SetRenderTitleBar(true);
+	m_pSkinWindow->SetRenderWindowBackground(true);
+	m_pSkinWindow->SetOutlineRender(true);
+	m_pSkinWindow->SetDimensions(350, 35, 320, 180);
 }
 
 // Destruction
@@ -121,6 +133,8 @@ void VogueGUI::DestroyGUI()
 	delete m_pGenerateFromSeedButton;
 	delete m_pRandomizeButton;
 	delete m_pSeedTextbox;
+
+	delete m_pSkinWindow;
 }
 
 // Setup
@@ -136,18 +150,21 @@ void VogueGUI::SetupGUI()
 	m_pMainWindow->AddComponent(m_pDebugRenderCheckBox);
 	m_pMainWindow->AddComponent(m_pInstanceRenderCheckBox);
 
-	m_pMainWindow->AddComponent(m_pGenderOptionController);
-	m_pMainWindow->AddComponent(m_pGenerateFromSeedButton);
-	m_pMainWindow->AddComponent(m_pRandomizeButton);
-	m_pMainWindow->AddComponent(m_pSeedTextbox);
-
 	m_pDeferredCheckBox->SetToggled(true);
 	m_pDynamicLightingCheckBox->SetToggled(true);
 	m_pSSAOCheckBox->SetToggled(true);
 	m_pMSAACheckBox->SetToggled(true);
 	m_pShadowsCheckBox->SetToggled(true);
 
+	m_pMainWindow->AddComponent(m_pGenderOptionController);
+	m_pMainWindow->AddComponent(m_pGenerateFromSeedButton);
+	m_pMainWindow->AddComponent(m_pRandomizeButton);
+	m_pMainWindow->AddComponent(m_pSeedTextbox);
+
 	m_pGUI->AddWindow(m_pMainWindow);
+	m_pGUI->AddWindow(m_pSkinWindow);
+
+	SignalResize(m_windowWidth, m_windowHeight);
 }
 
 // Resize
@@ -155,6 +172,9 @@ void VogueGUI::SignalResize(int width, int height)
 {
 	m_windowWidth = width;
 	m_windowHeight = height;
+
+	m_pMainWindow->SetApplicationDimensions(m_windowWidth, m_windowHeight);
+	m_pSkinWindow->SetApplicationDimensions(m_windowWidth, m_windowHeight);
 }
 
 // Skinning
